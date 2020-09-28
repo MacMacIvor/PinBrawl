@@ -45,6 +45,7 @@ public class Behavior : MonoBehaviour
     Quaternion orientationMaybe = new Quaternion(0, 0, 0, 1);
 
     public LayerMask enemyLayers;
+    public LayerMask bulletLayers;
 
     public followMouse please;
     public followMouse please2;
@@ -171,11 +172,18 @@ public class Behavior : MonoBehaviour
     void basicAttack()
     {
         Collider[] enemiesHit = Physics.OverlapBox(basicPoint.position, new Vector3(basicDimensions.x + basicRangeHeight, 1, basicDimensions.z + basicRangeWidth), orientationMaybe, enemyLayers); //Change to just basicRange when we find the right numbers
+        Collider[] bulletHit = Physics.OverlapBox(basicPoint.position, new Vector3(basicDimensions.x + basicRangeHeight, 1, basicDimensions.z + basicRangeWidth), orientationMaybe, bulletLayers); //Change to just basicRange when we find the right numbers
 
         foreach (Collider enemies in enemiesHit)
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
             enemies.GetComponent<enemyBehavior>().takeDmg(30);
+        }
+
+        foreach (Collider bullets in bulletHit)
+        {
+            //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
+            bullets.GetComponent<bullet>().die();
         }
     }
 
@@ -212,5 +220,11 @@ public class Behavior : MonoBehaviour
     {
         cooldown = (cooldown <= 0 ? 0 : cooldown - 1 * Time.deltaTime);
         cooldownB = (cooldownB <= 0 ? 0 : cooldownB - 1 * Time.deltaTime);
+    }
+
+    public void takeDmg(int dmg)
+    {
+        //Nothing for now
+        transform.position = new Vector3(0, 0, 0);
     }
 }

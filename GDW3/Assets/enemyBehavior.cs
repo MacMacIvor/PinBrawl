@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class enemyBehavior : MonoBehaviour
 {
+    public GameObject bulletPrefab;
+    [Range(0.1f, 10.0f)]
+    public float shootCooldownSaved = 1;
+    public float shootCooldown;
+
     public Transform characterPos;
     Vector3 newPos = Vector3.zero;
+
+    public bullet bullets;
+
 
     public const float MAX_HEALTH = 100;
     private float currentHealth;
     private bool beingKnockedBack = false;
     private Vector3 knockedDestination;
+
 
 
     [Range(0.0001f, 0.01f)]
@@ -23,6 +32,7 @@ public class enemyBehavior : MonoBehaviour
     void Start()
     {
         currentHealth = MAX_HEALTH;
+        shootCooldown = shootCooldownSaved;
     }
 
     // Update is called once per frame
@@ -47,12 +57,17 @@ public class enemyBehavior : MonoBehaviour
                 }
                 else
                 {
-                    //print("pew pew!");//Attack!
+                    if (shootCooldown <= 0)
+                    {
+                        shootCooldown = shootCooldownSaved;
+                        spawnBullet();
+                    }
                 }
                 break;
         }
-        
 
+        shootCooldown -= Time.deltaTime;
+        
     }
 
     public void doKnockback(float heldPower, int orientation)
@@ -76,4 +91,12 @@ public class enemyBehavior : MonoBehaviour
     {
         Destroy(gameObject, 1);
     }
+
+    private void spawnBullet()
+    {
+        GameObject theBullet = Instantiate(bulletPrefab) as GameObject;
+        theBullet.transform.position = transform.position;
+        bullets.SetTarget(characterPos.position);
+    }
+
 }
