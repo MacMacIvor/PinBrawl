@@ -3,7 +3,26 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - NormalCube
+  - BookShelf
+  - Door
+  - Door_Frame
+  - Five_Rail
+  - Four_Rail
+  - Rail_Post
+  - Rising_Rail
+  - Room_Plane
+  - Stair_Support
+  - Stairs
+  - Stool
+  - Table
+  - Top_Rail
+  - Upper_Floor
+  - EnemyShooter
+  - MainCharacter
+  - BookShelfWide
+  - Fire_Place
   layers:
   - Default
   - TransparentFX
