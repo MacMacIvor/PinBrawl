@@ -243,7 +243,8 @@ public class enemyBehavior : MonoBehaviour
         dirPos = Vector3.Normalize(dirPos);
          */
 
-        Vector3 temp = transform.position - characterPos.transform.position;
+        Vector3 temp = new Vector3(0, 0, 0);
+        temp = transform.position - characterPos.transform.position;
         temp = Vector3.Normalize(temp);
 
         temp = new Vector3(temp.x * heldPower / knockbackResist, 0, temp.z * heldPower / knockbackResist);
