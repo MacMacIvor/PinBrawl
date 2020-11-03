@@ -101,4 +101,8 @@ public class LargeBullets : MonoBehaviour
     {
         target = pos;
     }
+    public void extraDmg(int extra)
+    {
+        damage *= extra;
+    }
 }

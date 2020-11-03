@@ -9,6 +9,8 @@ public class sounds : MonoBehaviour
     //Has a play pause stop
     //That's it?
 
+    public static sounds soundsSingleton = null;
+
     public AudioSource firstSong;
     public AudioSource temp;
     static float pitchBackGround = 1;
@@ -16,66 +18,56 @@ public class sounds : MonoBehaviour
     static bool isMutedSoundEffects = false;
     static bool isMutedBackground = false;
 
-    List<AudioSource> backgroundPlaying;
+    AudioSource backgroundPlaying;
 
-    
+
+
+    public void Awake()
+    {
+        if (soundsSingleton == null)
+        {
+            soundsSingleton = this;
+            return;
+        }
+        Destroy(this);
+    }
 
     public void startBackgroundSong(string name)
     {
-        if (backgroundPlaying.Count != 0)
-        {
-            backgroundPlaying.Clear();
-        }
+        
         switch (name)
         {
             case "firstSong":
-                backgroundPlaying.Add(firstSong);
+                backgroundPlaying = (firstSong);
                 break;
             case "temp":
-                backgroundPlaying.Add(temp);
+                backgroundPlaying = (temp);
                 break;
         }
-        backgroundPlaying[0].Play();
+        backgroundPlaying.Play();
         if (isMutedBackground == true)
         {
-            backgroundPlaying[0].mute = true;
+            backgroundPlaying.mute = true;
         }
     }
 
     public void pauseBackgroundSong()
     {
-        if (backgroundPlaying.Count != 0)
-        {
-            backgroundPlaying[0].Pause();
-        }
-        else
-        {
-            Debug.LogError("NO SONG TO PAUSE IN LIST BACKGROUND!!!!");
-        }
+       
+        backgroundPlaying.Pause();
+       
     }
 
     public void unPauseBackgroundSong()
     {
-        if (backgroundPlaying.Count != 0)
-        {
-            backgroundPlaying[0].UnPause();
-        }
-        else
-        {
-            Debug.LogError("NO SONG TO PAUSE IN LIST BACKGROUND!!!!");
-        }
+        backgroundPlaying.UnPause();
+        
     }
 
     public void stopBackGroundMusic()
     {
-        if (backgroundPlaying.Count != 0)
-        {
-            backgroundPlaying[0].Stop();
-        }
-        else
-        {
-            Debug.LogError("NO SONG TO PAUSE IN LIST BACKGROUND!!!!");
-        }
+        backgroundPlaying.Stop();
+        
     }
 
     public void muteBackGround(bool onOff)
@@ -84,25 +76,11 @@ public class sounds : MonoBehaviour
         {
             case true:
                 isMutedBackground = true;
-                if (backgroundPlaying.Count != 0)
-                {
-                    backgroundPlaying[0].mute = true;
-                }
-                else
-                {
-                    Debug.LogError("NO SONG TO PAUSE IN LIST BACKGROUND!!!!");
-                }
+                backgroundPlaying.mute = true;
                 break;
             case false:
                 isMutedBackground = false;
-                if (backgroundPlaying.Count != 0)
-                {
-                    backgroundPlaying[0].mute = false;
-                }
-                else
-                {
-                    Debug.LogError("NO SONG TO PAUSE IN LIST BACKGROUND!!!!");
-                }
+                backgroundPlaying.mute = false;
                 break;
         }
     }
@@ -149,11 +127,11 @@ public class sounds : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (backgroundPlaying.Count != 0)
-        {
-            backgroundPlaying[0].pitch = pitchBackGround;
-            backgroundPlaying[0].volume = volumeBackGround;
-        }
+        //if (backgroundPlaying.Count != 0)
+        //{
+        //    backgroundPlaying[0].pitch = pitchBackGround;
+        //    backgroundPlaying[0].volume = volumeBackGround;
+        //}
 
         //i++;
         //if (i == 1000)

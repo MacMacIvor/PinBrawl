@@ -56,7 +56,9 @@ public class Behavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        sounds.soundsSingleton.startBackgroundSong("firstSong");
+
+
     }
 
     int mouse1Buffer = 0;
@@ -250,5 +252,7 @@ public class Behavior : MonoBehaviour
     {
         //Nothing for now
         //transform.position = new Vector3(0, 0, 0);
+        Debug.Log("Took " + dmg + " damage");
+
     }
 }

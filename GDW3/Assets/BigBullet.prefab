@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 0.03
-  bulletYSpeedHeight: 0.09
+  bulletYSpeedHeight: 0.7
   damage: 30
-  target: {x: -741.5, y: 0.5, z: -29.91}
+  target: {x: -741.5, y: 0.5, z: -31.297077}
   dirPos: {x: 0, y: 0, z: 0}
   point: {x: 0, y: 0, z: 0}
   playerLayer:

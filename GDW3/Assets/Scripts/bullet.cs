@@ -18,6 +18,7 @@ public class bullet : MonoBehaviour
 
     public LayerMask playerLayer;
 
+    private int damage = 30;
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +70,7 @@ public class bullet : MonoBehaviour
 
                     foreach (Collider player in playerHit)
                     {
-                        player.GetComponent<Behavior>().takeDmg(30);
+                        player.GetComponent<Behavior>().takeDmg(damage);
                         die();
                     }
                 }
@@ -88,5 +89,8 @@ public class bullet : MonoBehaviour
     {
         target = pos;
     }
-
+    public void extraDmg(int extra)
+    {
+        damage *= extra;
+    }
 }
