@@ -91,7 +91,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2087262527810304938}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 0.03
-  target: {x: -4.9369674, y: 0, z: 1.3265021}
+  target: {x: 0, y: 0.54999995, z: 0}
   dirPos: {x: 0.4359735, y: 0, z: 0.8999595}
   point: {x: 8.187914, y: 0.17, z: 0.25492263}
   playerLayer:

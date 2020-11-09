@@ -196,8 +196,9 @@ public class enemyBehavior : MonoBehaviour
             case true:
                 break;
             case false:
-                newPos.x = characterPos.position.x;
-                newPos.z = characterPos.position.z;
+                characterPos = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+                newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
+                newPos.z = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.z;
                 float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
                 
 

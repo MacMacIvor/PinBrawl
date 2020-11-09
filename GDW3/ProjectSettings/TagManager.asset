@@ -23,6 +23,7 @@ TagManager:
   - MainCharacter
   - BookShelfWide
   - Fire_Place
+  - Destination
   layers:
   - Default
   - TransparentFX

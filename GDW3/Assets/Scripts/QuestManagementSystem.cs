@@ -7,6 +7,8 @@ public class QuestManagementSystem : MonoBehaviour
 {
     public static QuestManagementSystem singleton = null;
 
+    public GameObject player;
+
     Queue<questStructure> listOfQuests;
     enum stateOfQuestManager
     {
@@ -22,6 +24,9 @@ public class QuestManagementSystem : MonoBehaviour
     public Text enemiesLeft;
 
     int amountOfEnemiesLeftToKill = 0;
+    int buttonsLeftToPush = 0;
+    Vector3 destination = new Vector3(0, 0, 0);
+    static int amountOfDestinations = -1;
 
     public void Awake()
     {
@@ -35,17 +40,19 @@ public class QuestManagementSystem : MonoBehaviour
 
     struct questStructure
     {
-        public questStructure(string names = "", string descriptions = "", int winConditions = 0, int amountToKills = 0)
+        public questStructure(string names = "", string descriptions = "", int winConditions = 0, int amountToKills = 0, int buttonsToPushs = 0)
         {
             name = names;
             description = descriptions;
             winCondition = winConditions;
             amountToKill = amountToKills;
+            buttonsToPush = buttonsToPushs;
         }
         public string name;
         public string description;
         public int winCondition;
         public int amountToKill;
+        public int buttonsToPush;
     }
 
     //Quest manager needs to have the quests
@@ -66,9 +73,20 @@ public class QuestManagementSystem : MonoBehaviour
     {
         state = stateOfQuestManager.START;
         listOfQuests = new Queue<questStructure>();
-        string hello = "test";
-        string hello2 = "Kill Them all";
+        string hello = "Kill the enemy";
+        string hello2 = "Use left mouse button to attack the enemy\nmove around with WASD";
+        listOfQuests.Enqueue(new questStructure(hello, hello2, 0, 1));
+        hello = "Go to destination";
+        hello2 = "Move to the left";
+        listOfQuests.Enqueue(new questStructure(hello, hello2, 1, 1));
+        hello = "Kill the enemy";
+        hello2 = "You can use rightMouse to use a\ncharged attack";
         listOfQuests.Enqueue(new questStructure(hello, hello2, 0, 2));
+        hello2 = "Move to the right";
+        listOfQuests.Enqueue(new questStructure(hello, hello2, 1, 1));
+        hello = "Push the two buttons";
+        hello2 = "Use q to push the two buttons at the top";
+        listOfQuests.Enqueue(new questStructure(hello, hello2, 2, 2, 2));
     }
 
     // Update is called once per frame
@@ -104,25 +122,29 @@ public class QuestManagementSystem : MonoBehaviour
         //TODO: FIGURE IT OUT
         //The number passed referes to a certain possible quest
         //ex. killing an enemy bring you closer to a maybe clearing a room quest and passes a 0, lowering the amount of enemies left by 1
-
-        switch (number)
+        if (listOfQuests.Count > 0)
         {
-            case 0:
-                killAllQuest(number);
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-        }
-
+            switch (number)
+            {
+                case 0:
+                    killAllQuest(number);
+                    break;
+                case 1:
+                    reachDestinationQuest();
+                    break;
+                case 2:
+                    buttonPush(number);
+                    //pressButton()
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+            }
 
 
         updateUI();
+        }
     }
     void questComplete()
     {
@@ -149,8 +171,10 @@ public class QuestManagementSystem : MonoBehaviour
                 killAllQuest(listOfQuests.Peek().amountToKill);
                 break;
             case 1:
+                reachDestinationQuest();
                 break;
             case 2:
+                buttonPush(listOfQuests.Peek().buttonsToPush);
                 break;
             case 3:
                 break;
@@ -174,6 +198,43 @@ public class QuestManagementSystem : MonoBehaviour
         //updateUI();
     }
 
+    void reachDestinationQuest()
+    {
+        if (destination.y == 0)
+        {
+            destination = getNextDestination();
+        }
+        else
+        {
+            if (Vector3.Distance(player.transform.position, destination) < 10)
+            {
+                state = stateOfQuestManager.COMPLETED;
+                destination = new Vector3(0, 00, 0);
+            }
+        }
+    }
+
+    void buttonPush(int setOrUpdate)
+    {
+        if (buttonsLeftToPush == 0)
+        {
+            buttonsLeftToPush = setOrUpdate;
+            return;
+        }
+        buttonsLeftToPush--;
+        if (buttonsLeftToPush == 0)
+        {
+            state = stateOfQuestManager.COMPLETED;
+        }
+        //updateUI();
+    }
+
+    Vector3 getNextDestination()
+    {
+        amountOfDestinations++;
+        return GameObject.FindGameObjectsWithTag("Destination")[amountOfDestinations].transform.position;
+    }
+
     int getSpecialNumber()
     {
         switch (listOfQuests.Peek().winCondition)
@@ -181,9 +242,9 @@ public class QuestManagementSystem : MonoBehaviour
             case 0:
                 return amountOfEnemiesLeftToKill;
             case 1:
-                break;
+                return 0; //none needed
             case 2:
-                break;
+                return buttonsLeftToPush;
             case 3:
                 break;
             case 4:
