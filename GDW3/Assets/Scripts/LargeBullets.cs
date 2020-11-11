@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class LargeBullets : MonoBehaviour
 {
+
+    enum bulletState
+    {
+
+        ACTIVE,
+        INACTIVE
+    }
+
+    bulletState state = bulletState.INACTIVE;
+
     [Range(0.0001f, 1.0f)]
     public float bulletSpeed = 1.0f;
 
@@ -31,18 +41,8 @@ public class LargeBullets : MonoBehaviour
     void Start()
     {
 
-        distToTarget = Vector3.Distance(transform.position, target);
-        distToTargetHalf = distToTarget / 2;
-
-        dirPos = target;
-
-        point = dirPos;
-
-        transform.LookAt(dirPos);
-
-        dirPos = new Vector3(dirPos.x - transform.position.x, 0, dirPos.z - transform.position.z);
-
-        dirPos = Vector3.Normalize(dirPos);
+        
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -74,7 +74,7 @@ public class LargeBullets : MonoBehaviour
                 transform.position += new Vector3(0, (distToTarget > distToTargetHalf ? bulletYSpeedHeight : -bulletYSpeedHeight), 0);
                 if (Vector3.Distance(transform.position, point) > 100)
                 {
-                    Destroy(gameObject, 1);
+                    die();//Destroy(gameObject, 1);
                 }
                 else
                 {
@@ -95,7 +95,8 @@ public class LargeBullets : MonoBehaviour
     }
     public void die()
     {
-        Destroy(gameObject);
+        BulletPoolManager.singleton.ResetSmallBullet(this.gameObject);
+        //Destroy(gameObject);
     }
     public void SetTarget(Vector3 pos)
     {
@@ -104,5 +105,35 @@ public class LargeBullets : MonoBehaviour
     public void extraDmg(int extra)
     {
         damage *= extra;
+    }
+    public void changeActive()
+    {
+        switch (state)
+        {
+            case bulletState.ACTIVE:
+                gameObject.SetActive(false);
+                state = bulletState.INACTIVE;
+                break;
+            case bulletState.INACTIVE:
+                gameObject.SetActive(true);
+                state = bulletState.ACTIVE;
+
+                target = BulletPoolManager.singleton.player.transform.position;
+
+                distToTarget = Vector3.Distance(transform.position, target);
+                distToTargetHalf = distToTarget / 2;
+
+                dirPos = target;
+
+                point = dirPos;
+
+                transform.LookAt(dirPos);
+
+                dirPos = new Vector3(dirPos.x - transform.position.x, 0, dirPos.z - transform.position.z);
+
+                dirPos = Vector3.Normalize(dirPos);
+
+                break;
+        }
     }
 }

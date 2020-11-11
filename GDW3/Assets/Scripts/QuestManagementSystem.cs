@@ -109,6 +109,7 @@ public class QuestManagementSystem : MonoBehaviour
                 Debug.Log("YOU WON!!!!!!!!!!");
                 //Jump to next level/end of game
                 //Hence, nothing yet
+                toEndScene.singleton.callNext();
                 break;
         }
     }

@@ -5,6 +5,16 @@ using UnityEngine;
 public class bullet : MonoBehaviour
 {
 
+    enum bulletState
+    {
+
+        ACTIVE,
+        INACTIVE
+    }
+
+    bulletState state = bulletState.INACTIVE;
+
+
     [Range(0.0001f, 1.0f)]
     public float bulletSpeed = 1.0f;
 
@@ -24,15 +34,10 @@ public class bullet : MonoBehaviour
     void Start()
     {
 
-        dirPos = target;
+       
 
-        point = dirPos;
+        gameObject.SetActive(false);
 
-        transform.LookAt(dirPos);
-
-        dirPos = new Vector3(dirPos.x - transform.position.x, 0, dirPos.z - transform.position.z);
-
-        dirPos = Vector3.Normalize(dirPos);
     }
 
     // Update is called once per frame
@@ -62,7 +67,7 @@ public class bullet : MonoBehaviour
                 transform.position += dirPos * bulletSpeed;
                 if (Vector3.Distance(transform.position, point) > 20)
                 {
-                    Destroy(gameObject, 1);
+                    die();// Destroy(gameObject, 1);
                 }
                 else
                 {
@@ -83,7 +88,8 @@ public class bullet : MonoBehaviour
     }
     public void die()
     {
-        Destroy(gameObject);
+        BulletPoolManager.singleton.ResetSmallBullet(this.gameObject);
+        //Destroy(gameObject);
     }
     public void SetTarget(Vector3 pos)
     {
@@ -92,5 +98,31 @@ public class bullet : MonoBehaviour
     public void extraDmg(int extra)
     {
         damage *= extra;
+    }
+
+    public void changeActive()
+    {
+        switch (state)
+        {
+            case bulletState.ACTIVE:
+                gameObject.SetActive(false);
+                state = bulletState.INACTIVE;
+                break;
+            case bulletState.INACTIVE:
+                gameObject.SetActive(true);
+                state = bulletState.ACTIVE;
+
+                dirPos = BulletPoolManager.singleton.player.transform.position;
+                
+                point = dirPos;
+                
+                transform.LookAt(dirPos);
+                
+                dirPos = new Vector3(dirPos.x - transform.position.x, 0, dirPos.z - transform.position.z);
+                
+                dirPos = Vector3.Normalize(dirPos);
+
+                break;
+        }
     }
 }

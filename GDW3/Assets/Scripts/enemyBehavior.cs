@@ -14,6 +14,17 @@ public class enemyBehavior : MonoBehaviour
     private float knockbackResist;
     private float knockbackSpeed;
 
+    enum enemyState
+    {
+
+        CHASING,
+        ATTACKING,
+        FLYING,
+        INACTIVE,
+        TUTORIAL //Special for the first enemy because he will not attack
+    }
+
+    enemyState state = enemyState.INACTIVE;
 
     [Range(0, 10)]
     public int enemyType = 0;
@@ -132,44 +143,10 @@ public class enemyBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        switch (enemyType)
-        {
-            case 0:
-                currentHealth = MAX_HEALTH_SMALL_SHOOTER;
-                shootCooldown = shootCooldownSmallShooterSaved;
-                speed = speedSmallShooter;
-                range = rangeOfSmallShooter;
-                knockbackResist = knockbackResistSmallShooter;
-                knockbackSpeed = knockedBackSpeedSmallShooter;
-                break;
-            case 1:
-                currentHealth = MAX_HEALTH_BIG_SHOOTER;
-                shootCooldown = shootCooldownBigShooterSaved;
-                speed = speedBigShooter;
-                range = rangeOfLarge;
-                knockbackResist = knockbackResistBigShooter;
-                knockbackSpeed = knockedBackSpeedBigShooter;
-                break;
-            case 2:
-                currentHealth = MAX_HEALTH_SMALL_MELEE;
-                shootCooldown = hitCoolDownSmallMeleeSaved;
-                speed = speedSmallMelee;
-                range = rangeOfSmallMelee;
-                knockbackResist = knockbackResistSmallMelee;
-                knockbackSpeed = knockedBackSpeedSmallMelee;
-                break;
-            case 3:
-                currentHealth = MAX_HEALTH_BUFFER;
-                shootCooldown = shootCoolDownBufferSaved;
-                speed = speedBuffer;
-                range = rangeOfBuffer;
-                knockbackResist = knockbackResistBuffer;
-                knockbackSpeed = knockedBackSpeedBuffer;
-                break;
-        }
-        shotsFired = 0;
-        smallBurstCooldownbetweenShotsSaved = smallBurstCooldownbetweenShots;
-        buffDurationSaved = 15;
+        
+
+        gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -196,69 +173,85 @@ public class enemyBehavior : MonoBehaviour
             case true:
                 break;
             case false:
+
                 characterPos = GameObject.FindGameObjectsWithTag("Player")[0].transform;
                 newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
                 newPos.z = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.z;
                 float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
-                
 
-                switch (beingKnockedBack)
+                switch (state)
                 {
-                    case true:
-                        transform.position = Vector3.Lerp(transform.position, knockedDestination, knockbackSpeed);
-                        if (Vector3.Distance(transform.position, knockedDestination) < 1.0f)
-                        {
-                            beingKnockedBack = false;
-                        }
+                    case enemyState.INACTIVE:
+
                         break;
-                    case false:
+                    case enemyState.TUTORIAL:
                         if (!(dist < range && dist > -range))
                         {
                             float saveYForBugggggs = transform.position.y;
                             transform.position = Vector3.Slerp(transform.position, newPos, speed);
                             transform.position = new Vector3(transform.position.x, saveYForBugggggs, transform.position.z);
                         }
-                        else
+                        break;
+                    case enemyState.CHASING:
+                        float saveYForBugggggs2 = transform.position.y;
+                        transform.position = Vector3.Slerp(transform.position, newPos, speed);
+                        transform.position = new Vector3(transform.position.x, saveYForBugggggs2, transform.position.z);
+                        if ((dist < range && dist > -range))
                         {
-                            switch (enemyType)
-                            {
-                                case 0:
-                                    if (shootCooldown <= 0 && smallBurstCooldownbetweenShots <= 0)
-                                    {
-                                        smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
-                                        shotsFired++;
-                                        if (shotsFired == numOfShots)
-                                        {
-                                            spawnBullet(true);
-                                            shootCooldown = shootCooldownSmallShooterSaved;
-                                            smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
-                                            shotsFired = 0;
-                                        }
-                                        else
-                                        {
-                                            spawnBullet(false);
-                                        }
-                                    }
-                                    else if (shootCooldown <= 0 && smallBurstCooldownbetweenShots > 0)
-                                    {
-                                        smallBurstCooldownbetweenShots -= Time.deltaTime;
-                                    }
-                                        break;
-                                case 1:
-                                case 2:
-                                case 3:
-                                    if (shootCooldown <= 0)
-                                    {
-                                        spawnBullet(true);
-                                    }
-                                    break;
-                            }
-                            
+                            state = enemyState.ATTACKING;
                         }
                         break;
+                    case enemyState.ATTACKING:
+                        switch (enemyType)
+                        {
+                            case 0:
+                                if (shootCooldown <= 0 && smallBurstCooldownbetweenShots <= 0)
+                                {
+                                    smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
+                                    shotsFired++;
+                                    if (shotsFired == numOfShots)
+                                    {
+                                        spawnBullet(true);
+                                        shootCooldown = shootCooldownSmallShooterSaved;
+                                        smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
+                                        shotsFired = 0;
+                                    }
+                                    else
+                                    {
+                                        spawnBullet(false);
+                                    }
+                                }
+                                else if (shootCooldown <= 0 && smallBurstCooldownbetweenShots > 0)
+                                {
+                                    smallBurstCooldownbetweenShots -= Time.deltaTime;
+                                }
+                                break;
+                            case 1:
+                            case 2:
+                            case 3:
+                                if (shootCooldown <= 0)
+                                {
+                                    spawnBullet(true);
+                                }
+                                break;
+                        }
+                        if (shootCooldown <= 0 && shotsFired == 0 && (Vector3.Distance(transform.position, BulletPoolManager.singleton.player.transform.position) > range))
+                        {
+                            state = enemyState.CHASING;
+
+                        }
+                        shootCooldown -= Time.deltaTime;
+                        break;
+                    case enemyState.FLYING:
+                        transform.position = Vector3.Lerp(transform.position, knockedDestination, knockbackSpeed);
+                        if (Vector3.Distance(transform.position, knockedDestination) < 1.0f)
+                        {
+                            state = enemyState.CHASING;
+                        }
+                        break;
+
                 }
 
-                shootCooldown -= Time.deltaTime;
                 buffDuration -= Time.deltaTime;
                 break;
         }
@@ -292,7 +285,24 @@ public class enemyBehavior : MonoBehaviour
     public void dead()
     {
         QuestManagementSystem.singleton.updateQuest(0);
-        Destroy(gameObject, 1);
+        switch (enemyType)
+        {
+            case 0:
+                EnemyPoolManager.singleton.ResetSmallShooter(this.gameObject);
+                break;
+            case 1:
+                EnemyPoolManager.singleton.ResetLargeRange(this.gameObject);
+                break;
+            case 2:
+                EnemyPoolManager.singleton.ResetsmallMelee(this.gameObject);
+                break;
+            case 3:
+                EnemyPoolManager.singleton.ResetBuffer(this.gameObject);
+                break;
+            case 4:
+                break;
+        }
+        //Destroy(gameObject, 1);
     }
 
     private void spawnBullet(bool timeReset)
@@ -303,23 +313,31 @@ public class enemyBehavior : MonoBehaviour
         {
             case 0:
                 shootCooldown = timeReset == true ? shootCooldownSmallShooterSaved : shootCooldown;
-                smallBullets.SetTarget(characterPos.position);
-                GameObject theBullet = Instantiate(smallBulletPrefab) as GameObject;
-                theBullet.transform.position = transform.position;
+                //smallBullets.SetTarget(characterPos.position);
+                
+                //GameObject theBullet = Instantiate(smallBulletPrefab) as GameObject;
+                //theBullet.transform.position = transform.position;
                 if (buffDuration > 0)
                 {
-                    theBullet.GetComponent<bullet>().extraDmg(buffModifryer);
+                    //theBullet.GetComponent<bullet>().extraDmg(buffModifryer);
+                    BulletPoolManager.singleton.GetBulletSmall(transform.position).GetComponent<bullet>().extraDmg(buffModifryer);
 
+                }
+                else
+                {
+                    BulletPoolManager.singleton.GetBulletSmall(transform.position);
                 }
                 break;
             case 1:
                 shootCooldown = timeReset == true ? shootCooldownBigShooterSaved : shootCooldown;
-                bigBullets.SetTarget(characterPos.position);
-                GameObject theBullet2 = Instantiate(bigBulletPrefab) as GameObject;
-                theBullet2.transform.position = transform.position;
                 if (buffDuration > 0)
                 {
-                    theBullet2.GetComponent<LargeBullets>().extraDmg(buffModifryer);
+                    BulletPoolManager.singleton.GetBulletLarge(transform.position).GetComponent<LargeBullets>().extraDmg(buffModifryer); //Bullets should have been done using a factory instead of different files
+
+                }
+                else
+                {
+                    BulletPoolManager.singleton.GetBulletLarge(transform.position);
                 }
                 break;
             case 2:
@@ -345,5 +363,63 @@ public class enemyBehavior : MonoBehaviour
     {
         buffDuration = buffDurationSaved;
 
+    }
+
+    public void changeActive()
+    {
+        switch (state)
+        {
+            case enemyState.ATTACKING:
+            case enemyState.CHASING:
+            case enemyState.FLYING:
+            case enemyState.TUTORIAL:
+                gameObject.SetActive(false);
+                state = enemyState.INACTIVE;
+                break;
+            case enemyState.INACTIVE:
+                gameObject.SetActive(true);
+                state = enemyState.CHASING;
+
+                switch (enemyType)
+                {
+                    case 0:
+                        currentHealth = MAX_HEALTH_SMALL_SHOOTER;
+                        shootCooldown = shootCooldownSmallShooterSaved;
+                        speed = speedSmallShooter;
+                        range = rangeOfSmallShooter;
+                        knockbackResist = knockbackResistSmallShooter;
+                        knockbackSpeed = knockedBackSpeedSmallShooter;
+                        break;
+                    case 1:
+                        currentHealth = MAX_HEALTH_BIG_SHOOTER;
+                        shootCooldown = shootCooldownBigShooterSaved;
+                        speed = speedBigShooter;
+                        range = rangeOfLarge;
+                        knockbackResist = knockbackResistBigShooter;
+                        knockbackSpeed = knockedBackSpeedBigShooter;
+                        break;
+                    case 2:
+                        currentHealth = MAX_HEALTH_SMALL_MELEE;
+                        shootCooldown = hitCoolDownSmallMeleeSaved;
+                        speed = speedSmallMelee;
+                        range = rangeOfSmallMelee;
+                        knockbackResist = knockbackResistSmallMelee;
+                        knockbackSpeed = knockedBackSpeedSmallMelee;
+                        break;
+                    case 3:
+                        currentHealth = MAX_HEALTH_BUFFER;
+                        shootCooldown = shootCoolDownBufferSaved;
+                        speed = speedBuffer;
+                        range = rangeOfBuffer;
+                        knockbackResist = knockbackResistBuffer;
+                        knockbackSpeed = knockedBackSpeedBuffer;
+                        break;
+                }
+                shotsFired = 0;
+                smallBurstCooldownbetweenShotsSaved = smallBurstCooldownbetweenShots;
+                buffDurationSaved = 15;
+
+                break;
+        }
     }
 }
