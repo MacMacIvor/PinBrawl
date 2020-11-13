@@ -67,32 +67,31 @@ public class enemyBehavior : MonoBehaviour
     [Range(1, 1000)]
     public const float MAX_HEALTH_BUFFER = 100;
 
-    private bool beingKnockedBack = false;
     private Vector3 knockedDestination;
 
-    [Range(0.0001f, 0.01f)]
+    [Range(0.0001f, 10f)]
     public float speedSmallShooter = 0.001f;
 
-    [Range(0.0001f, 0.01f)]
+    [Range(0.0001f, 10f)]
     public float speedBigShooter = 0.001f;
 
-    [Range(0.0001f, 0.01f)]
+    [Range(0.0001f, 10f)]
     public float speedSmallMelee = 0.001f;
 
-    [Range(0.0001f, 0.01f)]
+    [Range(0.0001f, 10f)]
     public float speedBuffer = 0.001f;
 
     [Range(0.0001f, 10f)]
-    public float knockedBackSpeedSmallShooter = 2.0f;
+    public float knockedBackSpeedSmallShooterSeconds = 2.0f;
 
     [Range(0.0001f, 10f)]
-    public float knockedBackSpeedBigShooter = 2.0f;
+    public float knockedBackSpeedBigShooterSeconds = 2.0f;
 
     [Range(0.0001f, 10f)]
-    public float knockedBackSpeedSmallMelee = 2.0f;
+    public float knockedBackSpeedSmallMeleeSeconds = 2.0f;
 
     [Range(0.0001f, 10f)]
-    public float knockedBackSpeedBuffer = 2.0f;
+    public float knockedBackSpeedBufferSeconds = 2.0f;
 
     [Range(0.0001f, 10f)]
     public float knockBackPowerSmallShooter = 1.0f;
@@ -144,7 +143,6 @@ public class enemyBehavior : MonoBehaviour
     void Start()
     {
         
-
         gameObject.SetActive(false);
 
     }
@@ -152,6 +150,11 @@ public class enemyBehavior : MonoBehaviour
     // Update is called once per frame
     private bool isEditing = false;
     private bool isEDown = false;
+
+    private Vector3 direction;
+    private bool isColliding = false;
+
+    private float knockbackSpeedFraction;
     void Update()
     {
         if (Input.GetKey(KeyCode.E))
@@ -178,7 +181,6 @@ public class enemyBehavior : MonoBehaviour
                 newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
                 newPos.z = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.z;
                 float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
-
                 switch (state)
                 {
                     case enemyState.INACTIVE:
@@ -187,21 +189,28 @@ public class enemyBehavior : MonoBehaviour
                     case enemyState.TUTORIAL:
                         if (!(dist < range && dist > -range))
                         {
-                            float saveYForBugggggs = transform.position.y;
-                            transform.position = Vector3.Slerp(transform.position, newPos, speed);
-                            transform.position = new Vector3(transform.position.x, saveYForBugggggs, transform.position.z);
+                            gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
+                        }
+                        else
+                        {
+                            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                         }
                         break;
                     case enemyState.CHASING:
-                        float saveYForBugggggs2 = transform.position.y;
-                        transform.position = Vector3.Slerp(transform.position, newPos, speed);
-                        transform.position = new Vector3(transform.position.x, saveYForBugggggs2, transform.position.z);
+                        calculateDirection();
+
+                        gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
                         if ((dist < range && dist > -range))
                         {
                             state = enemyState.ATTACKING;
+                            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                         }
                         break;
                     case enemyState.ATTACKING:
+                        calculateDirection();
+
+                        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+
                         switch (enemyType)
                         {
                             case 0:
@@ -238,15 +247,18 @@ public class enemyBehavior : MonoBehaviour
                         if (shootCooldown <= 0 && shotsFired == 0 && (Vector3.Distance(transform.position, BulletPoolManager.singleton.player.transform.position) > range))
                         {
                             state = enemyState.CHASING;
+                            gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
 
                         }
                         shootCooldown -= Time.deltaTime;
                         break;
                     case enemyState.FLYING:
-                        transform.position = Vector3.Lerp(transform.position, knockedDestination, knockbackSpeed);
-                        if (Vector3.Distance(transform.position, knockedDestination) < 1.0f)
+                        gameObject.GetComponent<Rigidbody>().velocity = direction * knockbackSpeedFraction;
+
+                        if ((Vector3.Distance(transform.position, knockedDestination) < 1.0f) || isColliding == true)
                         {
                             state = enemyState.CHASING;
+                            gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
                         }
                         break;
 
@@ -255,12 +267,38 @@ public class enemyBehavior : MonoBehaviour
                 buffDuration -= Time.deltaTime;
                 break;
         }
+        isColliding = false;
+    }
+
+    private Vector3 calculateDirection()
+    {
+        //Vector3 temp = new Vector3(0,0,0);
+
+        //transform.LookAt(BulletPoolManager.singleton.transform.position);
+        //direction = new Vector3(BulletPoolManager.singleton.transform.position.x - transform.position.x, 0, BulletPoolManager.singleton.transform.position.z - transform.position.z);
+        //direction = Vector3.Normalize(direction);
+        //direction = direction * speed;
+
+        direction = BulletPoolManager.singleton.player.transform.position;
+
+        transform.LookAt(direction);
+
+        direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
+
+        direction = Vector3.Normalize(direction);
+
+        return direction;
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        isColliding = true;
     }
 
     public void doKnockback(float heldPower, int orientation)
     {
         float angleToUse = (orientation == 1 ? 135 : (orientation == 2 ? 90 : (orientation == 3 ? 45 : (orientation == 4 ? 180 : (orientation == 5 ? 0 : (orientation == 6 ? 225 : (orientation == 7 ? 270 : 315)))))));
-        beingKnockedBack = true;
+        state = enemyState.FLYING;
         
 
         Vector3 temp = new Vector3(0, 0, 0);
@@ -270,6 +308,11 @@ public class enemyBehavior : MonoBehaviour
         temp = new Vector3(temp.x * heldPower / knockbackResist, 0, temp.z * heldPower / knockbackResist);
 
         knockedDestination = temp + transform.position;
+
+        direction = new Vector3(knockedDestination.x - transform.position.x, 0, knockedDestination.z - transform.position.z);
+        direction = Vector3.Normalize(direction);
+
+        knockbackSpeedFraction = Vector3.Distance(knockedDestination, transform.position) / knockbackSpeed;
 
         takeDmg(Mathf.Sqrt(heldPower));
     }
@@ -388,7 +431,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedSmallShooter;
                         range = rangeOfSmallShooter;
                         knockbackResist = knockbackResistSmallShooter;
-                        knockbackSpeed = knockedBackSpeedSmallShooter;
+                        knockbackSpeed = knockedBackSpeedSmallShooterSeconds;
                         break;
                     case 1:
                         currentHealth = MAX_HEALTH_BIG_SHOOTER;
@@ -396,7 +439,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedBigShooter;
                         range = rangeOfLarge;
                         knockbackResist = knockbackResistBigShooter;
-                        knockbackSpeed = knockedBackSpeedBigShooter;
+                        knockbackSpeed = knockedBackSpeedBigShooterSeconds;
                         break;
                     case 2:
                         currentHealth = MAX_HEALTH_SMALL_MELEE;
@@ -404,7 +447,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedSmallMelee;
                         range = rangeOfSmallMelee;
                         knockbackResist = knockbackResistSmallMelee;
-                        knockbackSpeed = knockedBackSpeedSmallMelee;
+                        knockbackSpeed = knockedBackSpeedSmallMeleeSeconds;
                         break;
                     case 3:
                         currentHealth = MAX_HEALTH_BUFFER;
@@ -412,12 +455,16 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedBuffer;
                         range = rangeOfBuffer;
                         knockbackResist = knockbackResistBuffer;
-                        knockbackSpeed = knockedBackSpeedBuffer;
+                        knockbackSpeed = knockedBackSpeedBufferSeconds;
                         break;
                 }
                 shotsFired = 0;
                 smallBurstCooldownbetweenShotsSaved = smallBurstCooldownbetweenShots;
                 buffDurationSaved = 15;
+
+                direction = new Vector3(BulletPoolManager.singleton.transform.position.x - transform.position.x, 0, BulletPoolManager.singleton.transform.position.z - transform.position.z);
+                direction = Vector3.Normalize(direction);
+                direction = direction * speed;
 
                 break;
         }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4644207836265825186}
   - component: {fileID: 4644207836265825198}
   - component: {fileID: -7927573303852163267}
+  - component: {fileID: 7047497215362326174}
   m_Layer: 8
   m_Name: basicShooter
   m_TagString: EnemyShooter
@@ -121,14 +122,14 @@ MonoBehaviour:
   characterPos: {fileID: 2925805988028907213, guid: 18c3d51c4d8f8584b896d922123a6aa4, type: 3}
   smallBullets: {fileID: 2087262527810304917, guid: 51f270b79472b5848bf8f08e2f6992e1, type: 3}
   bigBullets: {fileID: 3723075436793798686, guid: 7039341f146da3c4f86eaca6a2083f4e, type: 3}
-  speedSmallShooter: 0.001
+  speedSmallShooter: 4.66
   speedBigShooter: 0.001
   speedSmallMelee: 0.001
   speedBuffer: 0.001
-  knockedBackSpeedSmallShooter: 2
-  knockedBackSpeedBigShooter: 2
-  knockedBackSpeedSmallMelee: 2
-  knockedBackSpeedBuffer: 2
+  knockedBackSpeedSmallShooterSeconds: 0.5
+  knockedBackSpeedBigShooterSeconds: 2
+  knockedBackSpeedSmallMeleeSeconds: 2
+  knockedBackSpeedBufferSeconds: 2
   knockBackPowerSmallShooter: 1
   knockBackPowerBigShooter: 1
   knockBackPowerSmallMelee: 1
@@ -137,7 +138,7 @@ MonoBehaviour:
   rangeOfLarge: 100
   rangeOfSmallMelee: 0.5
   rangeOfBuffer: 0.5
-  knockbackResistSmallShooter: 1
+  knockbackResistSmallShooter: 10
   knockbackResistBigShooter: 1
   knockbackResistSmallMelee: 1
   knockbackResistBuffer: 1
@@ -158,3 +159,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Highlighting: {fileID: 0}
   originalMat: {fileID: 0}
+--- !u!54 &7047497215362326174
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4644207836265825187}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 2
