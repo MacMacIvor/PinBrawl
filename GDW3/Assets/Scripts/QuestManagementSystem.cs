@@ -27,6 +27,7 @@ public class QuestManagementSystem : MonoBehaviour
     int buttonsLeftToPush = 0;
     Vector3 destination = new Vector3(0, 0, 0);
     static int amountOfDestinations = -1;
+    int amountOfQuestsCompleted = 0;
 
     public void Awake()
     {
@@ -107,8 +108,6 @@ public class QuestManagementSystem : MonoBehaviour
                 break;
             case stateOfQuestManager.WIN:
                 Debug.Log("YOU WON!!!!!!!!!!");
-                //Jump to next level/end of game
-                //Hence, nothing yet
                 toEndScene.singleton.callNext();
                 break;
         }
@@ -120,9 +119,6 @@ public class QuestManagementSystem : MonoBehaviour
     }
     public void updateQuest(int number)
     {
-        //TODO: FIGURE IT OUT
-        //The number passed referes to a certain possible quest
-        //ex. killing an enemy bring you closer to a maybe clearing a room quest and passes a 0, lowering the amount of enemies left by 1
         if (listOfQuests.Count > 0)
         {
             switch (number)
@@ -135,7 +131,6 @@ public class QuestManagementSystem : MonoBehaviour
                     break;
                 case 2:
                     buttonPush(number);
-                    //pressButton()
                     break;
                 case 3:
                     break;
@@ -151,6 +146,7 @@ public class QuestManagementSystem : MonoBehaviour
     {
         listOfQuests.Dequeue();
         state = checkIfWon() ? stateOfQuestManager.WIN : stateOfQuestManager.START;
+        amountOfQuestsCompleted++;
     }
     void updateUI()
     {
@@ -257,5 +253,18 @@ public class QuestManagementSystem : MonoBehaviour
     bool checkIfWon()
     {
         return listOfQuests.Count == 0;
+    }
+
+    int getAmountOfQuestsCompleted()
+    {
+        return amountOfQuestsCompleted;
+    }
+
+    public void forceQuestUpdate() //This should never be used unless the game is being loaded
+    {
+        state = stateOfQuestManager.COMPLETED;
+        amountOfEnemiesLeftToKill = 0;
+        destination = new Vector3(0, 00, 0);
+        buttonsLeftToPush = 0;
     }
 }

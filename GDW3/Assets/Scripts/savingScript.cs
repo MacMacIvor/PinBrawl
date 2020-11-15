@@ -112,7 +112,6 @@ public class savingScript : MonoBehaviour
                     {
                         case "NormalCube":
                             gameObject.GetComponent<factory>().spawn(objectName, objectPosition, cube);
-
                             break;
                         case "BookShelf":
                             gameObject.GetComponent<factory>().spawn(objectName, objectPosition, BookShelf);

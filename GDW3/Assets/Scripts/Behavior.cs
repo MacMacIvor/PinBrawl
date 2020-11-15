@@ -56,7 +56,7 @@ public class Behavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sounds.soundsSingleton.startBackgroundSong("firstSong");
+        soundsManager.soundsSingleton.startBackgroundSong("firstSong");
 
 
     }
