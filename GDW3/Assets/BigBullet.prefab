@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b331c25ea106794ab9856ca85695ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 0.03
-  bulletYSpeedHeight: 0.7
+  bulletSpeed: 0.01
+  bulletYSpeedHeight: 0.35
   damage: 30
   target: {x: -741.5, y: 0.5, z: -31.297077}
   dirPos: {x: 0, y: 0, z: 0}

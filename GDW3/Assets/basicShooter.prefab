@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7927573303852163267}
   - component: {fileID: 7047497215362326174}
   m_Layer: 8
-  m_Name: basicShooter
+  m_Name: BasicShooter
   m_TagString: EnemyShooter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4644207836265825187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -752.23694, y: 8.64, z: 48.57916}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -752.23694, y: 5, z: 48.57916}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4644207836265825187}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2432090755550338912, guid: 9c63f4f3b4686c04ba5438fe0209ca82, type: 3}
 --- !u!23 &4644207836265825185
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -96,7 +96,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 4.5, y: 4, z: 4.5}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4644207836265825198
 MonoBehaviour:
@@ -114,7 +114,7 @@ MonoBehaviour:
   bigBulletPrefab: {fileID: 2865413903969099551, guid: 7039341f146da3c4f86eaca6a2083f4e, type: 3}
   enemyType: 0
   shootCooldownSmallShooterSaved: 1
-  smallBurstCooldownbetweenShots: 0.1
+  smallBurstCooldownbetweenShots: 0.132
   numOfShots: 3
   shootCooldownBigShooterSaved: 1
   hitCoolDownSmallMeleeSaved: 1
@@ -122,11 +122,11 @@ MonoBehaviour:
   characterPos: {fileID: 2925805988028907213, guid: 18c3d51c4d8f8584b896d922123a6aa4, type: 3}
   smallBullets: {fileID: 2087262527810304917, guid: 51f270b79472b5848bf8f08e2f6992e1, type: 3}
   bigBullets: {fileID: 3723075436793798686, guid: 7039341f146da3c4f86eaca6a2083f4e, type: 3}
-  speedSmallShooter: 4.66
+  speedSmallShooter: 6.43
   speedBigShooter: 0.001
   speedSmallMelee: 0.001
   speedBuffer: 0.001
-  knockedBackSpeedSmallShooterSeconds: 0.5
+  knockedBackSpeedSmallShooterSeconds: 0.34
   knockedBackSpeedBigShooterSeconds: 2
   knockedBackSpeedSmallMeleeSeconds: 2
   knockedBackSpeedBufferSeconds: 2
@@ -138,7 +138,7 @@ MonoBehaviour:
   rangeOfLarge: 100
   rangeOfSmallMelee: 0.5
   rangeOfBuffer: 0.5
-  knockbackResistSmallShooter: 10
+  knockbackResistSmallShooter: 125
   knockbackResistBigShooter: 1
   knockbackResistSmallMelee: 1
   knockbackResistBuffer: 1

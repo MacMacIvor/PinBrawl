@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4565077280436212401}
   - component: {fileID: -6289995904472022537}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: HeavyShooter
   m_TagString: EnemyShooter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 4565077280436212394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -745.13, y: 0.79, z: -26.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4565077280436212394}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2432090755550338912, guid: 11ead2c4b544fdf4f88008ceb7b44c2e, type: 3}
 --- !u!23 &4565077280436212404
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -95,8 +95,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3.5, y: 4.5, z: 1.65}
+  m_Center: {x: 0, y: 2.25, z: -0.2}
 --- !u!114 &4565077280436212401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,9 +113,9 @@ MonoBehaviour:
   bigBulletPrefab: {fileID: 2865413903969099551, guid: 7039341f146da3c4f86eaca6a2083f4e, type: 3}
   enemyType: 1
   shootCooldownSmallShooterSaved: 1
-  smallBurstCooldownbetweenShots: 0.1
+  smallBurstCooldownbetweenShots: 0.082
   numOfShots: 3
-  shootCooldownBigShooterSaved: 1
+  shootCooldownBigShooterSaved: 1.29
   hitCoolDownSmallMeleeSaved: 1
   shootCoolDownBufferSaved: 1
   characterPos: {fileID: 2925805988028907213, guid: 18c3d51c4d8f8584b896d922123a6aa4, type: 3}
@@ -126,7 +126,7 @@ MonoBehaviour:
   speedSmallMelee: 0.001
   speedBuffer: 0.001
   knockedBackSpeedSmallShooterSeconds: 2
-  knockedBackSpeedBigShooterSeconds: 2
+  knockedBackSpeedBigShooterSeconds: 0.82
   knockedBackSpeedSmallMeleeSeconds: 2
   knockedBackSpeedBufferSeconds: 2
   knockBackPowerSmallShooter: 1
@@ -135,10 +135,10 @@ MonoBehaviour:
   knockBackPowerBuffer: 1
   rangeOfSmallShooter: 5
   rangeOfLarge: 100
-  rangeOfSmallMelee: 0.5
+  rangeOfSmallMelee: 0
   rangeOfBuffer: 0.5
   knockbackResistSmallShooter: 1
-  knockbackResistBigShooter: 1
+  knockbackResistBigShooter: 189
   knockbackResistSmallMelee: 1
   knockbackResistBuffer: 1
   smallMeleeDamage: 10
