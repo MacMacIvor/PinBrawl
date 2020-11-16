@@ -9,7 +9,6 @@ public class Behavior : MonoBehaviour
 
     private float cooldownB = 0;
 
-
     [Range(1, 1000)]
     public int jumpModifyer = 250;
 
@@ -52,6 +51,8 @@ public class Behavior : MonoBehaviour
     public followMouse please3;
 
     private int direction = 2;
+    private int particleID = -1;
+    private float particleDelay = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -89,6 +90,70 @@ public class Behavior : MonoBehaviour
                 break;
             case false:
                 transform.Translate(playerDirection * 5 * Time.deltaTime);
+                
+                if (playerDirection != new Vector3(0, 0, 0) && particleDelay == 0)
+                {
+                    if (particleID == -1)
+                    {
+                        particleID = particleManager.singleton.startParticles(gameObject.transform.position);
+                        particleManager.singleton.setParent(particleID, gameObject);
+                    }
+                    switch (direction)
+                    {
+                        //-       +
+                        // 1, 2, 3
+                        // 4,  , 5
+                        // 6, 7, 8
+                        case 1:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, -1));
+                            break;
+                        case 2:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(0, 0, -1));
+
+                            break;
+                        case 3:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, -1));
+
+                            break;
+                        case 4:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, 0));
+
+                            break;
+                        case 5:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, 0));
+
+                            break;
+                        case 6:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, 1));
+
+                            break;
+                        case 7:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(0, 0, 1));
+
+                            break;
+                        case 8:
+                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, 1));
+
+                            break;
+
+                    }
+                }
+                else if (particleID != -1 && particleDelay == 0)
+                {
+                    particleDelay = 0.5f;
+                }
+                else if (particleID != -1 && particleDelay > 0)
+                {
+                    particleDelay -= Time.deltaTime;
+                }
+                else if (particleDelay < 0 && particleID != -1)
+                {
+                    particleManager.singleton.deActivateParticle(particleID);
+                    particleID = -1;
+                    particleDelay = 0;
+                }
+
+
                 if (Input.GetKey(KeyCode.W))
                 {
                     playerDirection.z = 1;
