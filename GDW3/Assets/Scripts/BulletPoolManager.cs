@@ -26,9 +26,9 @@ public class BulletPoolManager : MonoBehaviour
     private Vector3 initSpawn = new Vector3(100, 100, 100);
 
     [Range(0, 100)]
-    public int maxBulletsSmall = 8;
+    public int maxBulletsSmall = 100;
     [Range(0, 100)]
-    public int maxBulletsLarge = 8;
+    public int maxBulletsLarge = 50;
 
     static int indexSmall = 0;
 

@@ -126,10 +126,10 @@ MonoBehaviour:
   speedBigShooter: 0.001
   speedSmallMelee: 0.00346
   speedBuffer: 0.001
-  knockedBackSpeedSmallShooter: 2
-  knockedBackSpeedBigShooter: 2
-  knockedBackSpeedSmallMelee: 2
-  knockedBackSpeedBuffer: 2
+  knockedBackSpeedSmallShooterSeconds: 2
+  knockedBackSpeedBigShooterSeconds: 2
+  knockedBackSpeedSmallMeleeSeconds: 2
+  knockedBackSpeedBufferSeconds: 2
   knockBackPowerSmallShooter: 1
   knockBackPowerBigShooter: 1
   knockBackPowerSmallMelee: 1
@@ -159,7 +159,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 2
 --- !u!1 &4409187828762615378
 GameObject:

@@ -12,7 +12,9 @@ public class soundsManager : MonoBehaviour
     public static soundsManager soundsSingleton = null;
 
     public AudioSource firstSong;
-    public AudioSource temp;
+    public AudioSource[] temp;
+
+
     static float pitchBackGround = 1;
     static float volumeBackGround = 1;
     static bool isMutedSoundEffects = false;
@@ -39,9 +41,6 @@ public class soundsManager : MonoBehaviour
         {
             case "firstSong":
                 backgroundPlaying = (firstSong);
-                break;
-            case "temp":
-                backgroundPlaying = (temp);
                 break;
         }
         backgroundPlaying.Play();
@@ -101,14 +100,32 @@ public class soundsManager : MonoBehaviour
     {
         switch (name)
         {
-            case "need effects":
+            case "dronecrash_by_metal_wall":
+                //backgroundPlaying = (temp[0]);
                 if (isMutedSoundEffects == false)
                 {
-                    //VariableName.play();
-                    //VariableName.volume = volume;
-                    //VariableName.pitch = pitch;
+                    temp[0].Play();
+                    temp[0].volume = volume;
+                    temp[0].pitch = pitch;
                 }
                 break;
+            case "laser_cannon":
+                if (isMutedSoundEffects == false)
+                {
+                    temp[1].Play();
+                    temp[1].volume = volume;
+                    temp[1].pitch = pitch;
+                }
+                break;
+            case "laser_pistol":
+                if (isMutedSoundEffects == false)
+                {
+                    temp[2].Play();
+                    temp[2].volume = volume;
+                    temp[2].pitch = pitch;
+                }
+                break;
+
         }
 
     }
@@ -124,7 +141,7 @@ public class soundsManager : MonoBehaviour
     {
         muteBackGround(false);
         volumeBackGround = newVolume;
-        backgroundPlaying.volume = newVolume;
+        backgroundPlaying.volume = volumeBackGround;
     }
 
     // Start is called before the first frame update

@@ -204,12 +204,16 @@ public class Behavior : MonoBehaviour
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
             enemies.GetComponent<enemyBehavior>().takeDmg(30);
+            //soundsManager.soundsSingleton.playSoundEffect("");
+            //Nothing yet because we don't have the sound for it
         }
 
         foreach (Collider bullets in bulletHit)
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
             bullets.GetComponent<bullet>().die();
+            //soundsManager.soundsSingleton.playSoundEffect("");
+            //Nothing yet because we don't have the sound for it
         }
     }
 

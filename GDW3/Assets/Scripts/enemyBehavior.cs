@@ -293,6 +293,7 @@ public class enemyBehavior : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         isColliding = true;
+        soundsManager.soundsSingleton.playSoundEffect("dronecrash_by_metal_wall");
     }
 
     public void doKnockback(float heldPower, int orientation)
@@ -345,19 +346,18 @@ public class enemyBehavior : MonoBehaviour
             case 4:
                 break;
         }
-        //Destroy(gameObject, 1);
     }
 
     private void spawnBullet(bool timeReset)
     {
-        
 
         switch (enemyType)
         {
             case 0:
+                soundsManager.soundsSingleton.playSoundEffect("laser_pistol");
                 shootCooldown = timeReset == true ? shootCooldownSmallShooterSaved : shootCooldown;
                 //smallBullets.SetTarget(characterPos.position);
-                
+
                 //GameObject theBullet = Instantiate(smallBulletPrefab) as GameObject;
                 //theBullet.transform.position = transform.position;
                 if (buffDuration > 0)
@@ -372,6 +372,7 @@ public class enemyBehavior : MonoBehaviour
                 }
                 break;
             case 1:
+                soundsManager.soundsSingleton.playSoundEffect("laser_cannon");
                 shootCooldown = timeReset == true ? shootCooldownBigShooterSaved : shootCooldown;
                 if (buffDuration > 0)
                 {

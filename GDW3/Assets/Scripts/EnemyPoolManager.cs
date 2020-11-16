@@ -29,13 +29,13 @@ public class EnemyPoolManager : MonoBehaviour
     private Vector3 initSpawn = new Vector3(100, 100, 100);
 
     [Range(0, 100)]
-    public int maxSmallShooter = 8;
+    public int maxSmallShooter = 25;
     [Range(0, 100)]
-    public int maxSmallMelee = 8;
+    public int maxSmallMelee = 25;
     [Range(0, 100)]
-    public int maxLarge = 8;
+    public int maxLarge = 25;
     [Range(0, 100)]
-    public int maxBuffer = 8;
+    public int maxBuffer = 25;
 
 
     static int indexSmallMelee = 0;
