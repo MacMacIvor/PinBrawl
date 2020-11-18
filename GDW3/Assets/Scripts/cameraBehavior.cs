@@ -16,29 +16,14 @@ public class cameraBehavior : MonoBehaviour
         cameraOffset = transform.position - characterPos.position; //Remembers the offset you had put in unity
     }
 
-    // Update is called once per frame
-    private bool isEditing = false;
-    private bool isEDown = false;
+   
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        switch (pauseGame.singleton.stateOfGame)
         {
-            if (isEDown == false)
-            {
-                isEditing = !isEditing;
-
-            }
-            isEDown = true;
-        }
-        else
-        {
-            isEDown = false;
-        }
-
-        switch (isEditing)
-        {
-            case true:
-                if (Input.GetKey(KeyCode.DownArrow))
+            case pauseGame.generalState.PAUSED:
+                break;
+                if (Input.GetKey(KeyCode.DownArrow)) //Level Editing leftover code
                 {
                     transform.position += Vector3.down;
                 }
@@ -55,7 +40,7 @@ public class cameraBehavior : MonoBehaviour
                     transform.position += Vector3.right;
                 }
                 break;
-            case false:
+            case pauseGame.generalState.PLAYING:
                 Vector3 newPos = characterPos.position + cameraOffset;
                 transform.position = Vector3.Slerp(transform.position, newPos, smoothfactor);
                 break;

@@ -25,6 +25,10 @@ extern "C"
 	PLUGIN_API GameForSendingToUnityObject getLoadedObjects();
 	PLUGIN_API int popObject();
 	PLUGIN_API int getQuestAt();
+	PLUGIN_API void savePlayerInfo(char* filePath, playerInformation theInfo);
+	PLUGIN_API void saveNewPlayerInfo(char* filePath, playerInformation theInfo);
+	PLUGIN_API void loadPlayerInfo(char* filePath);
+	PLUGIN_API playerInformation getPlayerInfo();
 
 #ifdef  __cplusplus
 }

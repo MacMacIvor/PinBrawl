@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: fdc1a68b5fd51c94e90345d465937b36
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cube: {fileID: 4727858982069090577, guid: f64abff555789a34bbbf90ff29b687c3, type: 3}
+  - BookShelf: {fileID: 7700726733633373964, guid: 35bddba5dd789e74b8debf42b81ce99c, type: 3}
+  - Door: {fileID: 3002921559549028155, guid: 21b8165501f7dd0428bc7ac684d35583, type: 3}
+  - Door_Frame: {fileID: 2362331983747729810, guid: 5b8c6f48367514f49b445121bc956b01, type: 3}
+  - Five_Rail: {fileID: 7715766734249303797, guid: 83fda7a9ea7811a45b06c629e71b9aab, type: 3}
+  - Four_Rail: {fileID: 5143471559434735768, guid: 803b0a3a4ff9e6e4ca229d6b5dd48ddd, type: 3}
+  - Rail_Post: {fileID: 7406909025452766710, guid: aa5f33e0a2f70a44ba56f418a6782f78, type: 3}
+  - Rising_Rail: {fileID: 6761564860610931200, guid: 1168ff9ba570d1240912948fabda52a3, type: 3}
+  - Room_Plane: {fileID: 1539807246139259358, guid: ad6f3a3b5b78927479a57adbdcce639f, type: 3}
+  - Stair_Support: {fileID: 8187674660246447199, guid: 8a29fd295cdc43843a101e56e6fe5bf3, type: 3}
+  - Stairs: {fileID: 3827659468363244299, guid: 5402f8bd21318404b9015f20e98ed0a6, type: 3}
+  - Stool: {fileID: 4358591253937310992, guid: adfd76f42941e5748822e4d26e440fa3, type: 3}
+  - Table: {fileID: 4884881058856717849, guid: 66ca68a84aca8d04c81e401eef44d16c, type: 3}
+  - Top_Rail: {fileID: 5823212081408157218, guid: 64e2a848b2e33d8489fef71c69d7a87c, type: 3}
+  - Upper_Floor: {fileID: 5209364786167670931, guid: 473077a279bce334184627fa653deafb, type: 3}
+  - EnemyShooter: {fileID: 4644207836265825187, guid: b9a175e490e05fa4e8c24de786a58a2c, type: 3}
+  - MainCharacter: {fileID: 2925805988028907200, guid: 18c3d51c4d8f8584b896d922123a6aa4, type: 3}
+  - BookShelfWide: {fileID: 7963873776142097035, guid: 7e45e91ea5174234fb6eaae7f9d274d2, type: 3}
+  - Fire_Place: {fileID: 8071953394546775573, guid: 566cfa01a1534f747ae2b236c25f222c, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

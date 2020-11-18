@@ -21,15 +21,22 @@ public class meleeHit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAttacking == true)
+        switch (pauseGame.singleton.stateOfGame)
         {
-            Collider[] playerHit = Physics.OverlapBox(gameObject.transform.position, new Vector3(meleeRange, meleeRange, meleeRange), orientation, playerLayer); //Change to just basicRange when we find the right numbers
+            case pauseGame.generalState.PAUSED:
+                break;
+            case pauseGame.generalState.PLAYING:
+                if (isAttacking == true)
+                {
+                    Collider[] playerHit = Physics.OverlapBox(gameObject.transform.position, new Vector3(meleeRange, meleeRange, meleeRange), orientation, playerLayer); //Change to just basicRange when we find the right numbers
 
-            foreach (Collider player in playerHit)
-            {
-                player.GetComponent<Behavior>().takeDmg(smallMeleeDamage);
-            }
-            isAttacking = false;
+                    foreach (Collider player in playerHit)
+                    {
+                        player.GetComponent<Behavior>().takeDmg(smallMeleeDamage);
+                    }
+                    isAttacking = false;
+                }
+                break;
         }
     }
 

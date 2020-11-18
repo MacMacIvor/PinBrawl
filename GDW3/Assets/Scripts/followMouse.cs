@@ -34,23 +34,6 @@ public class followMouse : MonoBehaviour
     {
 
 
-        //Vector3 mousePos = Input.mousePosition;
-        //mousePos.z = mousePos.y;
-
-        //Vector3 exPoint = Camera.main.ScreenToWorldPoint(mousePos);
-        //exPoint.z = exPoint.y;
-        //exPoint.y = 0;
-        //Vector3 charPos = characterPos.position;
-        //charPos.y = 0;
-
-        //exPoint.x = exPoint.x - charPos.x;
-        //exPoint.z = exPoint.z - charPos.z;
-
-
-        //float angle = Mathf.Atan2(exPoint.x, exPoint.z);
-
-
-
         switch (mouse) {
             case 0:
                 Vector3 pointPos = Quaternion.AngleAxis((currentDirrection == 1 ? 135 : (currentDirrection == 2 ? 90 : (currentDirrection == 3 ? 45 : (currentDirrection == 4 ? 180 : (currentDirrection == 5 ? 0
@@ -68,20 +51,6 @@ public class followMouse : MonoBehaviour
                 break;
         }
        
-
-        
-        //transform.rotation = Quaternion.Euler(new Vector3(0, angle, 0));
-        //transform.RotateAround(characterPos.position, new Vector3(0, 1, 0), angle);
-        //transform.position = new Vector3(characterPos.position.x + pointOffset.x, transform.position.y, characterPos.position.z + ((angle > -Mathf.PI && angle < -Mathf.PI/2) ? -Mathf.Cos(angle) : Mathf.Cos(angle)) * pointOffset.z);
-        //((angle < 0 && angle > -Mathf.PI/2) ? Mathf.Sin(angle) : -Mathf.Sin(angle)) * 
-
-        //Vector3 targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //targetPos.x = targetPos.y;
-        //targetPos.y = 0;
-        //transform.position = Vector3.MoveTowards(transform.position, targetPos, 0.3f * Time.deltaTime);
-
-        //Debug.Log(targetPos.x);
-        //Debug.Log(targetPos.z);
 
     }
 

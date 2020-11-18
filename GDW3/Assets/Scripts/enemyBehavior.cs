@@ -147,9 +147,7 @@ public class enemyBehavior : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    private bool isEditing = false;
-    private bool isEDown = false;
+    
 
     private Vector3 direction;
     private bool isColliding = false;
@@ -157,25 +155,11 @@ public class enemyBehavior : MonoBehaviour
     private float knockbackSpeedFraction;
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        switch (pauseGame.singleton.stateOfGame)
         {
-            if (isEDown == false)
-            {
-                isEditing = !isEditing;
-
-            }
-            isEDown = true;
-        }
-        else
-        {
-            isEDown = false;
-        }
-
-        switch (isEditing)
-        {
-            case true:
+            case pauseGame.generalState.PAUSED:
                 break;
-            case false:
+            case pauseGame.generalState.PLAYING:
 
                 characterPos = GameObject.FindGameObjectsWithTag("Player")[0].transform;
                 newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
@@ -328,6 +312,7 @@ public class enemyBehavior : MonoBehaviour
     }
     public void dead()
     {
+        saveLoadingManager.singleton.numberOfKilledUpdate();
         QuestManagementSystem.singleton.updateQuest(0);
         switch (enemyType)
         {

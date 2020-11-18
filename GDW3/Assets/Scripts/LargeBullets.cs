@@ -40,35 +40,16 @@ public class LargeBullets : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-        
         gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    private bool isEditing = false;
-    private bool isEDown = false;
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        switch (pauseGame.singleton.stateOfGame)
         {
-            if (isEDown == false)
-            {
-                isEditing = !isEditing;
-
-            }
-            isEDown = true;
-        }
-        else
-        {
-            isEDown = false;
-        }
-
-        switch (isEditing)
-        {
-            case true:
+            case pauseGame.generalState.PAUSED:
                 break;
-            case false:
+            case pauseGame.generalState.PLAYING:
                 distToTarget -= Vector3.Distance(transform.position, transform.position + dirPos * bulletSpeed);
                 transform.position += dirPos * bulletSpeed;
                 transform.position += new Vector3(0, (distToTarget > distToTargetHalf ? bulletYSpeedHeight : -bulletYSpeedHeight), 0);

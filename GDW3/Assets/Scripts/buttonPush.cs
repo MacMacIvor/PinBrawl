@@ -16,23 +16,30 @@ public class buttonPush : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Q))
-            qPressed = true;
-        else
-            qPressed = false;
-
-        if (wasUsed == false)
+        switch (pauseGame.singleton.stateOfGame)
         {
-            Collider[] playerHit = Physics.OverlapSphere(transform.position, 5f, playerLayer); //Change to just basicRange when we find the right numbers
+            case pauseGame.generalState.PAUSED:
+                break;
+            case pauseGame.generalState.PLAYING:
+                if (Input.GetKey(KeyCode.Q))
+                    qPressed = true;
+                else
+                    qPressed = false;
 
-            foreach (Collider player in playerHit)
-            {
-                if (qPressed == true)
+                if (wasUsed == false)
                 {
-                    QuestManagementSystem.singleton.updateQuest(2);
-                    wasUsed = true;
+                    Collider[] playerHit = Physics.OverlapSphere(transform.position, 5f, playerLayer); //Change to just basicRange when we find the right numbers
+
+                    foreach (Collider player in playerHit)
+                    {
+                        if (qPressed == true)
+                        {
+                            QuestManagementSystem.singleton.updateQuest(2);
+                            wasUsed = true;
+                        }
+                    }
                 }
-            }
+                break;
         }
     }
 }

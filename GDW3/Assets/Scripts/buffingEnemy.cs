@@ -20,15 +20,22 @@ public class buffingEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAttacking == true)
+        switch (pauseGame.singleton.stateOfGame)
         {
-            Collider[] enemiesHit = Physics.OverlapBox(gameObject.transform.position, new Vector3(theRange, theRange, theRange), orientation, enemies); //Change to just basicRange when we find the right numbers
+            case pauseGame.generalState.PAUSED:
+                break;
+            case pauseGame.generalState.PLAYING:
+                if (isAttacking == true)
+                {
+                    Collider[] enemiesHit = Physics.OverlapBox(gameObject.transform.position, new Vector3(theRange, theRange, theRange), orientation, enemies); //Change to just basicRange when we find the right numbers
 
-            foreach (Collider enemy in enemiesHit)
-            {
-                enemy.GetComponent<enemyBehavior>().buff();
-            }
-            isAttacking = false;
+                    foreach (Collider enemy in enemiesHit)
+                    {
+                        enemy.GetComponent<enemyBehavior>().buff();
+                    }
+                    isAttacking = false;
+                }
+                break;
         }
     }
 

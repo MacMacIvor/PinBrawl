@@ -34,36 +34,17 @@ public class bullet : MonoBehaviour
     void Start()
     {
 
-       
-
         gameObject.SetActive(false);
 
     }
 
-    // Update is called once per frame
-    private bool isEditing = false;
-    private bool isEDown = false;
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        switch(pauseGame.singleton.stateOfGame)
         {
-            if (isEDown == false)
-            {
-                isEditing = !isEditing;
-
-            }
-            isEDown = true;
-        }
-        else
-        {
-            isEDown = false;
-        }
-
-        switch (isEditing)
-        {
-            case true:
+            case pauseGame.generalState.PAUSED:
                 break;
-            case false:
+            case pauseGame.generalState.PLAYING:
                 transform.position += dirPos * bulletSpeed;
                 if (Vector3.Distance(transform.position, point) > 20)
                 {

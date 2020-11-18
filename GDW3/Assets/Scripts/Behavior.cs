@@ -66,29 +66,14 @@ public class Behavior : MonoBehaviour
 
 
     // Update is called once per frame
-    private bool isEditing = false;
-    private bool isEDown = false;
+    
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        switch (pauseGame.singleton.stateOfGame)
         {
-            if (isEDown == false)
-            {
-                isEditing = !isEditing;
-
-            }
-            isEDown = true;
-        }
-        else
-        {
-            isEDown = false;
-        }
-
-        switch (isEditing)
-        {
-            case true:
+            case pauseGame.generalState.PAUSED:
                 break;
-            case false:
+            case pauseGame.generalState.PLAYING:
                 transform.Translate(playerDirection * 5 * Time.deltaTime);
                 
                 if (playerDirection != new Vector3(0, 0, 0) && particleDelay == 0)
@@ -262,6 +247,8 @@ public class Behavior : MonoBehaviour
 
     void basicAttack()
     {
+        bool hitOneAtLeast = false;
+
         Collider[] enemiesHit = Physics.OverlapBox(basicPoint.position, new Vector3(basicDimensions.x + basicRangeHeight, 1, basicDimensions.z + basicRangeWidth), orientationMaybe, enemyLayers); //Change to just basicRange when we find the right numbers
         Collider[] bulletHit = Physics.OverlapBox(basicPoint.position, new Vector3(basicDimensions.x + basicRangeHeight, 1, basicDimensions.z + basicRangeWidth), orientationMaybe, bulletLayers); //Change to just basicRange when we find the right numbers
 
@@ -271,6 +258,7 @@ public class Behavior : MonoBehaviour
             enemies.GetComponent<enemyBehavior>().takeDmg(30);
             //soundsManager.soundsSingleton.playSoundEffect("");
             //Nothing yet because we don't have the sound for it
+            hitOneAtLeast = true;
         }
 
         foreach (Collider bullets in bulletHit)
@@ -279,7 +267,10 @@ public class Behavior : MonoBehaviour
             bullets.GetComponent<bullet>().die();
             //soundsManager.soundsSingleton.playSoundEffect("");
             //Nothing yet because we don't have the sound for it
+            hitOneAtLeast = true;
         }
+        if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
+
     }
 
     void chargeAttack()
@@ -292,13 +283,16 @@ public class Behavior : MonoBehaviour
     void releaseChargeAttack()
     {
         //do the attack
+        bool hitOneAtLeast = false;
         Collider[] enemiesHit = Physics.OverlapBox(chargePoint.position, new Vector3(chargeDimensions.x + chargeRangeHeight, 1, chargeDimensions.z + chargeRangeWidth), orientationMaybe, enemyLayers); //Change to just chargeRange when we find the right numbers
         
         foreach(Collider enemies in enemiesHit)
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
             enemies.GetComponent<enemyBehavior>().doKnockback(heldPower, direction);
+            hitOneAtLeast = true;
         }
+        if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
         heldPower = 0;
 
     }

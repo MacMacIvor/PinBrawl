@@ -16,6 +16,7 @@ void SaveLoad::saveObjectsToFile(char* filePath) {
     std::ofstream file;
     file.open(theFilePath, std::ofstream::out | std::ofstream::trunc);
     file << questIsAt;
+    file << "\n";
     while (!objectHolder.empty()) {
         file << objectHolder[objectHolder.size() - 1].name;
         file << "\n";
@@ -34,7 +35,7 @@ void SaveLoad::saveObjectsToFile(char* filePath) {
 void SaveLoad::loadObjectData(char* filePath)
 {
     int count = 0;
-    bool firstLine = false;
+    bool firstLine = true;
     std::string theFilePath = filePath;
 
     GameForSendingToUnityObject objectLoaded;
@@ -89,4 +90,96 @@ int SaveLoad::popObject() {
 int SaveLoad::getQuestAt()
 {
     return questIsAt;
+}
+
+void SaveLoad::saveNewPlayerInfo(char* filePath, playerInformation theInfo)
+{
+    //Use this to replace the current info for a fresh start
+    infoHolder = theInfo;
+
+    std::string theFilePath = filePath;
+    std::ofstream file;
+    file.open(theFilePath, std::ofstream::out | std::ofstream::trunc);
+    //hitAccuracy, numberOfChargedAttacks, numberOfTimesHit, numberOfKills, healthHealed, numberOfDeaths;
+    file << infoHolder.hitAccuracy;
+    file << "\n";
+    file << infoHolder.numberOfChargedAttacks;
+    file << "\n";
+    file << infoHolder.numberOfTimesHit;
+    file << "\n";
+    file << infoHolder.numberOfKills;
+    file << "\n";
+    file << infoHolder.healthHealed;
+    file << "\n";
+    file << infoHolder.numberOfDeaths;
+
+    file.close();
+}
+
+void SaveLoad::savePlayerInfo(char* filePath, playerInformation theInfo)
+{
+    infoHolder.healthHealed += theInfo.healthHealed;
+    infoHolder.numberOfChargedAttacks += theInfo.numberOfChargedAttacks;
+    infoHolder.hitAccuracy += theInfo.hitAccuracy;
+    infoHolder.numberOfDeaths += theInfo.numberOfDeaths;
+    infoHolder.numberOfKills += theInfo.numberOfKills;
+    infoHolder.numberOfTimesHit += theInfo.numberOfTimesHit;
+
+    std::string theFilePath = filePath;
+    std::ofstream file;
+    file.open(theFilePath, std::ofstream::out | std::ofstream::trunc);
+    //hitAccuracy, numberOfChargedAttacks, numberOfTimesHit, numberOfKills, healthHealed, numberOfDeaths;
+    file << infoHolder.hitAccuracy;
+    file << "\n";
+    file << infoHolder.numberOfChargedAttacks;
+    file << "\n";
+    file << infoHolder.numberOfTimesHit;
+    file << "\n";
+    file << infoHolder.numberOfKills;
+    file << "\n";
+    file << infoHolder.healthHealed;
+    file << "\n";
+    file << infoHolder.numberOfDeaths;
+
+    file.close();
+}
+
+void SaveLoad::loadPlayerInfo(char* filePath) {
+    int count = 0;
+    
+    std::ifstream files;
+    files.open(filePath);
+    std::string workd;
+
+    while (std::getline(files, workd)) {
+        
+            switch (count) {
+            case 0:
+                infoHolder.hitAccuracy = std::stof(workd);
+                break;
+            case 1:
+                infoHolder.numberOfChargedAttacks = std::stof(workd);
+                break;
+            case 2:
+                infoHolder.numberOfTimesHit = std::stof(workd);
+                break;
+            case 3:
+                infoHolder.numberOfKills = std::stof(workd);
+                break;
+            case 4:
+                infoHolder.healthHealed = std::stof(workd);
+                break;
+            case 5:
+                infoHolder.numberOfDeaths = std::stof(workd);
+                break;
+            }
+            count++;            
+    }
+    files.close();
+}
+
+
+playerInformation SaveLoad::getPlayerInfo()
+{
+    return infoHolder;
 }

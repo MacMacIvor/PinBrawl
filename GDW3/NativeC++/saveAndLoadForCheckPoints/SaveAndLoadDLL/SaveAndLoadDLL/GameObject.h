@@ -18,6 +18,9 @@ struct GameForSendingToUnityObject {
 	float z;
 };
 
+struct playerInformation {
+	float hitAccuracy, numberOfChargedAttacks, numberOfTimesHit, numberOfKills, healthHealed, numberOfDeaths;
+};
 
 
 #endif

@@ -25,12 +25,14 @@ public class enemySpawner : MonoBehaviour
     public GameObject enemyC;
     public GameObject enemyD;
 
-    bool spawned = false;
+    float timerToSpawnSaved;
 
+    bool spawned = false;
+    bool lastState = true;
     // Start is called before the first frame update
     void Start()
     {
-        
+        timerToSpawnSaved = timerToSpawn;
     }
 
     // Update is called once per frame
@@ -45,7 +47,7 @@ public class enemySpawner : MonoBehaviour
 
                         spawnEnemy(i);
                     }
-                    Destroy(this.gameObject);
+                    turnOff();
                 }
                 break;
             case 1:
@@ -56,7 +58,7 @@ public class enemySpawner : MonoBehaviour
 
                         spawnEnemy(i);
                     }
-                    Destroy(this.gameObject);
+                    turnOff();
                 }
                 else
                 {
@@ -64,7 +66,12 @@ public class enemySpawner : MonoBehaviour
                 }
                 break;
         }
-        
+        if (lastState == false && gameObject.activeSelf == true)
+        {
+            timerToSpawn = timerToSpawnSaved;
+            spawned = false;
+        }
+        lastState = gameObject.activeSelf;
     }
     void spawnEnemy(int number)
     {
@@ -91,5 +98,13 @@ public class enemySpawner : MonoBehaviour
                 spawned = true;
                 break;
         }
+    }
+    void turnOff()
+    {
+        this.gameObject.SetActive(false);
+    }
+    public void reActive()
+    {
+        this.gameObject.SetActive(true);
     }
 }

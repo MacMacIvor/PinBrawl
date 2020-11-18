@@ -23,3 +23,16 @@ PLUGIN_API int popObject() {
 PLUGIN_API int getQuestAt() {
 	return save.getQuestAt();
 }
+
+PLUGIN_API void savePlayerInfo(char* filePath, playerInformation theInfo) {
+	save.savePlayerInfo(filePath, theInfo);
+}
+PLUGIN_API void saveNewPlayerInfo(char* filePath, playerInformation theInfo) {
+	save.saveNewPlayerInfo(filePath, theInfo);
+}
+PLUGIN_API void loadPlayerInfo(char* filePath) {
+	save.loadPlayerInfo(filePath);
+}
+PLUGIN_API playerInformation getPlayerInfo() {
+	return save.getPlayerInfo();
+}

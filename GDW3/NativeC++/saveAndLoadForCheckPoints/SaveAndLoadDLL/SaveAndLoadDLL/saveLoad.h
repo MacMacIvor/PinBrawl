@@ -16,11 +16,19 @@ public:
 	GameForSendingToUnityObject getLoadedObjects();
 	int popObject();
 	int getQuestAt();
+
+	void savePlayerInfo(char* filePath, playerInformation theInfo);
+	void saveNewPlayerInfo(char* filePath, playerInformation theInfo);
+	void loadPlayerInfo(char* filePath);
+	playerInformation getPlayerInfo();
+
 private:
+	//Hit accuracy ratio, number of ability uses, death times
 	std::vector<GameObject> objectHolder;
 	std::vector<GameForSendingToUnityObject> objectsToSendBack;
 	std::vector<std::string> objectNames;
 	int questIsAt = 0;
+	playerInformation infoHolder;
 };
 
 

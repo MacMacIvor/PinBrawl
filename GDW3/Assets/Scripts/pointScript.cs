@@ -11,29 +11,15 @@ public class pointScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    private bool isEditing = false;
-    private bool isEDown = false;
+    
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        
+        switch (pauseGame.singleton.stateOfGame)
         {
-            if (isEDown == false)
-            {
-                isEditing = !isEditing;
-
-            }
-            isEDown = true;
-        }
-        else
-        {
-            isEDown = false;
-        }
-
-        switch (isEditing)
-        {
-            case false:
+            case pauseGame.generalState.PAUSED:
                 break;
-            case true:
+            case pauseGame.generalState.PLAYING:
                 if (Input.GetMouseButton(1))
                 {
                     Vector3 position = transform.position;
