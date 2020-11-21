@@ -9,8 +9,8 @@ public class playerStatsDisplay : MonoBehaviour
     void Start()
     {
         gameObject.GetComponent<Text>().text = 
-            "hitAccuracy: " + saveLoadingManager.singleton.getData()[0].ToString() + 
-            "\nnumberOfChargedAttacks: " + saveLoadingManager.singleton.getData()[1].ToString() + 
+            "hitAccuracy: " + (saveLoadingManager.singleton.getData()[0] * 100).ToString() + "%" + 
+            "\nnumberOfAttacks: " + saveLoadingManager.singleton.getData()[1].ToString() + 
             "\nnumberOfTimesHit: " + saveLoadingManager.singleton.getData()[2].ToString() + 
             "\nnumberOfKills: " + saveLoadingManager.singleton.getData()[3].ToString() + 
             "\nhealthHealed: " + saveLoadingManager.singleton.getData()[4].ToString() + 

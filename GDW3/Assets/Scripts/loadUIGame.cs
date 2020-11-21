@@ -9,6 +9,8 @@ public class loadUIGame : MonoBehaviour
     void Start()
     {
         originalPosition = gameObject.transform.position;
+        
+        saveLoadingManager.singleton.loadPlayer(Application.dataPath + "/SaveData/gameSaveDataPlayer.txt");
     }
 
     // Update is called once per frame

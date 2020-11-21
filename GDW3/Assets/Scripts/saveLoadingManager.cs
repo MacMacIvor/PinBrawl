@@ -48,9 +48,9 @@ public class saveLoadingManager : MonoBehaviour
             {
                 //Call the saveObject function in dll to save the objects
                 //gameObject.GetComponent<PluginTester>().callSaveObject(objects.tag, objects.transform.position.x, objects.transform.position.y, objects.transform.position.z);
-                gameObject.GetComponent<saveLoadCheckPoint>().callSaveObject(objects.name, objects.transform.position.x, objects.transform.position.y, objects.transform.position.z, 0 /*Temp needs to have actual thing*/);
+                gameObject.GetComponent<saveLoadCheckPoint>().callSaveObject(objects.name, objects.transform.position.x, objects.transform.position.y, objects.transform.position.z, QuestManagementSystem.singleton.getAmountOfQuestsCompleted() /*Temp needs to have actual thing*/);
             }
-        gameObject.GetComponent<saveLoadCheckPoint>().callSaveObject(BulletPoolManager.singleton.player.tag, BulletPoolManager.singleton.player.transform.position.x, BulletPoolManager.singleton.player.transform.position.y, BulletPoolManager.singleton.player.transform.position.z, 0 /*Temp needs to have actual thing*/);
+        gameObject.GetComponent<saveLoadCheckPoint>().callSaveObject(BulletPoolManager.singleton.player.tag, BulletPoolManager.singleton.player.transform.position.x, BulletPoolManager.singleton.player.transform.position.y, BulletPoolManager.singleton.player.transform.position.z, QuestManagementSystem.singleton.getAmountOfQuestsCompleted() /*Temp needs to have actual thing*/);
 
         //Call the save to file function in dll since all objects are saved
         gameObject.GetComponent<saveLoadCheckPoint>().callSaveObjectsToFile(filePath);
@@ -60,7 +60,7 @@ public class saveLoadingManager : MonoBehaviour
     public void savePlayer(string filePath)
     {
         //Player Stats
-        gameObject.GetComponent<saveLoadCheckPoint>().callSaveNewPlayerInfo(filePath, hitAccuracy, numberOfAttacks, numberOfTimesHit, numberOfKills, healthHealed, numberOfDeaths);
+        gameObject.GetComponent<saveLoadCheckPoint>().callSavePlayerInfo(filePath, hitAccuracy, numberOfAttacks, numberOfTimesHit, numberOfKills, healthHealed, numberOfDeaths);
     }
 
     public void loadFile(string filePath)                                                        
@@ -133,12 +133,12 @@ public class saveLoadingManager : MonoBehaviour
     {
         gameObject.GetComponent<saveLoadCheckPoint>().callLoadPlayerInfo(filePath);
         float[] temp = gameObject.GetComponent<saveLoadCheckPoint>().callGetPlayerInfo();
-        float hitAccuracy = temp[0];
-        float numberOfAttacks = temp[1];
-        float numberOfTimesHit = temp[2];
-        float numberOfKills = temp[3];
-        float healthHealed = temp[4];
-        float numberOfDeaths = temp[5];
+        hitAccuracy = temp[0];
+        numberOfAttacks = temp[1];
+        numberOfTimesHit = temp[2];
+        numberOfKills = temp[3];
+        healthHealed = temp[4];
+        numberOfDeaths = temp[5];
     }
     
 
@@ -148,7 +148,6 @@ public class saveLoadingManager : MonoBehaviour
         numberOfAttacks++;
         numberOfTimesHit += hit;
         hitAccuracy = numberOfTimesHit / numberOfAttacks;
-        hitAccuracy /= 100;
     }
 
     public void numberOfKilledUpdate()

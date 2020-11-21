@@ -83,6 +83,7 @@ public class QuestManagementSystem : MonoBehaviour
         hello = "Kill the enemy";
         hello2 = "You can use rightMouse to use a\ncharged attack";
         listOfQuests.Enqueue(new questStructure(hello, hello2, 0, 2));
+        hello = "Go to destination";
         hello2 = "Move to the right";
         listOfQuests.Enqueue(new questStructure(hello, hello2, 1, 1));
         hello = "Push the two buttons";
@@ -232,6 +233,8 @@ public class QuestManagementSystem : MonoBehaviour
         return GameObject.FindGameObjectsWithTag("Destination")[amountOfDestinations].transform.position;
     }
 
+    
+
     int getSpecialNumber()
     {
         switch (listOfQuests.Peek().winCondition)
@@ -255,14 +258,16 @@ public class QuestManagementSystem : MonoBehaviour
         return listOfQuests.Count == 0;
     }
 
-    int getAmountOfQuestsCompleted()
+    public int getAmountOfQuestsCompleted()
     {
         return amountOfQuestsCompleted;
     }
 
     public void forceQuestUpdate() //This should never be used unless the game is being loaded
     {
-        state = stateOfQuestManager.COMPLETED;
+        listOfQuests.Dequeue();
+        state = checkIfWon() ? stateOfQuestManager.WIN : stateOfQuestManager.START;
+        amountOfQuestsCompleted++;
         amountOfEnemiesLeftToKill = 0;
         destination = new Vector3(0, 00, 0);
         buttonsLeftToPush = 0;

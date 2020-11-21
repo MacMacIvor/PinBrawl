@@ -46,6 +46,7 @@ void SaveLoad::loadObjectData(char* filePath)
     while (std::getline(files, workd)) {
         switch (firstLine) {
         case true:
+            questIsAt = std::stof(workd);
             firstLine = false;
             break;
         case false:
@@ -120,10 +121,10 @@ void SaveLoad::savePlayerInfo(char* filePath, playerInformation theInfo)
 {
     infoHolder.healthHealed += theInfo.healthHealed;
     infoHolder.numberOfChargedAttacks += theInfo.numberOfChargedAttacks;
-    infoHolder.hitAccuracy += theInfo.hitAccuracy;
     infoHolder.numberOfDeaths += theInfo.numberOfDeaths;
     infoHolder.numberOfKills += theInfo.numberOfKills;
     infoHolder.numberOfTimesHit += theInfo.numberOfTimesHit;
+    infoHolder.hitAccuracy = infoHolder.numberOfTimesHit / infoHolder.numberOfChargedAttacks;
 
     std::string theFilePath = filePath;
     std::ofstream file;
