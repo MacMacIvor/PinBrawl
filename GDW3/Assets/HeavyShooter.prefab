@@ -138,7 +138,7 @@ MonoBehaviour:
   rangeOfSmallMelee: 0
   rangeOfBuffer: 0.5
   knockbackResistSmallShooter: 1
-  knockbackResistBigShooter: 189
+  knockbackResistBigShooter: 11
   knockbackResistSmallMelee: 1
   knockbackResistBuffer: 1
   smallMeleeDamage: 10

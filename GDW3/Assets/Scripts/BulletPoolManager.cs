@@ -146,7 +146,7 @@ public class BulletPoolManager : MonoBehaviour
         {
             if (bullet == largeBullets[i])
             {
-                largeBullets[i].GetComponent<bullet>().changeActive();
+                largeBullets[i].GetComponent<LargeBullets>().changeActive();
             }
         }
     }

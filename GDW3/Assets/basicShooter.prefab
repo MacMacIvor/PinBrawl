@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7927573303852163267}
   - component: {fileID: 7047497215362326174}
   m_Layer: 8
-  m_Name: BasicShooter
+  m_Name: basicShooter
   m_TagString: EnemyShooter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
   rangeOfLarge: 100
   rangeOfSmallMelee: 0.5
   rangeOfBuffer: 0.5
-  knockbackResistSmallShooter: 125
+  knockbackResistSmallShooter: 1
   knockbackResistBigShooter: 1
   knockbackResistSmallMelee: 1
   knockbackResistBuffer: 1

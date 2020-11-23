@@ -237,9 +237,9 @@ public class enemyBehavior : MonoBehaviour
                         shootCooldown -= Time.deltaTime;
                         break;
                     case enemyState.FLYING:
-                        gameObject.GetComponent<Rigidbody>().velocity = direction * knockbackSpeedFraction;
+                        //gameObject.GetComponent<Rigidbody>().velocity = direction * knockbackSpeedFraction;
 
-                        if ((Vector3.Distance(transform.position, knockedDestination) < 1.0f) || isColliding == true)
+                        if ((Vector3.Distance(transform.position, knockedDestination) < 1.0f) || Vector3.Magnitude(gameObject.GetComponent<Rigidbody>().velocity) <= 0.5f)// || isColliding == true)
                         {
                             state = enemyState.CHASING;
                             gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
@@ -276,8 +276,15 @@ public class enemyBehavior : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        isColliding = true;
-        soundsManager.soundsSingleton.playSoundEffect("dronecrash_by_metal_wall");
+        //isColliding = true;
+        
+        direction = Vector3.Reflect(direction, collision.contacts[0].normal);
+        gameObject.GetComponent<Rigidbody>().velocity = direction * Vector3.Magnitude(gameObject.GetComponent<Rigidbody>().velocity);
+
+        if (state == enemyState.FLYING)
+        {
+            soundsManager.soundsSingleton.playSoundEffect("dronecrash_by_metal_wall");
+        }
     }
 
     public void doKnockback(float heldPower, int orientation)
@@ -298,6 +305,9 @@ public class enemyBehavior : MonoBehaviour
         direction = Vector3.Normalize(direction);
 
         knockbackSpeedFraction = Vector3.Distance(knockedDestination, transform.position) / knockbackSpeed;
+
+
+        gameObject.GetComponent<Rigidbody>().velocity = direction * knockbackSpeedFraction;
 
         takeDmg(Mathf.Sqrt(heldPower));
     }
@@ -417,6 +427,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedSmallShooter;
                         range = rangeOfSmallShooter;
                         knockbackResist = knockbackResistSmallShooter;
+                        gameObject.GetComponent<Rigidbody>().drag = knockbackResistSmallShooter;
                         knockbackSpeed = knockedBackSpeedSmallShooterSeconds;
                         break;
                     case 1:
@@ -425,6 +436,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedBigShooter;
                         range = rangeOfLarge;
                         knockbackResist = knockbackResistBigShooter;
+                        gameObject.GetComponent<Rigidbody>().drag = knockbackResistBigShooter;
                         knockbackSpeed = knockedBackSpeedBigShooterSeconds;
                         break;
                     case 2:
@@ -433,6 +445,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedSmallMelee;
                         range = rangeOfSmallMelee;
                         knockbackResist = knockbackResistSmallMelee;
+                        gameObject.GetComponent<Rigidbody>().drag = knockbackResistSmallMelee;
                         knockbackSpeed = knockedBackSpeedSmallMeleeSeconds;
                         break;
                     case 3:
@@ -441,6 +454,7 @@ public class enemyBehavior : MonoBehaviour
                         speed = speedBuffer;
                         range = rangeOfBuffer;
                         knockbackResist = knockbackResistBuffer;
+                        gameObject.GetComponent<Rigidbody>().drag = knockbackResistBuffer;
                         knockbackSpeed = knockedBackSpeedBufferSeconds;
                         break;
                 }

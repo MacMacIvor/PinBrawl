@@ -53,7 +53,7 @@ public class LargeBullets : MonoBehaviour
                 distToTarget -= Vector3.Distance(transform.position, transform.position + dirPos * bulletSpeed);
                 transform.position += dirPos * bulletSpeed;
                 transform.position += new Vector3(0, (distToTarget > distToTargetHalf ? bulletYSpeedHeight : -bulletYSpeedHeight), 0);
-                if (Vector3.Distance(transform.position, point) > 100)
+                if (Vector3.Distance(transform.position, point) > 200 || transform.position.y <= -1)
                 {
                     die();//Destroy(gameObject, 1);
                 }
@@ -76,7 +76,7 @@ public class LargeBullets : MonoBehaviour
     }
     public void die()
     {
-        BulletPoolManager.singleton.ResetSmallBullet(this.gameObject);
+        BulletPoolManager.singleton.ResetLargeBullet(this.gameObject);
         //Destroy(gameObject);
     }
     public void SetTarget(Vector3 pos)
