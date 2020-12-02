@@ -19,7 +19,8 @@ public class saveLoadingManager : MonoBehaviour
     enemySpawner[] allSpawnersInScene;
     enemyBehavior[] allEnemiesInScene;
 
-    public GameObject holder;
+    static public bool loadNextFrame = false;
+    
 
     public static saveLoadingManager singleton = null;
     public void Awake()
@@ -39,7 +40,6 @@ public class saveLoadingManager : MonoBehaviour
         //currentSave++;
 
 
-        
 
         allSpawnersInScene = UnityEngine.Object.FindObjectsOfType<enemySpawner>();
 
@@ -54,6 +54,7 @@ public class saveLoadingManager : MonoBehaviour
 
         //Call the save to file function in dll since all objects are saved
         gameObject.GetComponent<saveLoadCheckPoint>().callSaveObjectsToFile(filePath);
+
 
     }                                                                                            
     
@@ -170,6 +171,35 @@ public class saveLoadingManager : MonoBehaviour
         return hello;
     }
 
+    public void callLoadNextFrame()
+    {
+        //This is used when the loading needs to happen after a scene switch 
+        loadNextFrame = true;
+    }
+
+    public void numberOfAttacksChanger(float num)
+    {
+        //Should never be used, this is only here for the c# saveLoad
+        numberOfAttacks = num;
+    }
+
+    public void numberOfTimesHitChanger(float num)
+    {
+        //Should never be used, this is only here for the c# saveLoad
+        numberOfTimesHit = num;
+    }
+    public void hitAccuracyChanger(float num)
+    {
+        //Should never be used, this is only here for the c# saveLoad
+        hitAccuracy = num;
+    }
+
+    public void numberOfKillsChanger(float num)
+    {
+        //Should never be used, this is only here for the c# saveLoad
+        numberOfKills = num;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -180,7 +210,13 @@ public class saveLoadingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        switch (loadNextFrame)
+        {
+            case true:
+                loadFile(Application.dataPath + "/SaveData/gameSaveData.txt");
+                loadNextFrame = false;
+                break;
+        }
     }
 
 

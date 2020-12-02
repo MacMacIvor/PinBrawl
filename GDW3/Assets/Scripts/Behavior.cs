@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 public class Behavior : MonoBehaviour
 {
+    public GameObject rect;
+    public GameObject rect2;
+
     public Vector3 playerDirection = Vector3.right;
+    private int playerHealth = 100;
+
     private float cooldown = 0;
 
     private float cooldownB = 0;
@@ -53,12 +59,11 @@ public class Behavior : MonoBehaviour
     private int direction = 2;
     private int particleID = -1;
     private float particleDelay = 0;
-
     // Start is called before the first frame update
     void Start()
     {
         soundsManager.soundsSingleton.startBackgroundSong("firstSong");
-
+        playerHealth = 100;
 
     }
 
@@ -78,6 +83,8 @@ public class Behavior : MonoBehaviour
                 
                 if (playerDirection != new Vector3(0, 0, 0) && particleDelay == 0)
                 {
+                    playerAnimationScript.singleton.playRun();
+
                     if (particleID == -1)
                     {
                         particleID = particleManager.singleton.startParticles(gameObject.transform.position);
@@ -90,6 +97,7 @@ public class Behavior : MonoBehaviour
                         // 4,  , 5
                         // 6, 7, 8
                         case 1:
+
                             particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, -1));
                             break;
                         case 2:
@@ -136,6 +144,11 @@ public class Behavior : MonoBehaviour
                     particleManager.singleton.deActivateParticle(particleID);
                     particleID = -1;
                     particleDelay = 0;
+                }
+                else if (playerDirection == new Vector3(0, 0, 0))
+                {
+                    playerAnimationScript.singleton.playIddle();
+
                 }
 
 
@@ -247,6 +260,8 @@ public class Behavior : MonoBehaviour
 
     void basicAttack()
     {
+        playerAnimationScript.singleton.playAttack();
+
         bool hitOneAtLeast = false;
 
         Collider[] enemiesHit = Physics.OverlapBox(basicPoint.position, new Vector3(basicDimensions.x + basicRangeHeight, 1, basicDimensions.z + basicRangeWidth), orientationMaybe, enemyLayers); //Change to just basicRange when we find the right numbers
@@ -282,6 +297,8 @@ public class Behavior : MonoBehaviour
 
     void releaseChargeAttack()
     {
+        playerAnimationScript.singleton.playAttack();
+
         //do the attack
         bool hitOneAtLeast = false;
         Collider[] enemiesHit = Physics.OverlapBox(chargePoint.position, new Vector3(chargeDimensions.x + chargeRangeHeight, 1, chargeDimensions.z + chargeRangeWidth), orientationMaybe, enemyLayers); //Change to just chargeRange when we find the right numbers
@@ -313,9 +330,16 @@ public class Behavior : MonoBehaviour
 
     public void takeDmg(int dmg)
     {
+        playerAnimationScript.singleton.playHurt();
         //Nothing for now
-        //transform.position = new Vector3(0, 0, 0);
-        Debug.Log("Took " + dmg + " damage");
+        playerHealth -= dmg;
+        rect.GetComponent<UpdateLength>().updateLength(playerHealth / 100.0f);
+        if (playerHealth <= 0)
+        {
+            SceneManager.LoadScene("playerDeath");
+            playerHealth = 100;
+        }
+        //Debug.Log("Took " + dmg + " damage");
 
     }
 }

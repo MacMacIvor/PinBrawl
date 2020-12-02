@@ -155,6 +155,8 @@ public class enemyBehavior : MonoBehaviour
     private float knockbackSpeedFraction;
     void Update()
     {
+
+
         switch (pauseGame.singleton.stateOfGame)
         {
             case pauseGame.generalState.PAUSED:
@@ -252,6 +254,7 @@ public class enemyBehavior : MonoBehaviour
                 break;
         }
         isColliding = false;
+
     }
 
     private Vector3 calculateDirection()
@@ -284,6 +287,11 @@ public class enemyBehavior : MonoBehaviour
         if (state == enemyState.FLYING)
         {
             soundsManager.soundsSingleton.playSoundEffect("dronecrash_by_metal_wall");
+            if (collision.collider.gameObject.layer == LayerMask.NameToLayer("enemies"))
+            {
+                collision.collider.gameObject.GetComponent<enemyBehavior>().takeDmg(30);
+                Debug.Log("damage Taken?");
+            }
         }
     }
 

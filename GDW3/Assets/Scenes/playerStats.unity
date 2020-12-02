@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.2, y: -64.3}
+  m_AnchoredPosition: {x: 0, y: -41}
   m_SizeDelta: {x: 849.22095, y: 355.68146}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &135391541
@@ -259,8 +259,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0012388, y: 0}
-  m_SizeDelta: {x: 907.00244, y: 521}
+  m_AnchoredPosition: {x: 0.000011444, y: 0}
+  m_SizeDelta: {x: 1038, y: 521}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &172906700
 MonoBehaviour:
@@ -282,7 +282,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: a05a08305644c094085ca3119c523340, type: 3}
+  m_Texture: {fileID: 2800000, guid: 17ebe2edc02cb954fbb8b5ff20ec4dc2, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -588,7 +588,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b252a9d3e4bf3204fb023e26a045d185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holder: {fileID: 0}
 --- !u!4 &1887708499
 Transform:
   m_ObjectHideFlags: 0

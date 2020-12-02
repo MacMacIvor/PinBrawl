@@ -39,7 +39,7 @@ public class pauseGame : MonoBehaviour
         switch (stateOfGame)
         {
             case generalState.PLAYING:
-                gameObject.transform.position = originalPosition + new Vector3(1500, 0, 0);
+                gameObject.transform.position = originalPosition + new Vector3(5000, 0, 0);
                 if (Input.GetKey(KeyCode.Escape))
                 {
                     if(isPressed == false)
