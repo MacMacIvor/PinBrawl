@@ -7,6 +7,8 @@ public class buttonPush : MonoBehaviour
     public LayerMask playerLayer;
     bool qPressed = false;
     bool wasUsed = false;
+    [Range(0, 50)]
+    public float theDist = 5.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class buttonPush : MonoBehaviour
 
                 if (wasUsed == false)
                 {
-                    Collider[] playerHit = Physics.OverlapSphere(transform.position, 5f, playerLayer); //Change to just basicRange when we find the right numbers
+                    Collider[] playerHit = Physics.OverlapSphere(transform.position, theDist, playerLayer); //Change to just basicRange when we find the right numbers
 
                     foreach (Collider player in playerHit)
                     {

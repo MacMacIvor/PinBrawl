@@ -2703,7 +2703,7 @@ MonoBehaviour:
   rect: {fileID: 0}
   rect2: {fileID: 0}
   playerDirection: {x: 1, y: 0, z: 0}
-  jumpModifyer: 72
+  jumpModifyer: 25
   cooldownDuration: 1.25
   cooldownBDuration: 1
   chargePowerModifyer: 1

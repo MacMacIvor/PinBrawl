@@ -94,11 +94,17 @@ public class QuestManagementSystem : MonoBehaviour
                 hello2 = "Move to the right";
                 listOfQuests.Enqueue(new questStructure(hello, hello2, 1, 1));
                 hello = "Push the two buttons";
-                hello2 = "Use q to push the two buttons at the top";
+                hello2 = "Use Q to push the two buttons at the top";
                 listOfQuests.Enqueue(new questStructure(hello, hello2, 2, 2, 2));
                 listOfQuests.Enqueue(new questStructure(hello, hello2, 3, 0));
                 break;
             case 1:
+
+                listOfQuests = new Queue<questStructure>();
+                string hello3 = "Activate three generators\nSearch the level";
+                string hello4 = "Press Q to activate\nwhen near";
+                listOfQuests.Enqueue(new questStructure(hello3, hello4, 2, 0, 3));
+
 
                 break;
         }

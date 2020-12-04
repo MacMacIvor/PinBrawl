@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (44)
@@ -608,7 +612,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -715,6 +719,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (31)
@@ -792,6 +800,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (21)
@@ -869,6 +881,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (1)
@@ -969,6 +985,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_inner_corner (1)
@@ -1141,6 +1161,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (43)
@@ -1426,7 +1450,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1548,6 +1572,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (45)
@@ -1733,6 +1761,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (10)
@@ -1813,6 +1845,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  theDist: 5
 --- !u!1 &243048216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,7 +1898,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1972,6 +2005,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (38)
@@ -2299,6 +2336,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (6)
@@ -2539,6 +2580,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (12)
@@ -2639,6 +2684,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (15)
@@ -3300,6 +3349,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (46)
@@ -3400,6 +3453,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (14)
@@ -3572,6 +3629,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (9)
@@ -3772,6 +3833,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_inner_corner
@@ -3891,7 +3956,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4237,6 +4302,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (13)
@@ -4337,6 +4406,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (36)
@@ -4414,6 +4487,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_outer_corner (2)
@@ -4675,6 +4752,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  theDist: 5
 --- !u!1 &605736191
 GameObject:
   m_ObjectHideFlags: 0
@@ -5353,6 +5431,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (27)
@@ -5837,6 +5919,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (32)
@@ -5967,6 +6053,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (4)
@@ -6279,6 +6369,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (16)
@@ -6804,6 +6898,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_inner_corner (3)
@@ -7151,6 +7249,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (26)
@@ -7346,6 +7448,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_outer_corner (3)
@@ -7463,6 +7569,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (29)
@@ -7540,6 +7650,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (39)
@@ -7606,7 +7720,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7931,6 +8045,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (24)
@@ -8008,6 +8126,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (11)
@@ -8307,6 +8429,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (3)
@@ -8536,7 +8662,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8778,6 +8904,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (28)
@@ -8950,6 +9080,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (20)
@@ -9027,6 +9161,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (30)
@@ -9104,6 +9242,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (40)
@@ -9181,6 +9323,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (33)
@@ -9358,6 +9504,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (8)
@@ -9481,6 +9631,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (35)
@@ -9546,6 +9700,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large
@@ -9645,7 +9803,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9852,6 +10010,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (23)
@@ -10001,6 +10163,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (17)
@@ -10742,6 +10908,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (37)
@@ -11183,6 +11353,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (7)
@@ -11283,6 +11457,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (25)
@@ -11360,6 +11538,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (5)
@@ -11812,6 +11994,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_outer_corner (1)
@@ -12211,7 +12397,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13001,6 +13187,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (47)
@@ -13231,6 +13421,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (18)
@@ -13308,6 +13502,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (22)
@@ -13693,6 +13891,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (19)
@@ -13942,7 +14144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9847e444fa84e7848bde829988aaac1f, type: 2}
+  - {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14037,6 +14239,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 20646ed1be64bd84285a2f68a7bce23d, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_outer_corner
@@ -14110,6 +14316,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c316b6982de29441b0f5b1b3282db3c, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large_inner_corner (2)
@@ -14293,6 +14503,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (2)
@@ -14393,6 +14607,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (42)
@@ -14549,6 +14767,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (41)
@@ -14619,7 +14841,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1976859567}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.7199707, y: 0.033, z: -3.880001}
+  m_LocalPosition: {x: -0.7199707, y: 0.033, z: -3.07}
   m_LocalScale: {x: 1, y: 1.0307832, z: 1}
   m_Children: []
   m_Father: {fileID: 164834898}
@@ -14641,7 +14863,7 @@ MonoBehaviour:
   distFromPlayerTillSpawn: 10
   timerToSpawn: 10
   amountToSpawn: 1
-  typeOfEnemyToSpawn: 3
+  typeOfEnemyToSpawn: 2
   enemyA: {fileID: 4644207836265825187, guid: b9a175e490e05fa4e8c24de786a58a2c, type: 3}
   enemyB: {fileID: 4565077280436212394, guid: 92dde044aaabea04ab71dc6fb7fd5503, type: 3}
   enemyC: {fileID: 3945013106843400129, guid: aac3d2b727f034d4085ab4e20412ec89, type: 3}
@@ -14999,6 +15221,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0b9de806734a9d341b31462db4b22940, type: 2}
     - target: {fileID: 919132149155446097, guid: 50fa0fd3a367efa46ae792a75833702f, type: 3}
       propertyPath: m_Name
       value: concrete_wall_large (34)

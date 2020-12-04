@@ -60,7 +60,7 @@ public class Behavior : MonoBehaviour
     private int particleID = -1;
     private float particleDelay = 0;
 
-    private float chargeLimit = 10000;
+    private float chargeLimit = 1000;
     // Start is called before the first frame update
     void Start()
     {
@@ -295,7 +295,7 @@ public class Behavior : MonoBehaviour
         if (heldPower <= chargeLimit)
         {
             heldPower += 1.0f * chargePowerModifyer;
-            rect2.GetComponent<UpdateLength>().updateLength((chargeLimit - heldPower) / 10000.0f);
+            rect2.GetComponent<UpdateLength>().updateLength((chargeLimit - heldPower) / chargeLimit);
 
         }
     }
@@ -318,7 +318,7 @@ public class Behavior : MonoBehaviour
         }
         if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
         heldPower = 0;
-        rect2.GetComponent<UpdateLength>().updateLength((chargeLimit - heldPower) / 10000.0f);
+        rect2.GetComponent<UpdateLength>().updateLength((chargeLimit - heldPower) / chargeLimit);
 
     }
 
