@@ -9,7 +9,7 @@ public class destinationObjects : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        wasUsed = false;
     }
 
     // Update is called once per frame
@@ -21,8 +21,11 @@ public class destinationObjects : MonoBehaviour
 
             foreach (Collider player in playerHit)
             {
-                QuestManagementSystem.singleton.updateQuest(1);
-                wasUsed = true;
+                if (QuestManagementSystem.singleton.returnQuestType() == 1)
+                {
+                    QuestManagementSystem.singleton.updateQuest(1);
+                    wasUsed = true;
+                }
             }
         }
     }

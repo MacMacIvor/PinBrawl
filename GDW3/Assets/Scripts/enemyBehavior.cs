@@ -226,7 +226,16 @@ public class enemyBehavior : MonoBehaviour
                             case 3:
                                 if (shootCooldown <= 0)
                                 {
-                                    spawnBullet(true);
+                                    if ((Vector3.Distance(transform.position, BulletPoolManager.singleton.player.transform.position) > range))
+                                    {
+                                        state = enemyState.CHASING;
+
+                                    }
+                                    else
+                                    {
+                                        spawnBullet(true);
+
+                                    }
                                 }
                                 break;
                         }
@@ -403,6 +412,7 @@ public class enemyBehavior : MonoBehaviour
             case 3:
                 shootCooldown = timeReset == true ? shootCoolDownBufferSaved : shootCooldown;
                 gameObject.GetComponentInChildren<buffingEnemy>().CheckHit(rangeOfBuffer);
+                testScript.singleton.attack();
                 break;
         }
     }

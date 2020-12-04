@@ -6428,10 +6428,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5153b70e8664474087a4d50018beb87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 7969757539956567140}
   Title: {fileID: 1718540814}
   description: {fileID: 1719382744}
   enemiesLeft: {fileID: 1614223750}
+  level: 0
 --- !u!1 &829591090
 GameObject:
   m_ObjectHideFlags: 0
@@ -12764,8 +12765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea139c99daaf5304c94c5dcc3d6c706d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mat1: {fileID: 2100000, guid: 58eb73c699831c2479afc7c51df6779d, type: 2}
-  mat2: {fileID: 2100000, guid: cbb2b8b1a6da1f449a18dd2a5f5e5ead, type: 2}
+  mat1: {fileID: 2100000, guid: 0c68959d937aebb40a8920c7e22afb09, type: 2}
+  mat2: {fileID: 2100000, guid: 2e605c43781f8234884da3648516401e, type: 2}
 --- !u!114 &1717153702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15171,6 +15172,10 @@ PrefabInstance:
       propertyPath: rect2
       value: 
       objectReference: {fileID: 341278764}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: chargePowerModifyer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8653147587321778451, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
       propertyPath: m_Name
       value: player 1

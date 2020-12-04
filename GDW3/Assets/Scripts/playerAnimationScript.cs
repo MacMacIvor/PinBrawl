@@ -45,14 +45,7 @@ public class playerAnimationScript : MonoBehaviour
         {
             receivedHurt = false;
         }
-        if (receivedIddle == false)
-        {
-            playerAnimation.SetBool("isIddle", false);
-        }
-        else
-        {
-            receivedIddle = false;
-        }
+       
         if (receivedRun == false)
         {
             playerAnimation.SetBool("isMoving", false);
@@ -71,7 +64,6 @@ public class playerAnimationScript : MonoBehaviour
     public void playIddle()
     {
         //playerAnimation.CrossFade("PlayerIddle", 0.2f);
-        playerAnimation.SetBool("playIddle", true);
             receivedIddle = true;
     }
     public void playHurt()
