@@ -21457,7 +21457,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   theDist: 1
 --- !u!1001 &1183715071
 PrefabInstance:
@@ -22925,7 +22925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   theDist: 1
 --- !u!1 &1238625418
 GameObject:

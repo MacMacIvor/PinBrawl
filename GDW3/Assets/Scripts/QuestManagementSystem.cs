@@ -82,12 +82,12 @@ public class QuestManagementSystem : MonoBehaviour
 
                 listOfQuests = new Queue<questStructure>();
                 string hello = "Kill the enemy";
-                string hello2 = "Use left mouse button to attack the enemy\nmove around with WASD";
+                string hello2 = "Use left mouse button to\nattack the enemy\nmove around with WASD";
                 listOfQuests.Enqueue(new questStructure(hello, hello2, 0, 1));
                 hello = "Go to destination";
                 hello2 = "Move to the left";
                 listOfQuests.Enqueue(new questStructure(hello, hello2, 1, 1));
-                hello = "Kill the enemy";
+                hello = "Kill the enemies";
                 hello2 = "You can use rightMouse to use a\ncharged attack";
                 listOfQuests.Enqueue(new questStructure(hello, hello2, 0, 2));
                 hello = "Go to destination";
