@@ -16,7 +16,7 @@ public class toNextLevel : MonoBehaviour
         Destroy(this);
     }
 
-    int levelToLoad = 0;
+    static int levelToLoad = 0;
 
     // Start is called before the first frame update
     void Start()

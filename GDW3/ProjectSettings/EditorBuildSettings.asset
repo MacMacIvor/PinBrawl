@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/playerDeath.unity
     guid: fa41dc1c8d1dd31479d39a77911c2520
+  - enabled: 1
+    path: Assets/Scenes/First_Level.unity
+    guid: 706c9ff0f39ea9742bcbf3d086ce6387
   m_configObjects: {}
