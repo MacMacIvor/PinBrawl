@@ -167,6 +167,14 @@ public class enemyBehavior : MonoBehaviour
                 newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
                 newPos.z = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.z;
                 float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
+
+                //Check to see if the player is looking at the enemy or not
+                Vector3 cubeDirection = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position;
+                float angle = Vector3.Angle(cubeDirection, QuestManagementSystem.singleton.player.gameObject.transform.GetChild(2).forward);
+                gameObject.GetComponentInChildren<enemyHealth>().updateLength(currentHealth);
+                gameObject.GetComponentInChildren<enemyHealth>().changeVisibility(angle < 40 ? true : false);
+                
+
                 switch (state)
                 {
                     case enemyState.INACTIVE:
