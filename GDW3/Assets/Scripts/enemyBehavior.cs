@@ -150,7 +150,7 @@ public class enemyBehavior : MonoBehaviour
     
 
     private Vector3 direction;
-    private bool isColliding = false;
+    //private bool isColliding = false;
 
     private float knockbackSpeedFraction;
     void Update()
@@ -270,7 +270,7 @@ public class enemyBehavior : MonoBehaviour
                 buffDuration -= Time.deltaTime;
                 break;
         }
-        isColliding = false;
+        //isColliding = false;
 
     }
 
