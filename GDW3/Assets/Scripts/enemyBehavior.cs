@@ -140,7 +140,7 @@ public class enemyBehavior : MonoBehaviour
     private float buffDuration = 0;
 
 
-    private int locked = 0;
+    private string lastHit = "";
 
     // Start is called before the first frame update
     void Start()
@@ -153,6 +153,8 @@ public class enemyBehavior : MonoBehaviour
     
 
     private Vector3 direction;
+    private Vector3 lastDirection;
+    private Vector3 lastPoint;
     //private bool isColliding = false;
 
     private float knockbackSpeedFraction;
@@ -170,7 +172,6 @@ public class enemyBehavior : MonoBehaviour
                 newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
                 newPos.z = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.z;
                 float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
-                locked--;
                 //Check to see if the player is looking at the enemy or not
                 Vector3 cubeDirection = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position;
                 float angle = Vector3.Angle(cubeDirection, QuestManagementSystem.singleton.player.gameObject.transform.GetChild(2).forward);
@@ -280,150 +281,126 @@ public class enemyBehavior : MonoBehaviour
     private Vector3 calculateDirection()
     {
 
-        if (locked <= 0)
+        
+
+        direction = BulletPoolManager.singleton.player.transform.position;
+        
+        transform.LookAt(direction);
+        
+        RaycastHit hit;
+        Vector3 directionToExpand = new Vector3(1, 0, 0);
+
+
+
+        if (Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out hit, range))
         {
-
-            direction = BulletPoolManager.singleton.player.transform.position;
-
-            transform.LookAt(direction);
-
-            RaycastHit hit;
-            Vector3 directionToExpand = new Vector3(1, 0, 0);
-
-
-
-            if (Physics.Raycast(transform.position, transform.forward, out hit, range))
+            if (hit.transform.name != "player 1")
             {
-                if (hit.transform.name != "player 1")
+                if (!(hit.transform.name == lastHit))
                 {
-                    if (Mathf.Abs(transform.forward.z) > Mathf.Abs(transform.forward.x))
-                    {
-                        directionToExpand = new Vector3(0, 0, 1);//Want perpendicularish to where the enemy is facing
-                    }
+                    lastHit = hit.transform.name;
 
-                    //What I want to do
-                    //Find corner of the hit object
-                    //Find the angle from the enemy to the corner + enemy width
-                    //Then check to see if the enemy can walk there
-                    //Select the one that brings the enemy closer to the player    
-                    //Increment angles in a zigzig fassion to find possible movement
+                    Vector3 savedRotation = gameObject.transform.eulerAngles;
 
+                    RaycastHit boom;
 
-                    //Find corner of the hit object
-                    Vector3[] fourCorners = new[] { hit.transform.position + new Vector3(hit.collider.bounds.size.x + transform.localScale.x, 0, hit.collider.bounds.size.z   + transform.localScale.z),
-                                                    hit.transform.position + new Vector3(hit.collider.bounds.size.x + transform.localScale.x, 0, -hit.collider.bounds.size.z  - transform.localScale.z),
-                                                    hit.transform.position + new Vector3(-hit.collider.bounds.size.x - transform.localScale.x, 0, hit.collider.bounds.size.z  + transform.localScale.z),
-                                                    hit.transform.position + new Vector3(-hit.collider.bounds.size.x - transform.localScale.x, 0, -hit.collider.bounds.size.z - transform.localScale.z)};
-
-                    //Find what two points are closer to the enemy
-                    Vector3 leftToSave = (Vector3.Distance(fourCorners[0], transform.position) < Vector3.Distance(fourCorners[1], transform.position) &&
-                        Vector3.Distance(fourCorners[0], transform.position) < Vector3.Distance(fourCorners[2], transform.position) &&
-                        Vector3.Distance(fourCorners[0], transform.position) < Vector3.Distance(fourCorners[3], transform.position) ? fourCorners[0] :
-
-                        (Vector3.Distance(fourCorners[1], transform.position) < Vector3.Distance(fourCorners[0], transform.position) &&
-                         Vector3.Distance(fourCorners[1], transform.position) < Vector3.Distance(fourCorners[2], transform.position) &&
-                         Vector3.Distance(fourCorners[1], transform.position) < Vector3.Distance(fourCorners[3], transform.position)) ? fourCorners[1] :
-
-                         (Vector3.Distance(fourCorners[2], transform.position) < Vector3.Distance(fourCorners[0], transform.position) &&
-                          Vector3.Distance(fourCorners[2], transform.position) < Vector3.Distance(fourCorners[1], transform.position) &&
-                          Vector3.Distance(fourCorners[2], transform.position) < Vector3.Distance(fourCorners[3], transform.position)) ? fourCorners[2] : fourCorners[3]);
-
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (fourCorners[i] == leftToSave)
+                    for (int i = 1; i < 19; i++) {
+                        gameObject.transform.eulerAngles = savedRotation;
+                        gameObject.transform.eulerAngles += new Vector3(0, 10 * i, 0);
+                        
+                        Vector3 cubeDirections = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position;
+                        float angles = Vector3.Angle(cubeDirections, transform.forward); //instead of square forward we want enemy forward);
+                        
+                        if (angles < 100)
                         {
-                            fourCorners[i] = new Vector3(9999.0f, 9999.0f, 9999.0f);
-                        }
-                    }
-
-                    Vector3 rightToSave = (Vector3.Distance(fourCorners[0], transform.position) < Vector3.Distance(fourCorners[1], transform.position) &&
-                        Vector3.Distance(fourCorners[0], transform.position) < Vector3.Distance(fourCorners[2], transform.position) &&
-                        Vector3.Distance(fourCorners[0], transform.position) < Vector3.Distance(fourCorners[3], transform.position) ? fourCorners[0] :
-
-                        (Vector3.Distance(fourCorners[1], transform.position) < Vector3.Distance(fourCorners[0], transform.position) &&
-                         Vector3.Distance(fourCorners[1], transform.position) < Vector3.Distance(fourCorners[2], transform.position) &&
-                         Vector3.Distance(fourCorners[1], transform.position) < Vector3.Distance(fourCorners[3], transform.position)) ? fourCorners[1] :
-
-                         (Vector3.Distance(fourCorners[2], transform.position) < Vector3.Distance(fourCorners[0], transform.position) &&
-                          Vector3.Distance(fourCorners[2], transform.position) < Vector3.Distance(fourCorners[1], transform.position) &&
-                          Vector3.Distance(fourCorners[2], transform.position) < Vector3.Distance(fourCorners[3], transform.position)) ? fourCorners[2] : fourCorners[3]);
-                    //We found the two corners of the object nearest to the object
-                    //Now we need the angle for both
-
-                    float leftAngle = Mathf.Sin(Vector3.Magnitude(leftToSave));
-                    float rightAngle = Mathf.Sin(Vector3.Magnitude(rightToSave));
-
-
-                    //Now we check the angles to see if there is another object in the way or not
-                    RaycastHit leftHit;
-                    RaycastHit rightHit;
-                    bool useLeft = true;
-                    bool useRight = true;
-                    transform.LookAt(leftToSave);
-                    if (Physics.Raycast(transform.position, transform.forward, out hit, range)) //We need to see if the up is actually clear to move in that direction
-                    {
-                        //It hit something
-                        //TODO: make it check more shit, so now we would check to see if the new object hit is farther behind so we can path around it, if not, add more degrees to test a new spot if right also fails
-                        //This would probably be done with a do loop
-                        useLeft = false;
-                    }
-
-                    transform.LookAt(rightToSave);
-                    if (Physics.Raycast(transform.position, transform.forward, out hit, range)) //We need to see if the up is actually clear to move in that direction
-                    {
-                        //It hit something
-                        //TODO: make it check more shit, so now we would check to see if the new object hit is farther behind so we can path around it, if not, add more degrees to test a new spot if right also fails
-                        //This would probably be done with a do loop
-                        useRight = false;
-                    }
-
-                    if (useRight == true)
-                    {
-                        if (useLeft == true)
-                        {
-                            transform.LookAt(leftToSave);
-                            direction = new Vector3(leftToSave.x - transform.position.x, 0, leftToSave.z - transform.position.z);
-
-                            direction = Vector3.Normalize(direction);
-                            locked = 100;
-
+                            ;
                         }
                         else
                         {
-                            direction = new Vector3(rightToSave.x - transform.position.x, 0, rightToSave.z - transform.position.z);
 
-                            direction = Vector3.Normalize(direction);
-                            locked = 100;
+
+                            Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out boom, range);
+                            if (boom.collider != null && boom.collider.name != "player 1") //We need to see if the up is actually clear to move in that direction
+                            {
+                                //It hit something
+
+
+                                if (Mathf.Abs(Mathf.Abs(boom.distance) - Mathf.Abs(hit.distance)) > GetComponent<Collider>().bounds.size.x)
+                                {
+                                    //It can fit through the gap
+                                    i = 20; //Exit the loop
+                                    direction = transform.gameObject.transform.forward;
+                                    lastDirection = direction;
+                                }
+
+                            }
+                            else if (boom.collider == null)
+                            {
+                                i = 20;
+                                direction = transform.gameObject.transform.forward;
+                                lastDirection = direction;
+                            }
+                            else
+                            {
+                                gameObject.transform.eulerAngles = savedRotation;
+                                gameObject.transform.eulerAngles += new Vector3(0, 10 * -i, 0);
+                                Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out boom, range);
+                                if (boom.collider != null && boom.collider.name != "player 1") //We need to see if the up is actually clear to move in that direction
+                                {
+                                    //It hit something
+
+
+                                    if (Mathf.Abs(Mathf.Abs(boom.distance) - Mathf.Abs(hit.distance)) > GetComponent<Collider>().bounds.size.x)
+                                    {
+                                        //It can fit through the gap
+                                        i = 20; //Exit the loop
+                                        direction = transform.gameObject.transform.forward;
+                                        lastDirection = direction;
+                                    }
+
+                                }
+                                else if (boom.collider == null)
+                                {
+                                    i = 20;
+                                    direction = transform.gameObject.transform.forward;
+                                    lastDirection = direction;
+                                }
+                            }
                         }
-                    }
-                    else
-                    {
-                        transform.LookAt(leftToSave);
-                        direction = new Vector3(leftToSave.x - transform.position.x, 0, leftToSave.z - transform.position.z);
-
-                        direction = Vector3.Normalize(direction);
-                        locked = 100;
 
                     }
 
-                    int hello = 0;
-                    hello++;
+
                 }
                 else
                 {
-                    direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
+                    //The same object in the way so we want to continue the same path we were doing
+                    //direction = new Vector3(lastPoint.x - transform.position.x, 0, lastPoint.z - transform.position.z);
+                    
+                    direction = lastDirection;
+                    transform.LookAt(transform.position + direction);
 
-                    direction = Vector3.Normalize(direction);
                 }
-
             }
             else
             {
+                //Just follow the player as it's a straight line to them
 
                 direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
 
                 direction = Vector3.Normalize(direction);
+                lastHit = hit.transform.name;
+
             }
+
+        }
+        else
+        {
+
+            direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
+
+            direction = Vector3.Normalize(direction);
+
         }
         return direction;
     }

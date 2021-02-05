@@ -97,23 +97,51 @@ public class waveSpawner : MonoBehaviour
 
     void spawnEnemy(int number)
     {
+        Collider[] overlapObjects;
         switch (number)
         {
             case 0:
-                EnemyPoolManager.singleton.GetSmallShooter(gameObject.transform.position);
+                GameObject temp = EnemyPoolManager.singleton.GetSmallShooter(gameObject.transform.position);
+                Vector3 savedPosition = temp.gameObject.transform.position;
+                do
+                {
+                    temp.gameObject.transform.position = savedPosition + (randomLocation(0));
+                    overlapObjects = Physics.OverlapBox(temp.gameObject.transform.position, temp.gameObject.GetComponent<Collider>().bounds.size);
+                } while (overlapObjects.Length != 0);
                 break;
             case 1:
-                EnemyPoolManager.singleton.GetLargeRange(gameObject.transform.position);
-
+                GameObject temp2 = EnemyPoolManager.singleton.GetLargeRange(gameObject.transform.position);
+                Vector3 savedPosition2 = temp2.gameObject.transform.position;
+                do
+                {
+                    temp2.gameObject.transform.position = savedPosition2 + (randomLocation(0));
+                    overlapObjects = Physics.OverlapBox(temp2.gameObject.transform.position, temp2.gameObject.GetComponent<Collider>().bounds.size);
+                } while (overlapObjects.Length != 0);
                 break;
             case 2:
-                EnemyPoolManager.singleton.GetsmallMelee(gameObject.transform.position);
-
+                GameObject temp3 = EnemyPoolManager.singleton.GetsmallMelee(gameObject.transform.position);
+                Vector3 savedPosition3 = temp3.gameObject.transform.position;
+                do
+                {
+                    temp3.gameObject.transform.position = savedPosition3 + (randomLocation(0));
+                    overlapObjects = Physics.OverlapBox(temp3.gameObject.transform.position, temp3.gameObject.GetComponent<Collider>().bounds.size);
+                } while (overlapObjects.Length != 0);
                 break;
             case 3:
-                EnemyPoolManager.singleton.GetBuffer(gameObject.transform.position);
-
+                GameObject temp4 = EnemyPoolManager.singleton.GetBuffer(gameObject.transform.position);
+                Vector3 savedPosition4 = temp4.gameObject.transform.position;
+                do
+                {
+                    temp4.gameObject.transform.position = savedPosition4 + (randomLocation(0));
+                    overlapObjects = Physics.OverlapBox(temp4.gameObject.transform.position, temp4.gameObject.GetComponent<Collider>().bounds.size);
+                } while (overlapObjects.Length != 0);
                 break;
         }
+    }
+    Vector3 randomLocation(float specialHeight)
+    {
+        //Random location in a 50 by 50 square
+        Vector3 randomSpot = new Vector3(Random.Range(-25, 25), specialHeight, (Random.Range(-25, 25)));
+        return randomSpot;
     }
 }
