@@ -4,6 +4,19 @@ using UnityEngine;
 
 public class meleeHit : MonoBehaviour
 {
+
+    public static meleeHit singleton = null;
+    public void Awake()
+    {
+        if (singleton == null)
+        {
+            singleton = this;
+            return;
+        }
+        Destroy(this);
+    }
+
+
     public LayerMask playerLayer;
     [Range(0,4)]
     public int hello = 0;
@@ -21,31 +34,37 @@ public class meleeHit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (pauseGame.singleton.stateOfGame)
-        {
-            case pauseGame.generalState.PAUSED:
-                break;
-            case pauseGame.generalState.PLAYING:
-                if (isAttacking == true)
-                {
-                    Collider[] playerHit = Physics.OverlapBox(gameObject.transform.position, new Vector3(meleeRange, meleeRange, meleeRange), orientation, playerLayer); //Change to just basicRange when we find the right numbers
-
-                    foreach (Collider player in playerHit)
-                    {
-                        player.GetComponent<Behavior>().takeDmg(smallMeleeDamage);
-                    }
-                    isAttacking = false;
-                }
-                break;
-        }
+        //switch (pauseGame.singleton.stateOfGame)
+        //{
+        //    case pauseGame.generalState.PAUSED:
+        //        break;
+        //    case pauseGame.generalState.PLAYING:
+        //        if (isAttacking == true)
+        //        {
+        //            Collider[] playerHit = Physics.OverlapBox(gameObject.transform.position, new Vector3(meleeRange, meleeRange, meleeRange), orientation, playerLayer); //Change to just basicRange when we find the right numbers
+        //
+        //            foreach (Collider player in playerHit)
+        //            {
+        //                player.GetComponent<Behavior>().takeDmg(smallMeleeDamage);
+        //            }
+        //            isAttacking = false;
+        //        }
+        //        break;
+        //}
     }
 
-    public void CheckHit(int smallMeleeDamages, float meleeRanges)
+    public void CheckHit(int smallMeleeDamages, float meleeRanges, Vector3 pos)
     {
-        smallMeleeDamage = smallMeleeDamages;
-        isAttacking = true;
-        meleeRange = meleeRanges;
+       
+        Collider[] overlapObjects = Physics.OverlapBox(pos, new Vector3(1,1,1) * meleeRanges);
 
+        foreach (Collider player in overlapObjects)
+        {
+            if (player.gameObject.name == QuestManagementSystem.singleton.player.name)
+            {
+                player.GetComponent<Behavior>().takeDmg(smallMeleeDamages);
+            }
+        }
     }
     private void OnDrawGizmos()
     {

@@ -196,13 +196,47 @@ public class enemyBehavior : MonoBehaviour
                         break;
                     case enemyState.CHASING:
                         calculateDirection();
+                        switch (enemyType)
+                        {
+                            case 0:
+                                smallShooterAnimationControler.singleton.playWalk(0.2f);
+                                break;
 
+                            case 1:
+                                largeShooterController.singleton.playWalk(0.2f);
+                                break;
+
+                            case 2:
+                                break;
+
+                            case 3:
+                                break;
+                        }
                         gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
                         if ((dist < range && dist > -range))
                         {
                             state = enemyState.ATTACKING;
+                            switch (enemyType)
+                            {
+                                case 0:
+                                    smallShooterAnimationControler.singleton.playWalk(0);
+                                    break;
+
+                                case 1:
+                                    largeShooterController.singleton.playWalk(0);
+                                    break;
+
+                                case 2:
+                                    break;
+
+                                case 3:
+                                    break;
+                            }
                             gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                         }
+
+                        
+
                         break;
                     case enemyState.ATTACKING:
                         calculateDirection();
@@ -246,7 +280,22 @@ public class enemyBehavior : MonoBehaviour
                                     else
                                     {
                                         spawnBullet(true);
+                                        switch (enemyType)
+                                        {
+                                            case 0:
+                                                smallShooterAnimationControler.singleton.playAttack();
+                                                break;
 
+                                            case 1:
+                                                largeShooterController.singleton.playAttack();
+                                                break;
+
+                                            case 2:
+                                                break;
+
+                                            case 3:
+                                                break;
+                                        }
                                     }
                                 }
                                 break;
@@ -451,6 +500,22 @@ public class enemyBehavior : MonoBehaviour
     public void takeDmg(float dmg)
     {
         currentHealth -= dmg;
+        switch (enemyType)
+            {
+            case 0:
+                smallShooterAnimationControler.singleton.playHit();
+                break;
+
+            case 1:
+                largeShooterController.singleton.playHit();
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+        }
         if (currentHealth <= 0)
         {
             dead();
@@ -519,12 +584,12 @@ public class enemyBehavior : MonoBehaviour
                 //not spawing anything but I put it in here because why not
                 if (buffDuration > 0)
                 {
-                    gameObject.GetComponentInChildren<meleeHit>().CheckHit(smallMeleeDamage * buffModifryer, rangeOfSmallMelee);
+                   meleeHit.singleton.CheckHit(smallMeleeDamage * buffModifryer, range, gameObject.transform.position);
 
                 }
                 else
                 {
-                    gameObject.GetComponentInChildren<meleeHit>().CheckHit(smallMeleeDamage, rangeOfSmallMelee);
+                   meleeHit.singleton.CheckHit(smallMeleeDamage, range, gameObject.transform.position);
                 }
                 shootCooldown = hitCoolDownSmallMeleeSaved;
                 break;

@@ -136,7 +136,7 @@ MonoBehaviour:
   knockBackPowerBuffer: 1
   rangeOfSmallShooter: 5
   rangeOfLarge: 100
-  rangeOfSmallMelee: 1
+  rangeOfSmallMelee: 128
   rangeOfBuffer: 0.5
   knockbackResistSmallShooter: 1
   knockbackResistBigShooter: 1
