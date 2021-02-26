@@ -102,7 +102,7 @@ public class waveSpawner : MonoBehaviour
         {
             case 0:
                 GameObject temp = EnemyPoolManager.singleton.GetSmallShooter(gameObject.transform.position);
-                Vector3 savedPosition = temp.gameObject.transform.position + new Vector3(0, 3, 0);
+                Vector3 savedPosition = temp.gameObject.transform.position + new Vector3(0, 1, 0);
                 do
                 {
                     temp.gameObject.transform.position = savedPosition + (randomLocation(0));
@@ -120,7 +120,7 @@ public class waveSpawner : MonoBehaviour
                 break;
             case 2:
                 GameObject temp3 = EnemyPoolManager.singleton.GetsmallMelee(gameObject.transform.position);
-                Vector3 savedPosition3 = temp3.gameObject.transform.position;
+                Vector3 savedPosition3 = temp3.gameObject.transform.position + new Vector3(0, 1, 0);
                 do
                 {
                     temp3.gameObject.transform.position = savedPosition3 + (randomLocation(0));
@@ -134,7 +134,7 @@ public class waveSpawner : MonoBehaviour
                 {
                     temp4.gameObject.transform.position = savedPosition4 + (randomLocation(0));
                     overlapObjects = Physics.OverlapBox(temp4.gameObject.transform.position, temp4.gameObject.GetComponent<Collider>().bounds.size);
-                } while (overlapObjects.Length != 0 && !(overlapObjects.Length == 1 && overlapObjects[0].name == "Plane");
+                } while (overlapObjects.Length != 0 && !(overlapObjects.Length == 1 && overlapObjects[0].name == "Plane"));
                 break;
         }
     }

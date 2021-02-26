@@ -237,6 +237,7 @@ public class Behavior : MonoBehaviour
                 }
                 else if (mouse1Buffer == 1)
                 {
+                    soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
                     mouse1Buffer = 0;
                     Debug.Log(heldPower);
                     releaseChargeAttack();
@@ -245,6 +246,7 @@ public class Behavior : MonoBehaviour
 
                 if (Input.GetKey(KeyCode.Mouse0) && cooldownB == 0)
                 {
+                    soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
                     basicAttack();
                     cooldownB = cooldownBDuration;
                 }
@@ -338,6 +340,7 @@ public class Behavior : MonoBehaviour
 
     public void takeDmg(int dmg)
     {
+        soundsManager.soundsSingleton.playSoundEffect(Random.Range(16, 18));
         playerAnimationScript.singleton.playHurt();
         //Nothing for now
         playerHealth -= dmg;

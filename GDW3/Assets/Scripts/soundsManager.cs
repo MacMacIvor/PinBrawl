@@ -14,6 +14,7 @@ public class soundsManager : MonoBehaviour
     public AudioSource firstSong;
     public AudioSource[] temp;
 
+    public GameObject soundEffectHolder;
 
     static float pitchBackGround = 1;
     static float volumeBackGround = 1;
@@ -21,7 +22,6 @@ public class soundsManager : MonoBehaviour
     static bool isMutedBackground = false;
 
     AudioSource backgroundPlaying;
-
 
 
     public void Awake()
@@ -96,39 +96,47 @@ public class soundsManager : MonoBehaviour
                 break;
         }
     }
-    public void playSoundEffect(string name, float volume = 1.0f, float pitch = 1.0f)
+
+    public void playSoundEffect(int childIndex, float volume = 1.0f, float pitch = 1.0f)
     {
-        switch (name)
-        {
-            case "dronecrash_by_metal_wall":
-                //backgroundPlaying = (temp[0]);
-                if (isMutedSoundEffects == false)
-                {
-                    temp[0].Play();
-                    temp[0].volume = volume;
-                    temp[0].pitch = pitch;
-                }
-                break;
-            case "laser_cannon":
-                if (isMutedSoundEffects == false)
-                {
-                    temp[1].Play();
-                    temp[1].volume = volume;
-                    temp[1].pitch = pitch;
-                }
-                break;
-            case "laser_pistol":
-                if (isMutedSoundEffects == false)
-                {
-                    temp[2].Play();
-                    temp[2].volume = volume;
-                    temp[2].pitch = pitch;
-                }
-                break;
-
-        }
-
+        soundEffectHolder.gameObject.transform.GetChild(childIndex).gameObject.GetComponent<AudioSource>().Play();
+        soundEffectHolder.gameObject.transform.GetChild(childIndex).gameObject.GetComponent<AudioSource>().volume = volume;
+        soundEffectHolder.gameObject.transform.GetChild(childIndex).gameObject.GetComponent<AudioSource>().pitch = pitch;
     }
+
+    ///public void playSoundEffect(string name, float volume = 1.0f, float pitch = 1.0f)
+    ///{
+    ///    switch (name)
+    ///    {
+    ///        case "dronecrash_by_metal_wall":
+    ///            //backgroundPlaying = (temp[0]);
+    ///            if (isMutedSoundEffects == false)
+    ///            {
+    ///                temp[0].Play();
+    ///                temp[0].volume = volume;
+    ///                temp[0].pitch = pitch;
+    ///            }
+    ///            break;
+    ///        case "laser_cannon":
+    ///            if (isMutedSoundEffects == false)
+    ///            {
+    ///                temp[1].Play();
+    ///                temp[1].volume = volume;
+    ///                temp[1].pitch = pitch;
+    ///            }
+    ///            break;
+    ///        case "laser_pistol":
+    ///            if (isMutedSoundEffects == false)
+    ///            {
+    ///                temp[2].Play();
+    ///                temp[2].volume = volume;
+    ///                temp[2].pitch = pitch;
+    ///            }
+    ///            break;
+    ///
+    ///    }
+    ///
+    ///}
 
     public void changePitch(float newPitch)
     {

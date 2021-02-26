@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3945013106843400129}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -135,8 +135,8 @@ MonoBehaviour:
   knockBackPowerSmallMelee: 1
   knockBackPowerBuffer: 1
   rangeOfSmallShooter: 5
-  rangeOfLarge: 100
-  rangeOfSmallMelee: 128
+  rangeOfLarge: 10
+  rangeOfSmallMelee: 1
   rangeOfBuffer: 0.5
   knockbackResistSmallShooter: 1
   knockbackResistBigShooter: 1

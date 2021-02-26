@@ -463,7 +463,7 @@ public class enemyBehavior : MonoBehaviour
 
         if (state == enemyState.FLYING)
         {
-            soundsManager.soundsSingleton.playSoundEffect("dronecrash_by_metal_wall");
+            soundsManager.soundsSingleton.playSoundEffect(0);
             if (collision.collider.gameObject.layer == LayerMask.NameToLayer("enemies"))
             {
                 collision.collider.gameObject.GetComponent<enemyBehavior>().takeDmg(30);
@@ -503,21 +503,26 @@ public class enemyBehavior : MonoBehaviour
         switch (enemyType)
             {
             case 0:
+                soundsManager.soundsSingleton.playSoundEffect(Random.Range(7, 10));
                 smallShooterAnimationControler.singleton.playHit();
                 break;
 
             case 1:
+                soundsManager.soundsSingleton.playSoundEffect(Random.Range(3, 6));
                 largeShooterController.singleton.playHit();
                 break;
 
             case 2:
+                soundsManager.soundsSingleton.playSoundEffect(Random.Range(7, 10));
                 break;
 
             case 3:
+                soundsManager.soundsSingleton.playSoundEffect(Random.Range(3, 6));
                 break;
         }
         if (currentHealth <= 0)
         {
+            soundsManager.soundsSingleton.playSoundEffect(0);
             dead();
         }
     }
@@ -550,7 +555,7 @@ public class enemyBehavior : MonoBehaviour
         switch (enemyType)
         {
             case 0:
-                soundsManager.soundsSingleton.playSoundEffect("laser_pistol");
+                soundsManager.soundsSingleton.playSoundEffect(2);
                 shootCooldown = timeReset == true ? shootCooldownSmallShooterSaved : shootCooldown;
                 //smallBullets.SetTarget(characterPos.position);
 
@@ -568,7 +573,7 @@ public class enemyBehavior : MonoBehaviour
                 }
                 break;
             case 1:
-                soundsManager.soundsSingleton.playSoundEffect("laser_cannon");
+                soundsManager.soundsSingleton.playSoundEffect(1);
                 shootCooldown = timeReset == true ? shootCooldownBigShooterSaved : shootCooldown;
                 if (buffDuration > 0)
                 {
