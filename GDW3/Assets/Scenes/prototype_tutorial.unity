@@ -15091,7 +15091,7 @@ MonoBehaviour:
   distFromPlayerTillSpawn: 10
   timerToSpawn: 10
   amountToSpawn: 1
-  typeOfEnemyToSpawn: 2
+  typeOfEnemyToSpawn: 3
   enemyA: {fileID: 4644207836265825187, guid: b9a175e490e05fa4e8c24de786a58a2c, type: 3}
   enemyB: {fileID: 4565077280436212394, guid: 92dde044aaabea04ab71dc6fb7fd5503, type: 3}
   enemyC: {fileID: 3945013106843400129, guid: aac3d2b727f034d4085ab4e20412ec89, type: 3}

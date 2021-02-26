@@ -23,4 +23,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/First_Level.unity
     guid: 706c9ff0f39ea9742bcbf3d086ce6387
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: a0574415d38d7314ab382529d4d5229c
+  - enabled: 1
+    path: Assets/Scenes/EndlessMode.unity
+    guid: c65d4e7240307b142b84cea97d967f8e
+  - enabled: 1
+    path: Assets/Scenes/CharacterSelect.unity
+    guid: f7a6ea70edea3d743b93e6fc48e87e9a
+  - enabled: 1
+    path: Assets/Scenes/GamemodeSelect.unity
+    guid: fac55487702ce4a4282480ee82a16d35
   m_configObjects: {}
