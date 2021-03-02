@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/EndlessMode.unity
+- path: Assets/Scenes/GamemodeSelect.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
