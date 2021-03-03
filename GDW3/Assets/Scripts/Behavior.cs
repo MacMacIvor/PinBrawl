@@ -9,13 +9,16 @@ public class Behavior : MonoBehaviour
     public GameObject rect2;
 
     public Vector3 playerDirection = Vector3.right;
-    private int playerHealth = 100;
+    public int playerHealth = 100;
 
     private float cooldown = 0;
 
     private float cooldownB = 0;
 
-    [Range(1, 1000)]
+    [Range(0, 3)]
+    public int playerType = 0;
+
+    [Range(0, 1000)]
     public int jumpModifyer = 250;
 
     [Range(0, 5)]
@@ -60,12 +63,47 @@ public class Behavior : MonoBehaviour
     private int particleID = -1;
     private float particleDelay = 0;
 
-    private float chargeLimit = 1000;
+    public float chargeLimit = 1000;
     // Start is called before the first frame update
     void Start()
     {
         soundsManager.soundsSingleton.startBackgroundSong("firstSong");
-        playerHealth = 100;
+        switch (playerType)
+        {
+            case 0: //Ninja character
+                playerHealth = 100;
+                jumpModifyer = 12;
+                cooldownDuration = 1.25f;
+                cooldownBDuration = 0.25f;
+                chargePowerModifyer = 10;
+                chargeLimit = 900;
+                break;
+            case 1: //HammerMan
+                playerHealth = 200;
+                jumpModifyer = 0;
+                cooldownDuration = 0.0f;
+                cooldownBDuration = 0.45f;
+                chargePowerModifyer = 30;
+                chargeLimit = 1500;
+                break;
+            ///case 0: //Ninja character
+            ///    playerHealth = 100;
+            ///    jumpModifyer = 12;
+            ///    cooldownDuration = 1.25f;
+            ///    cooldownBDuration = 0.25f;
+            ///    chargePowerModifyer = 10;
+            ///    chargeLimit = 900;
+            ///    break;
+            ///case 0: //Ninja character
+            ///    playerHealth = 100;
+            ///    jumpModifyer = 12;
+            ///    cooldownDuration = 1.25f;
+            ///    cooldownBDuration = 0.25f;
+            ///    chargePowerModifyer = 10;
+            ///    chargeLimit = 900;
+            ///    break;
+        }
+            
 
     }
 

@@ -1834,7 +1834,31 @@ PrefabInstance:
       objectReference: {fileID: 1535638600}
     - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
       propertyPath: chargePowerModifyer
-      value: 5
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: playerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: jumpModifyer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: cooldownBDuration
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: playerHealth
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: cooldownDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: chargeLimit
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 8653147587321778451, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
       propertyPath: m_Name
