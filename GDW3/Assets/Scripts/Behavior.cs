@@ -278,7 +278,9 @@ public class Behavior : MonoBehaviour
                     soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
                     mouse1Buffer = 0;
                     Debug.Log(heldPower);
+                    clientScript.singleton.doAttack(1, heldPower, direction);
                     releaseChargeAttack();
+
                 }
 
 
@@ -287,6 +289,7 @@ public class Behavior : MonoBehaviour
                     soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
                     basicAttack();
                     cooldownB = cooldownBDuration;
+                    clientScript.singleton.doAttack(0, 30, direction);
                 }
                 break;
         }

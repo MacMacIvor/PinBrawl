@@ -141,6 +141,7 @@ public class enemyBehavior : MonoBehaviour
 
 
     private string lastHit = "";
+    private bool objectHit = false;
 
     // Start is called before the first frame update
     void Start()
@@ -150,6 +151,8 @@ public class enemyBehavior : MonoBehaviour
 
     }
 
+
+    float cooldown = 1;
     
 
     private Vector3 direction;
@@ -213,7 +216,7 @@ public class enemyBehavior : MonoBehaviour
                                 break;
                         }
                         gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
-                        if ((dist < range && dist > -range))
+                        if ((dist < range && dist > -range) && !objectHit)
                         {
                             state = enemyState.ATTACKING;
                             switch (enemyType)
@@ -329,38 +332,60 @@ public class enemyBehavior : MonoBehaviour
 
     private Vector3 calculateDirection()
     {
+        objectHit = false;
 
-        
+
 
         direction = BulletPoolManager.singleton.player.transform.position;
         
+        //Looks at the player so that the sphere cast finds any objects in the way
         transform.LookAt(direction);
         
+
         RaycastHit hit;
         Vector3 directionToExpand = new Vector3(1, 0, 0);
 
-
+        //Cooldown so we don't calculate the path every frame
+        cooldown -= Time.deltaTime;
 
         if (Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out hit, range))
         {
-            if (hit.transform.name != "player 1")
+            if (hit.transform.name != "player 1" && hit.transform.name != "Bullet(Clone)" && hit.transform.name != "Melee(Clone)" && hit.transform.name != "Buffer(Clone)"
+                    && hit.transform.name != "basicShooter(Clone)" && hit.transform.name != "HeavyShooter(Clone)")
             {
-                if (!(hit.transform.name == lastHit))
+                //There is an object in the way to the player
+
+                switch (enemyType)
                 {
+                    case 1:
+                        break;
+                    case 0:
+                    case 2:
+                    case 3:
+                        objectHit = true;
+                        break;
+                }
+
+                if (cooldown <= 0)
+                {
+                    cooldown = 2;
+                    //The cooldown is ready
+
                     lastHit = hit.transform.name;
 
-                    Vector3 savedRotation = gameObject.transform.eulerAngles;
+                    Vector3 savedRotation = gameObject.transform.eulerAngles; //The angle that the enemy currently is facing
 
                     RaycastHit boom;
 
-                    for (int i = 1; i < 19; i++) {
+                    for (int i = 1; i < 19; i++) //Going to shoot out sphere casts in a circle until we find an open path
+                    {
                         gameObject.transform.eulerAngles = savedRotation;
-                        gameObject.transform.eulerAngles += new Vector3(0, 10 * i, 0);
-                        
-                        Vector3 cubeDirections = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position;
+                        gameObject.transform.eulerAngles += new Vector3(0, 10 * i, 0); //First angle to test is 10 degrees to the left? maybe right, one of the two
+
+                        Vector3 cubeDirections = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position; //Angle to the cube
                         float angles = Vector3.Angle(cubeDirections, transform.forward); //instead of square forward we want enemy forward);
-                        
-                        if (angles < 100)
+
+                        if (angles < 100) //Limit to the search
                         {
                             ;
                         }
@@ -368,13 +393,13 @@ public class enemyBehavior : MonoBehaviour
                         {
 
 
-                            Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out boom, range);
-                            if (boom.collider != null && boom.collider.name != "player 1") //We need to see if the up is actually clear to move in that direction
+                            Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out boom, range); //Shoots a sphere cast to where the enemy is facing (it will increment in directions)
+                            if (boom.collider != null) //Check to see if it hit anything at the new angle
                             {
                                 //It hit something
 
 
-                                if (Mathf.Abs(Mathf.Abs(boom.distance) - Mathf.Abs(hit.distance)) > GetComponent<Collider>().bounds.size.x)
+                                if (Mathf.Abs(Mathf.Abs(boom.distance) - Mathf.Abs(hit.distance)) > GetComponent<Collider>().bounds.size.x) //Check to see if there is a gap it can walk through
                                 {
                                     //It can fit through the gap
                                     i = 20; //Exit the loop
@@ -383,7 +408,7 @@ public class enemyBehavior : MonoBehaviour
                                 }
 
                             }
-                            else if (boom.collider == null)
+                            else if (boom.collider == null) //Open space hence can move there to try and navigate
                             {
                                 i = 20;
                                 direction = transform.gameObject.transform.forward;
@@ -391,10 +416,11 @@ public class enemyBehavior : MonoBehaviour
                             }
                             else
                             {
-                                gameObject.transform.eulerAngles = savedRotation;
-                                gameObject.transform.eulerAngles += new Vector3(0, 10 * -i, 0);
-                                Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out boom, range);
-                                if (boom.collider != null && boom.collider.name != "player 1") //We need to see if the up is actually clear to move in that direction
+                                gameObject.transform.eulerAngles = savedRotation; //Reset angle
+                                gameObject.transform.eulerAngles += new Vector3(0, 10 * -i, 0); //Now we check on the other side
+
+                                Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out boom, range); //Shoots a sphere cast to where the enemy is facing (it will increment in directions)
+                                if (boom.collider != null) //We need to see if the up is actually clear to move in that direction
                                 {
                                     //It hit something
 
@@ -420,32 +446,29 @@ public class enemyBehavior : MonoBehaviour
                     }
 
 
+                    
                 }
                 else
                 {
-                    //The same object in the way so we want to continue the same path we were doing
-                    //direction = new Vector3(lastPoint.x - transform.position.x, 0, lastPoint.z - transform.position.z);
-                    
                     direction = lastDirection;
                     transform.LookAt(transform.position + direction);
-
                 }
             }
             else
             {
-                //Just follow the player as it's a straight line to them
 
+                //Just follow the player as it's a straight line to them
                 direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
 
                 direction = Vector3.Normalize(direction);
-                lastHit = hit.transform.name;
+                lastHit = "player 1";
 
             }
 
         }
         else
         {
-
+           
             direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
 
             direction = Vector3.Normalize(direction);
@@ -675,5 +698,21 @@ public class enemyBehavior : MonoBehaviour
 
                 break;
         }
+    }
+    public int isActive()
+    {
+        switch (state)
+        {
+            case enemyState.INACTIVE:
+                return 0;
+                break;
+            case enemyState.ATTACKING:
+            case enemyState.CHASING:
+            case enemyState.FLYING:
+            case enemyState.TUTORIAL:
+                return 1;
+                break;
+        }
+        return 0;
     }
 }

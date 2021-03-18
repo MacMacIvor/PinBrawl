@@ -104,40 +104,6 @@ public class soundsManager : MonoBehaviour
         soundEffectHolder.gameObject.transform.GetChild(childIndex).gameObject.GetComponent<AudioSource>().pitch = pitch;
     }
 
-    ///public void playSoundEffect(string name, float volume = 1.0f, float pitch = 1.0f)
-    ///{
-    ///    switch (name)
-    ///    {
-    ///        case "dronecrash_by_metal_wall":
-    ///            //backgroundPlaying = (temp[0]);
-    ///            if (isMutedSoundEffects == false)
-    ///            {
-    ///                temp[0].Play();
-    ///                temp[0].volume = volume;
-    ///                temp[0].pitch = pitch;
-    ///            }
-    ///            break;
-    ///        case "laser_cannon":
-    ///            if (isMutedSoundEffects == false)
-    ///            {
-    ///                temp[1].Play();
-    ///                temp[1].volume = volume;
-    ///                temp[1].pitch = pitch;
-    ///            }
-    ///            break;
-    ///        case "laser_pistol":
-    ///            if (isMutedSoundEffects == false)
-    ///            {
-    ///                temp[2].Play();
-    ///                temp[2].volume = volume;
-    ///                temp[2].pitch = pitch;
-    ///            }
-    ///            break;
-    ///
-    ///    }
-    ///
-    ///}
-
     public void changePitch(float newPitch)
     {
         muteBackGround(false);
@@ -155,27 +121,12 @@ public class soundsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //firstSong.Play();
-        //temp.Play();
-        ////background2.volume = 0.1f;
-        //firstSong.volume = 2.0f;
-        //temp.pitch = 10.0f;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if (backgroundPlaying.Count != 0)
-        //{
-        //    backgroundPlaying[0].pitch = pitchBackGround;
-        //    backgroundPlaying[0].volume = volumeBackGround;
-        //}
-
-        //i++;
-        //if (i == 1000)
-        //{
-        //    
-        //    i = 0;
-        //}
+        
     }
 }
