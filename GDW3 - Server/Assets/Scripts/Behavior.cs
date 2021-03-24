@@ -15,6 +15,10 @@ public class Behavior : MonoBehaviour
 
     private float cooldownB = 0;
 
+    private static bool isDashing = false;
+
+    private static float dashTimer = 0.0f;
+
     [Range(0, 3)]
     public int playerType = 0;
 
@@ -72,7 +76,7 @@ public class Behavior : MonoBehaviour
         {
             case 0: //Ninja character
                 playerHealth = 100;
-                jumpModifyer = 12;
+                jumpModifyer = 250;
                 cooldownDuration = 1.25f;
                 cooldownBDuration = 0.25f;
                 chargePowerModifyer = 10;
@@ -261,11 +265,22 @@ public class Behavior : MonoBehaviour
                         break;
                 }
 
-
-                if (Input.GetKey(KeyCode.LeftShift) && cooldown == 0)
+                if (Input.GetKey(KeyCode.LeftShift) && cooldown == 0 && isDashing == false)
                 {
-                    playerDirection *= jumpModifyer;
+                    isDashing = true;
+                }
+
+                if (isDashing == true)
+                {
+                    playerDirection *= jumpModifyer * Time.deltaTime;
+                    dashTimer += Time.deltaTime;
                     cooldown = cooldownDuration;
+
+                    if (dashTimer >= 0.1f)
+                    {
+                        isDashing = false;
+                        dashTimer = 0.0f;
+                    }
                 }
 
                 if (Input.GetKey(KeyCode.Mouse1))
@@ -278,6 +293,7 @@ public class Behavior : MonoBehaviour
                     soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
                     mouse1Buffer = 0;
                     Debug.Log(heldPower);
+
                     releaseChargeAttack();
                 }
 
@@ -287,6 +303,7 @@ public class Behavior : MonoBehaviour
                     soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
                     basicAttack();
                     cooldownB = cooldownBDuration;
+
                 }
                 break;
         }
@@ -317,9 +334,9 @@ public class Behavior : MonoBehaviour
         foreach (Collider enemies in enemiesHit)
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
+            enemies.GetComponent<enemyBehavior>().doKnockback(185.0f, direction);
             enemies.GetComponent<enemyBehavior>().takeDmg(30);
-            //soundsManager.soundsSingleton.playSoundEffect("");
-            //Nothing yet because we don't have the sound for it
+
             hitOneAtLeast = true;
         }
 
@@ -327,8 +344,7 @@ public class Behavior : MonoBehaviour
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
             bullets.GetComponent<bullet>().die();
-            //soundsManager.soundsSingleton.playSoundEffect("");
-            //Nothing yet because we don't have the sound for it
+
             hitOneAtLeast = true;
         }
         if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }

@@ -86,7 +86,7 @@ public class ServerScipt : MonoBehaviour
     {
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         //IPAddress ip = host.AddressList[1];
-        IPAddress ip = IPAddress.Parse("127.0.0.1");
+        IPAddress ip = IPAddress.Parse("10.0.0.23");
         Console.WriteLine("UDP serverName: " + host.HostName + "IP: " + ip);
         IPEndPoint localEP = new IPEndPoint(ip, 11111);
 

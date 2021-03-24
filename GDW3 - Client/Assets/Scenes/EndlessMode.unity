@@ -1838,7 +1838,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
       propertyPath: playerType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8653147587321778450, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
       propertyPath: jumpModifyer
@@ -15586,9 +15586,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1071210681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e8989913d26a642a33afc381d63474, type: 3}
+  m_Script: {fileID: 11500000, guid: cce5a8cdbae3bff45990f479ad339d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCube: {fileID: 0}
+  intervals: 0.2
   poolManager: {fileID: 0}
 --- !u!1 &1073168328
 GameObject:
@@ -15998,19 +16000,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8653147587321778462, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
   m_PrefabInstance: {fileID: 116384901}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1110916587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1110916585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0e8989913d26a642a33afc381d63474, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolManager: {fileID: 0}
 --- !u!1 &1126562059
 GameObject:
   m_ObjectHideFlags: 0
