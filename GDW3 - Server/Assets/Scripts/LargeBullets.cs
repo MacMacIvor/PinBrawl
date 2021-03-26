@@ -87,7 +87,7 @@ public class LargeBullets : MonoBehaviour
     {
         damage *= extra;
     }
-    public void changeActive()
+    public void changeActive(Vector3 targets)
     {
         switch (state)
         {
@@ -99,7 +99,7 @@ public class LargeBullets : MonoBehaviour
                 gameObject.SetActive(true);
                 state = bulletState.ACTIVE;
 
-                target = BulletPoolManager.singleton.player.transform.position;
+                target = targets;
 
                 distToTarget = Vector3.Distance(transform.position, target);
                 distToTargetHalf = distToTarget / 2;

@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class enemySpawner : MonoBehaviour
 {
+    public GameObject playerHolder;
 
     [Range(0, 1)]
     public int isDistActivOrTime = 0;
@@ -33,45 +34,55 @@ public class enemySpawner : MonoBehaviour
     void Start()
     {
         timerToSpawnSaved = timerToSpawn;
+        playerHolder = GameObject.Find("PlayerHolder");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (isDistActivOrTime) {
-            case 0:
-                if (distFromPlayerTillSpawn > Vector3.Distance(BulletPoolManager.singleton.player.transform.position, gameObject.transform.position) && spawned == false)
-                {
-                    for (int i = 0; i < amountToSpawn; i++)
-                    {
-
-                        spawnEnemy(i);
-                    }
-                    turnOff();
-                }
-                break;
-            case 1:
-                if (timerToSpawn == 0 && spawned == false)
-                {
-                    for (int i = 0; i < amountToSpawn; i++)
-                    {
-
-                        spawnEnemy(i);
-                    }
-                    turnOff();
-                }
-                else
-                {
-                    timerToSpawn--;
-                }
-                break;
-        }
-        if (lastState == false && gameObject.activeSelf == true)
+        try
         {
-            timerToSpawn = timerToSpawnSaved;
-            spawned = false;
+            switch (isDistActivOrTime)
+            {
+                case 0:
+                    if (distFromPlayerTillSpawn > Vector3.Distance(playerHolder.transform.GetChild(0).transform.position, gameObject.transform.position) && spawned == false)
+                    {
+                        for (int i = 0; i < amountToSpawn; i++)
+                        {
+
+                            spawnEnemy(i);
+                        }
+                        turnOff();
+                    }
+                    break;
+                case 1:
+                    if (timerToSpawn == 0 && spawned == false)
+                    {
+                        for (int i = 0; i < amountToSpawn; i++)
+                        {
+
+                            spawnEnemy(i);
+                        }
+                        turnOff();
+                    }
+                    else
+                    {
+                        timerToSpawn--;
+                    }
+                    break;
+            }
+            if (lastState == false && gameObject.activeSelf == true)
+            {
+                timerToSpawn = timerToSpawnSaved;
+                spawned = false;
+            }
+            lastState = gameObject.activeSelf;
         }
-        lastState = gameObject.activeSelf;
+        catch (Exception e)
+        {
+
+        }
     }
     void spawnEnemy(int number)
     {

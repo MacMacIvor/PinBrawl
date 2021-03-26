@@ -31,7 +31,7 @@ public class respawnPlayer : MonoBehaviour
         {
             SceneManager.LoadScene("prototype_tutorial");
 
-            saveLoadingManager.singleton.callLoadNextFrame();
+            //saveLoadingManager.singleton.callLoadNextFrame();
 
         }
     }

@@ -53,14 +53,14 @@ public class meleeHit : MonoBehaviour
         //}
     }
 
-    public void CheckHit(int smallMeleeDamages, float meleeRanges, Vector3 pos)
+    public void CheckHit(int smallMeleeDamages, float meleeRanges, Vector3 pos, string name)
     {
        
         Collider[] overlapObjects = Physics.OverlapBox(pos, new Vector3(1,1,1) * meleeRanges);
 
         foreach (Collider player in overlapObjects)
         {
-            if (player.gameObject.name == QuestManagementSystem.singleton.player.name)
+            if (player.gameObject.name == name)
             {
                 player.GetComponent<Behavior>().takeDmg(smallMeleeDamages);
             }

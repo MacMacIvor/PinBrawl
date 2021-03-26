@@ -10,7 +10,7 @@ public class loadUIGame : MonoBehaviour
     {
         originalPosition = gameObject.transform.position;
         
-        saveLoadingManager.singleton.loadPlayer(Application.dataPath + "/SaveData/gameSaveDataPlayer.txt");
+        //saveLoadingManager.singleton.loadPlayer(Application.dataPath + "/SaveData/gameSaveDataPlayer.txt");
     }
 
     // Update is called once per frame
@@ -22,8 +22,8 @@ public class loadUIGame : MonoBehaviour
                 gameObject.transform.position = originalPosition;
                 if ((Input.GetMouseButtonDown(0)) && Input.mousePosition.x > transform.position.x - transform.localScale.x * 100.0f && Input.mousePosition.x < transform.position.x + transform.localScale.x * 100.0f && Input.mousePosition.y < transform.position.y + transform.localScale.y * 100.0f && Input.mousePosition.y > transform.position.y - transform.localScale.y * 100.0f)
                 {
-                    saveLoadingManager.singleton.loadFile(Application.dataPath + "/SaveData/gameSaveData.txt");
-                    saveLoadingManager.singleton.loadPlayer(Application.dataPath + "/SaveData/gameSaveDataPlayer.txt");
+                    //saveLoadingManager.singleton.loadFile(Application.dataPath + "/SaveData/gameSaveData.txt");
+                    //saveLoadingManager.singleton.loadPlayer(Application.dataPath + "/SaveData/gameSaveDataPlayer.txt");
                 }
                 break;
             case pauseGame.generalState.PLAYING:

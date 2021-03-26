@@ -81,7 +81,7 @@ public class bullet : MonoBehaviour
         damage *= extra;
     }
 
-    public void changeActive()
+    public void changeActive(Vector3 position)
     {
         switch (state)
         {
@@ -93,7 +93,7 @@ public class bullet : MonoBehaviour
                 gameObject.SetActive(true);
                 state = bulletState.ACTIVE;
 
-                dirPos = BulletPoolManager.singleton.player.transform.position;
+                dirPos = position;
                 
                 point = dirPos;
                 

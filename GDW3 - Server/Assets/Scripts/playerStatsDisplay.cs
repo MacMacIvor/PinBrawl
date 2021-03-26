@@ -8,13 +8,13 @@ public class playerStatsDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.GetComponent<Text>().text = 
-            "hitAccuracy: " + (saveLoadingManager.singleton.getData()[0] * 100).ToString() + "%" + 
-            "\nnumberOfAttacks: " + saveLoadingManager.singleton.getData()[1].ToString() + 
-            "\nnumberOfTimesHit: " + saveLoadingManager.singleton.getData()[2].ToString() + 
-            "\nnumberOfKills: " + saveLoadingManager.singleton.getData()[3].ToString() + 
-            "\nhealthHealed: " + saveLoadingManager.singleton.getData()[4].ToString() + 
-            "\nnumberOfDeaths: " + saveLoadingManager.singleton.getData()[5].ToString();
+        //gameObject.GetComponent<Text>().text = 
+        //    "hitAccuracy: " + (saveLoadingManager.singleton.getData()[0] * 100).ToString() + "%" + 
+        //    "\nnumberOfAttacks: " + saveLoadingManager.singleton.getData()[1].ToString() + 
+        //    "\nnumberOfTimesHit: " + saveLoadingManager.singleton.getData()[2].ToString() + 
+        //    "\nnumberOfKills: " + saveLoadingManager.singleton.getData()[3].ToString() + 
+        //    "\nhealthHealed: " + saveLoadingManager.singleton.getData()[4].ToString() + 
+        //    "\nnumberOfDeaths: " + saveLoadingManager.singleton.getData()[5].ToString();
     }
 
     // Update is called once per frame

@@ -15,10 +15,6 @@ public class Behavior : MonoBehaviour
 
     private float cooldownB = 0;
 
-    private static bool isDashing = false;
-
-    private static float dashTimer = 0.0f;
-
     [Range(0, 3)]
     public int playerType = 0;
 
@@ -68,6 +64,9 @@ public class Behavior : MonoBehaviour
     private float particleDelay = 0;
 
     public float chargeLimit = 1000;
+
+    public bool locked = true; //This is only for the server, used to lock code that should not run here, I didn't delete in case something happens with the client code and I need to look at this for reference
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,7 +75,7 @@ public class Behavior : MonoBehaviour
         {
             case 0: //Ninja character
                 playerHealth = 100;
-                jumpModifyer = 250;
+                jumpModifyer = 12;
                 cooldownDuration = 1.25f;
                 cooldownBDuration = 0.25f;
                 chargePowerModifyer = 10;
@@ -123,187 +122,179 @@ public class Behavior : MonoBehaviour
             case pauseGame.generalState.PAUSED:
                 break;
             case pauseGame.generalState.PLAYING:
-                transform.Translate(playerDirection * 5 * Time.deltaTime);
-                
-                if (playerDirection != new Vector3(0, 0, 0) && particleDelay == 0)
+                if (!locked)
+                    transform.Translate(playerDirection * 5 * Time.deltaTime);
+                if (!locked)
                 {
-                    playerAnimationScript.singleton.playRun();
+                    if (playerDirection != new Vector3(0, 0, 0) && particleDelay == 0)
+                    {
+                        playerAnimationScript.singleton.playRun();
 
-                    if (particleID == -1)
-                    {
-                        particleID = particleManager.singleton.startParticles(gameObject.transform.position);
-                        particleManager.singleton.setParent(particleID, gameObject);
+                        if (particleID == -1)
+                        {
+                            particleID = particleManager.singleton.startParticles(gameObject.transform.position);
+                            particleManager.singleton.setParent(particleID, gameObject);
+                        }
+                        switch (direction)
+                        {
+                            //-       +
+                            // 1, 2, 3
+                            // 4,  , 5
+                            // 6, 7, 8
+                            case 1:
+
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, -1));
+                                break;
+                            case 2:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(0, 0, -1));
+
+                                break;
+                            case 3:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, -1));
+
+                                break;
+                            case 4:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, 0));
+
+                                break;
+                            case 5:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, 0));
+
+                                break;
+                            case 6:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, 1));
+
+                                break;
+                            case 7:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(0, 0, 1));
+
+                                break;
+                            case 8:
+                                particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, 1));
+
+                                break;
+
+                        }
                     }
-                    switch (direction)
+                    else if (particleID != -1 && particleDelay == 0)
                     {
-                        //-       +
-                        // 1, 2, 3
-                        // 4,  , 5
-                        // 6, 7, 8
+                        particleDelay = 0.5f;
+                    }
+                    else if (particleID != -1 && particleDelay > 0)
+                    {
+                        particleDelay -= Time.deltaTime;
+                    }
+                    else if (particleDelay < 0 && particleID != -1)
+                    {
+                        particleManager.singleton.deActivateParticle(particleID);
+                        particleID = -1;
+                        particleDelay = 0;
+                    }
+                    else if (playerDirection == new Vector3(0, 0, 0))
+                    {
+                        playerAnimationScript.singleton.playIddle();
+
+                    }
+                }
+
+                if (!locked)
+                {
+                    if (Input.GetKey(KeyCode.W))
+                    {
+                        playerDirection.z = 1;
+                    }
+                    else if (Input.GetKey(KeyCode.S))
+                    {
+                        playerDirection.z = -1;
+                    }
+                    else
+                    {
+                        playerDirection.z = 0;
+                    }
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        playerDirection.x = -1;
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        playerDirection.x = 1;
+                    }
+                    else
+                    {
+                        playerDirection.x = 0;
+                    }
+                    switch (playerDirection.x)
+                    {
+                        case -1: //left
+                            switch (playerDirection.z)
+                            {
+                                case -1: //down
+                                    callUpdateDirection(6);
+                                    break;
+                                case 0:
+                                    callUpdateDirection(4);
+                                    break;
+                                case 1:
+                                    callUpdateDirection(1);
+                                    break;
+                            }
+                            break;
+                        case 0:
+                            switch (playerDirection.z)
+                            {
+                                case -1:
+                                    callUpdateDirection(7);
+                                    break;
+                                case 0:
+                                    break;
+                                case 1:
+                                    callUpdateDirection(2);
+                                    break;
+                            }
+                            break;
                         case 1:
-
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, -1));
+                            switch (playerDirection.z)
+                            {
+                                case -1:
+                                    callUpdateDirection(8);
+                                    break;
+                                case 0:
+                                    callUpdateDirection(5);
+                                    break;
+                                case 1:
+                                    callUpdateDirection(3);
+                                    break;
+                            }
                             break;
-                        case 2:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(0, 0, -1));
-
-                            break;
-                        case 3:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, -1));
-
-                            break;
-                        case 4:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, 0));
-
-                            break;
-                        case 5:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, 0));
-
-                            break;
-                        case 6:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(1, 0, 1));
-
-                            break;
-                        case 7:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(0, 0, 1));
-
-                            break;
-                        case 8:
-                            particleManager.singleton.changeFacing(particleID, gameObject.transform.position + new Vector3(-1, 0, 1));
-
-                            break;
-
                     }
-                }
-                else if (particleID != -1 && particleDelay == 0)
-                {
-                    particleDelay = 0.5f;
-                }
-                else if (particleID != -1 && particleDelay > 0)
-                {
-                    particleDelay -= Time.deltaTime;
-                }
-                else if (particleDelay < 0 && particleID != -1)
-                {
-                    particleManager.singleton.deActivateParticle(particleID);
-                    particleID = -1;
-                    particleDelay = 0;
-                }
-                else if (playerDirection == new Vector3(0, 0, 0))
-                {
-                    playerAnimationScript.singleton.playIddle();
-
-                }
 
 
-                if (Input.GetKey(KeyCode.W))
-                {
-                    playerDirection.z = 1;
-                }
-                else if (Input.GetKey(KeyCode.S))
-                {
-                    playerDirection.z = -1;
-                }
-                else
-                {
-                    playerDirection.z = 0;
-                }
-                if (Input.GetKey(KeyCode.A))
-                {
-                    playerDirection.x = -1;
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    playerDirection.x = 1;
-                }
-                else
-                {
-                    playerDirection.x = 0;
-                }
-                switch (playerDirection.x)
-                {
-                    case -1: //left
-                        switch (playerDirection.z)
-                        {
-                            case -1: //down
-                                callUpdateDirection(6);
-                                break;
-                            case 0:
-                                callUpdateDirection(4);
-                                break;
-                            case 1:
-                                callUpdateDirection(1);
-                                break;
-                        }
-                        break;
-                    case 0:
-                        switch (playerDirection.z)
-                        {
-                            case -1:
-                                callUpdateDirection(7);
-                                break;
-                            case 0:
-                                break;
-                            case 1:
-                                callUpdateDirection(2);
-                                break;
-                        }
-                        break;
-                    case 1:
-                        switch (playerDirection.z)
-                        {
-                            case -1:
-                                callUpdateDirection(8);
-                                break;
-                            case 0:
-                                callUpdateDirection(5);
-                                break;
-                            case 1:
-                                callUpdateDirection(3);
-                                break;
-                        }
-                        break;
-                }
-
-                if (Input.GetKey(KeyCode.LeftShift) && cooldown == 0 && isDashing == false)
-                {
-                    isDashing = true;
-                }
-
-                if (isDashing == true)
-                {
-                    playerDirection *= jumpModifyer * Time.deltaTime;
-                    dashTimer += Time.deltaTime;
-                    cooldown = cooldownDuration;
-
-                    if (dashTimer >= 0.1f)
+                    if (Input.GetKey(KeyCode.LeftShift) && cooldown == 0)
                     {
-                        isDashing = false;
-                        dashTimer = 0.0f;
+                        playerDirection *= jumpModifyer;
+                        cooldown = cooldownDuration;
                     }
-                }
 
-                if (Input.GetKey(KeyCode.Mouse1))
-                {
-                    chargeAttack();
-                    mouse1Buffer = 1;
-                }
-                else if (mouse1Buffer == 1)
-                {
-                    soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
-                    mouse1Buffer = 0;
-                    Debug.Log(heldPower);
-
-                    releaseChargeAttack();
-                }
+                    if (Input.GetKey(KeyCode.Mouse1))
+                    {
+                        chargeAttack();
+                        mouse1Buffer = 1;
+                    }
+                    else if (mouse1Buffer == 1)
+                    {
+                        soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
+                        mouse1Buffer = 0;
+                        Debug.Log(heldPower);
+                        releaseChargeAttack();
+                    }
 
 
-                if (Input.GetKey(KeyCode.Mouse0) && cooldownB == 0)
-                {
-                    soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
-                    basicAttack();
-                    cooldownB = cooldownBDuration;
-
+                    if (Input.GetKey(KeyCode.Mouse0) && cooldownB == 0)
+                    {
+                        soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
+                        basicAttack();
+                        cooldownB = cooldownBDuration;
+                    }
                 }
                 break;
         }
@@ -334,9 +325,9 @@ public class Behavior : MonoBehaviour
         foreach (Collider enemies in enemiesHit)
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
-            enemies.GetComponent<enemyBehavior>().doKnockback(185.0f, direction);
             enemies.GetComponent<enemyBehavior>().takeDmg(30);
-
+            //soundsManager.soundsSingleton.playSoundEffect("");
+            //Nothing yet because we don't have the sound for it
             hitOneAtLeast = true;
         }
 
@@ -344,10 +335,11 @@ public class Behavior : MonoBehaviour
         {
             //enemies.GetComponent<enemyBehavior>().takeDmg(heldPower);
             bullets.GetComponent<bullet>().die();
-
+            //soundsManager.soundsSingleton.playSoundEffect("");
+            //Nothing yet because we don't have the sound for it
             hitOneAtLeast = true;
         }
-        if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
+        //if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
 
     }
 
@@ -382,7 +374,7 @@ public class Behavior : MonoBehaviour
             enemies.GetComponent<enemyBehavior>().doKnockback(heldPower, direction);
             hitOneAtLeast = true;
         }
-        if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
+        //if (hitOneAtLeast == true) { saveLoadingManager.singleton.changeHitAccuracy(1); } else { saveLoadingManager.singleton.changeHitAccuracy(0); }
         heldPower = 0;
         rect2.GetComponent<UpdateLength>().updateLength((chargeLimit - heldPower) / chargeLimit);
 

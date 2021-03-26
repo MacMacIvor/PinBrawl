@@ -7,7 +7,7 @@ public class QuestManagementSystem : MonoBehaviour
 {
     public static QuestManagementSystem singleton = null;
 
-    public GameObject player;
+    //public GameObject player;
 
     Queue<questStructure> listOfQuests;
     enum stateOfQuestManager
@@ -229,11 +229,11 @@ public class QuestManagementSystem : MonoBehaviour
         }
         else
         {
-            if (Vector3.Distance(player.transform.position, destination) < 10)
-            {
-                state = stateOfQuestManager.COMPLETED;
-                destination = new Vector3(0, 00, 0);
-            }
+            //if (Vector3.Distance(player.transform.position, destination) < 10)
+            //{
+            //    state = stateOfQuestManager.COMPLETED;
+            //    destination = new Vector3(0, 00, 0);
+            //}
         }
     }
 

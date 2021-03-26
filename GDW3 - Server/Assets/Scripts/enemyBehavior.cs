@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class enemyBehavior : MonoBehaviour
 {
     public GameObject smallBulletPrefab;
@@ -139,16 +138,19 @@ public class enemyBehavior : MonoBehaviour
     public float buffDurationSaved = 15;
     private float buffDuration = 0;
 
+    bool playerExists = false;
+    int targetPlayer = 0;
 
     private string lastHit = "";
     private bool objectHit = false;
-
+    public GameObject playerHolder;
+    
     // Start is called before the first frame update
     void Start()
     {
         
         gameObject.SetActive(false);
-
+        playerHolder = GameObject.Find("PlayerHolder");
     }
 
 
@@ -170,162 +172,171 @@ public class enemyBehavior : MonoBehaviour
             case pauseGame.generalState.PAUSED:
                 break;
             case pauseGame.generalState.PLAYING:
-
-                characterPos = GameObject.FindGameObjectsWithTag("Player")[0].transform;
-                newPos.x = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.x;
-                newPos.z = GameObject.FindGameObjectsWithTag("Player")[0].transform.position.z;
-                float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
-                //Check to see if the player is looking at the enemy or not
-                Vector3 cubeDirection = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position;
-                float angle = Vector3.Angle(cubeDirection, QuestManagementSystem.singleton.player.gameObject.transform.GetChild(2).forward);
-                gameObject.GetComponentInChildren<enemyHealth>().updateLength(currentHealth);
-                gameObject.GetComponentInChildren<enemyHealth>().changeVisibility(angle < 40 ? true : false);
-                
-
-                switch (state)
+                switch (playerExists)
                 {
-                    case enemyState.INACTIVE:
-
+                    case false:
+                        findPlayer();
                         break;
-                    case enemyState.TUTORIAL:
-                        if (!(dist < range && dist > -range))
+                    case true:
+
+                        characterPos = playerHolder.transform.GetChild(targetPlayer).transform;
+                        newPos.x = playerHolder.transform.GetChild(targetPlayer).transform.position.x;
+                        newPos.z = playerHolder.transform.GetChild(targetPlayer).transform.position.z;
+                        float dist = Vector3.Distance(newPos, new Vector3(transform.position.x, 0, transform.position.z));
+                        //Check to see if the player is looking at the enemy or not
+                        Vector3 cubeDirection = transform.position - playerHolder.transform.GetChild(targetPlayer).gameObject.transform.position;
+                        float angle = Vector3.Angle(cubeDirection, playerHolder.transform.GetChild(targetPlayer).gameObject.transform.GetChild(2).forward);
+                        gameObject.GetComponentInChildren<enemyHealth>().updateLength(currentHealth);
+                        gameObject.GetComponentInChildren<enemyHealth>().changeVisibility(angle < 40 ? true : false);
+
+
+                        switch (state)
                         {
-                            gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
-                        }
-                        else
-                        {
-                            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-                        }
-                        break;
-                    case enemyState.CHASING:
-                        calculateDirection();
-                        switch (enemyType)
-                        {
-                            case 0:
-                                smallShooterAnimationControler.singleton.playWalk(0.2f);
+                            case enemyState.INACTIVE:
+
                                 break;
-
-                            case 1:
-                                largeShooterController.singleton.playWalk(0.2f);
-                                break;
-
-                            case 2:
-                                break;
-
-                            case 3:
-                                break;
-                        }
-                        gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
-                        if ((dist < range && dist > -range) && !objectHit)
-                        {
-                            state = enemyState.ATTACKING;
-                            switch (enemyType)
-                            {
-                                case 0:
-                                    smallShooterAnimationControler.singleton.playWalk(0);
-                                    break;
-
-                                case 1:
-                                    largeShooterController.singleton.playWalk(0);
-                                    break;
-
-                                case 2:
-                                    break;
-
-                                case 3:
-                                    break;
-                            }
-                            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-                        }
-
-                        
-
-                        break;
-                    case enemyState.ATTACKING:
-                        calculateDirection();
-
-                        gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-
-                        switch (enemyType)
-                        {
-                            case 0:
-                                if (shootCooldown <= 0 && smallBurstCooldownbetweenShots <= 0)
+                            case enemyState.TUTORIAL:
+                                if (!(dist < range && dist > -range))
                                 {
-                                    smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
-                                    shotsFired++;
-                                    if (shotsFired == numOfShots)
-                                    {
-                                        spawnBullet(true);
-                                        shootCooldown = shootCooldownSmallShooterSaved;
-                                        smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
-                                        shotsFired = 0;
-                                    }
-                                    else
-                                    {
-                                        spawnBullet(false);
-                                    }
+                                    gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
                                 }
-                                else if (shootCooldown <= 0 && smallBurstCooldownbetweenShots > 0)
+                                else
                                 {
-                                    smallBurstCooldownbetweenShots -= Time.deltaTime;
+                                    gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
                                 }
                                 break;
-                            case 1:
-                            case 2:
-                            case 3:
-                                if (shootCooldown <= 0)
+                            case enemyState.CHASING:
+                                calculateDirection();
+                                switch (enemyType)
                                 {
-                                    if ((Vector3.Distance(transform.position, BulletPoolManager.singleton.player.transform.position) > range))
-                                    {
-                                        state = enemyState.CHASING;
+                                    case 0:
+                                        smallShooterAnimationControler.singleton.playWalk(0.2f);
+                                        break;
 
-                                    }
-                                    else
+                                    case 1:
+                                        largeShooterController.singleton.playWalk(0.2f);
+                                        break;
+
+                                    case 2:
+                                        break;
+
+                                    case 3:
+                                        break;
+                                }
+                                gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
+                                if ((dist < range && dist > -range) && !objectHit)
+                                {
+                                    state = enemyState.ATTACKING;
+                                    switch (enemyType)
                                     {
-                                        spawnBullet(true);
-                                        switch (enemyType)
+                                        case 0:
+                                            smallShooterAnimationControler.singleton.playWalk(0);
+                                            break;
+
+                                        case 1:
+                                            largeShooterController.singleton.playWalk(0);
+                                            break;
+
+                                        case 2:
+                                            break;
+
+                                        case 3:
+                                            break;
+                                    }
+                                    gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+                                }
+
+
+
+                                break;
+                            case enemyState.ATTACKING:
+                                calculateDirection();
+
+                                gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+
+                                switch (enemyType)
+                                {
+                                    case 0:
+                                        if (shootCooldown <= 0 && smallBurstCooldownbetweenShots <= 0)
                                         {
-                                            case 0:
-                                                smallShooterAnimationControler.singleton.playAttack();
-                                                break;
-
-                                            case 1:
-                                                largeShooterController.singleton.playAttack();
-                                                break;
-
-                                            case 2:
-                                                break;
-
-                                            case 3:
-                                                break;
+                                            smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
+                                            shotsFired++;
+                                            if (shotsFired == numOfShots)
+                                            {
+                                                spawnBullet(true);
+                                                shootCooldown = shootCooldownSmallShooterSaved;
+                                                smallBurstCooldownbetweenShots = smallBurstCooldownbetweenShotsSaved;
+                                                shotsFired = 0;
+                                            }
+                                            else
+                                            {
+                                                spawnBullet(false);
+                                            }
                                         }
-                                    }
+                                        else if (shootCooldown <= 0 && smallBurstCooldownbetweenShots > 0)
+                                        {
+                                            smallBurstCooldownbetweenShots -= Time.deltaTime;
+                                        }
+                                        break;
+                                    case 1:
+                                    case 2:
+                                    case 3:
+                                        if (shootCooldown <= 0)
+                                        {
+                                            if ((Vector3.Distance(transform.position, playerHolder.transform.GetChild(targetPlayer).transform.position) > range))
+                                            {
+                                                state = enemyState.CHASING;
+
+                                            }
+                                            else
+                                            {
+                                                spawnBullet(true);
+                                                switch (enemyType)
+                                                {
+                                                    case 0:
+                                                        smallShooterAnimationControler.singleton.playAttack();
+                                                        break;
+
+                                                    case 1:
+                                                        largeShooterController.singleton.playAttack();
+                                                        break;
+
+                                                    case 2:
+                                                        break;
+
+                                                    case 3:
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                }
+                                if (shootCooldown <= 0 && shotsFired == 0 && (Vector3.Distance(transform.position, playerHolder.transform.GetChild(targetPlayer).transform.position) > range))
+                                {
+                                    state = enemyState.CHASING;
+                                    gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
+
+                                }
+                                shootCooldown -= Time.deltaTime;
+                                break;
+                            case enemyState.FLYING:
+                                //gameObject.GetComponent<Rigidbody>().velocity = direction * knockbackSpeedFraction;
+
+                                if ((Vector3.Distance(transform.position, knockedDestination) < 1.0f) || Vector3.Magnitude(gameObject.GetComponent<Rigidbody>().velocity) <= 0.5f)// || isColliding == true)
+                                {
+                                    state = enemyState.CHASING;
+                                    gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
                                 }
                                 break;
-                        }
-                        if (shootCooldown <= 0 && shotsFired == 0 && (Vector3.Distance(transform.position, BulletPoolManager.singleton.player.transform.position) > range))
-                        {
-                            state = enemyState.CHASING;
-                            gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
 
                         }
-                        shootCooldown -= Time.deltaTime;
+
+                        buffDuration -= Time.deltaTime;
                         break;
-                    case enemyState.FLYING:
-                        //gameObject.GetComponent<Rigidbody>().velocity = direction * knockbackSpeedFraction;
-
-                        if ((Vector3.Distance(transform.position, knockedDestination) < 1.0f) || Vector3.Magnitude(gameObject.GetComponent<Rigidbody>().velocity) <= 0.5f)// || isColliding == true)
-                        {
-                            state = enemyState.CHASING;
-                            gameObject.GetComponent<Rigidbody>().velocity = direction * speed;
-                        }
-                        break;
-
                 }
-
-                buffDuration -= Time.deltaTime;
                 break;
         }
+                
         //isColliding = false;
 
     }
@@ -336,7 +347,7 @@ public class enemyBehavior : MonoBehaviour
 
 
 
-        direction = BulletPoolManager.singleton.player.transform.position;
+        direction = playerHolder.transform.GetChild(targetPlayer).transform.position;
         
         //Looks at the player so that the sphere cast finds any objects in the way
         transform.LookAt(direction);
@@ -350,7 +361,7 @@ public class enemyBehavior : MonoBehaviour
 
         if (Physics.SphereCast(transform.position, GetComponent<Collider>().bounds.size.x, transform.forward, out hit, range))
         {
-            if (hit.transform.name != "player 1" && hit.transform.name != "Bullet(Clone)" && hit.transform.name != "Melee(Clone)" && hit.transform.name != "Buffer(Clone)"
+            if (hit.transform.name != playerHolder.transform.GetChild(targetPlayer).name && hit.transform.name != "Bullet(Clone)" && hit.transform.name != "Melee(Clone)" && hit.transform.name != "Buffer(Clone)"
                     && hit.transform.name != "basicShooter(Clone)" && hit.transform.name != "HeavyShooter(Clone)")
             {
                 //There is an object in the way to the player
@@ -382,7 +393,7 @@ public class enemyBehavior : MonoBehaviour
                         gameObject.transform.eulerAngles = savedRotation;
                         gameObject.transform.eulerAngles += new Vector3(0, 10 * i, 0); //First angle to test is 10 degrees to the left? maybe right, one of the two
 
-                        Vector3 cubeDirections = transform.position - QuestManagementSystem.singleton.player.gameObject.transform.position; //Angle to the cube
+                        Vector3 cubeDirections = transform.position - playerHolder.transform.GetChild(targetPlayer).transform.position; //Angle to the cube
                         float angles = Vector3.Angle(cubeDirections, transform.forward); //instead of square forward we want enemy forward);
 
                         if (angles < 100) //Limit to the search
@@ -461,7 +472,7 @@ public class enemyBehavior : MonoBehaviour
                 direction = new Vector3(direction.x - transform.position.x, 0, direction.z - transform.position.z);
 
                 direction = Vector3.Normalize(direction);
-                lastHit = "player 1";
+                lastHit = playerHolder.transform.GetChild(targetPlayer).name;
 
             }
 
@@ -551,7 +562,7 @@ public class enemyBehavior : MonoBehaviour
     }
     public void dead()
     {
-        saveLoadingManager.singleton.numberOfKilledUpdate();
+        //saveLoadingManager.singleton.numberOfKilledUpdate();
         QuestManagementSystem.singleton.updateQuest(0);
         switch (enemyType)
         {
@@ -572,6 +583,21 @@ public class enemyBehavior : MonoBehaviour
         }
     }
 
+    private void findPlayer()
+    {
+        string name = ServerScipt.singleton.getPlayerNames();
+        for (int i = 0; i < playerHolder.transform.childCount; i++)
+        {
+            if (playerHolder.transform.GetChild(i).name == name)
+            {
+                playerExists = true;
+                targetPlayer = i;
+                return;
+            }
+        }
+        return;
+    }
+
     private void spawnBullet(bool timeReset)
     {
 
@@ -587,12 +613,12 @@ public class enemyBehavior : MonoBehaviour
                 if (buffDuration > 0)
                 {
                     //theBullet.GetComponent<bullet>().extraDmg(buffModifryer);
-                    BulletPoolManager.singleton.GetBulletSmall(transform.position).GetComponent<bullet>().extraDmg(buffModifryer);
+                    BulletPoolManager.singleton.GetBulletSmall(transform.position, playerHolder.transform.GetChild(targetPlayer).transform.position).GetComponent<bullet>().extraDmg(buffModifryer);
 
                 }
                 else
                 {
-                    BulletPoolManager.singleton.GetBulletSmall(transform.position);
+                    BulletPoolManager.singleton.GetBulletSmall(transform.position, playerHolder.transform.GetChild(targetPlayer).transform.position);
                 }
                 break;
             case 1:
@@ -600,24 +626,24 @@ public class enemyBehavior : MonoBehaviour
                 shootCooldown = timeReset == true ? shootCooldownBigShooterSaved : shootCooldown;
                 if (buffDuration > 0)
                 {
-                    BulletPoolManager.singleton.GetBulletLarge(transform.position).GetComponent<LargeBullets>().extraDmg(buffModifryer); //Bullets should have been done using a factory instead of different files
+                    BulletPoolManager.singleton.GetBulletLarge(transform.position, playerHolder.transform.GetChild(targetPlayer).transform.position).GetComponent<LargeBullets>().extraDmg(buffModifryer); //Bullets should have been done using a factory instead of different files
 
                 }
                 else
                 {
-                    BulletPoolManager.singleton.GetBulletLarge(transform.position);
+                    BulletPoolManager.singleton.GetBulletLarge(transform.position, playerHolder.transform.GetChild(targetPlayer).transform.position);
                 }
                 break;
             case 2:
                 //not spawing anything but I put it in here because why not
                 if (buffDuration > 0)
                 {
-                   meleeHit.singleton.CheckHit(smallMeleeDamage * buffModifryer, range, gameObject.transform.position);
+                   meleeHit.singleton.CheckHit(smallMeleeDamage * buffModifryer, range, gameObject.transform.position, playerHolder.transform.GetChild(targetPlayer).transform.name);
 
                 }
                 else
                 {
-                   meleeHit.singleton.CheckHit(smallMeleeDamage, range, gameObject.transform.position);
+                   meleeHit.singleton.CheckHit(smallMeleeDamage, range, gameObject.transform.position, playerHolder.transform.GetChild(targetPlayer).transform.name);
                 }
                 shootCooldown = hitCoolDownSmallMeleeSaved;
                 break;
@@ -714,5 +740,12 @@ public class enemyBehavior : MonoBehaviour
                 break;
         }
         return 0;
+    }
+
+    public string getTargetPlayer()
+    {
+        string theIP = playerHolder.transform.GetChild(targetPlayer).name.Split(':')[0];
+        string nameToReturn = theIP.Split('.')[0] + theIP.Split('.')[1] + theIP.Split('.')[2] + theIP.Split('.')[3] + playerHolder.transform.GetChild(targetPlayer).name.Split(':')[1];
+        return nameToReturn;
     }
 }

@@ -1,17 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
 public class ServerScipt : MonoBehaviour
 {
-    private GameObject myCube;
+    public GameObject playerDefault;
     public GameObject poolManager;
+    public GameObject playersHolder;
 
-    private static byte[] buffer = new byte[2048];
+    private static byte[] buffer = new byte[512];
     private static Socket server;
     private static Socket newClientSocket;
     private static IPEndPoint client;
@@ -21,12 +21,22 @@ public class ServerScipt : MonoBehaviour
     private static int rec = 0;
     bool isExit = false;
 
-    
+    public List<string> listOfPlayerNames;
+
+    public static ServerScipt singleton = null;
+    private void Awake()
+    {
+        if (singleton == null)
+        {
+            singleton = this;
+            return;
+        }
+        Destroy(this);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        myCube = GameObject.Find("player 1");
         StartCoroutine(sendToClients(0.3f));
         RunServer();
 
@@ -50,26 +60,52 @@ public class ServerScipt : MonoBehaviour
                 float[] posTemp = new float[rec / 4];
                 Buffer.BlockCopy(buffer, 0, posTemp, 0, rec);
 
-                float[] pos = { posTemp[0], posTemp[1], posTemp[2], posTemp[3], 
-                    values[1] };
+                string[] ip = (remoteClient.ToString().Split(':'));
+                string final = ((ip[0].ToString().Split('.')[0]) + ip[0].ToString().Split('.')[1]) + ip[0].ToString().Split('.')[2] + ip[0].ToString().Split('.')[3] + ip[1];
 
-                if (posTemp[5] != 0)
+                float[] pos = { posTemp[0], posTemp[1], posTemp[2], posTemp[3], 
+                    values[1], Single.Parse(final) / 100000 };
+
+                int clientIndex = 0;
+
+                for (int i = 0; i < listOfPlayerNames.Count; i++) //Find the client in the list
                 {
-                    switch (pos[4])
+                    if (listOfPlayerNames[i] == remoteClient.ToString())
                     {
-                        case 0:
-                            myCube.GetComponent<Behavior>().callBasicAttack();
-                            break;
-                        case 1:
-                            myCube.GetComponent<Behavior>().callHeldPower(posTemp[5], posTemp[6]);
-                            break;
+
+                        clientIndex = i;
+                        i = listOfPlayerNames.Count;
                     }
                 }
-                myCube.transform.position = new Vector3(pos[0], myCube.transform.position.y, pos[2]);
-                myCube.gameObject.transform.GetChild(2).gameObject.transform.eulerAngles = new Vector3(myCube.gameObject.transform.GetChild(2).gameObject.transform.eulerAngles.x, pos[3], myCube.gameObject.transform.GetChild(2).gameObject.transform.eulerAngles.z);
 
-                Buffer.BlockCopy(buffer, 0, pos, 0, rec);
-                sendData(ref pos);
+                for (int y = 0; y < playersHolder.transform.childCount; y++) //Find the client's object in the list
+                {
+                    if (playersHolder.transform.GetChild(y).name == listOfPlayerNames[clientIndex])
+                    {
+                        if (posTemp[5] != 0)
+                        {
+
+                            switch (pos[4])
+                            {
+                                case 0:
+                                    playersHolder.transform.GetChild(y).GetComponent<Behavior>().callBasicAttack();
+                                    break;
+                                case 1:
+                                    playersHolder.transform.GetChild(y).GetComponent<Behavior>().callHeldPower(posTemp[5], posTemp[6]);
+                                    break;
+                            }
+                        }
+                        playersHolder.transform.GetChild(y).transform.position = new Vector3(pos[0], pos[1], pos[2]);
+                        playersHolder.transform.GetChild(y).gameObject.transform.GetChild(2).gameObject.transform.eulerAngles = new Vector3(playersHolder.transform.GetChild(y).gameObject.transform.GetChild(2).gameObject.transform.eulerAngles.x, pos[3], playersHolder.transform.GetChild(y).gameObject.transform.GetChild(2).gameObject.transform.eulerAngles.z);
+
+                        y = playersHolder.transform.childCount;
+                    }
+                }
+
+                Buffer.BlockCopy(buffer, 0, pos, 0, pos.Length);
+
+                sendData(ref pos, clientIndex);
+
             }
 
 
@@ -86,7 +122,7 @@ public class ServerScipt : MonoBehaviour
     {
         IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
         //IPAddress ip = host.AddressList[1];
-        IPAddress ip = IPAddress.Parse("10.0.0.23");
+        IPAddress ip = IPAddress.Parse("127.0.0.1");
         Console.WriteLine("UDP serverName: " + host.HostName + "IP: " + ip);
         IPEndPoint localEP = new IPEndPoint(ip, 11111);
 
@@ -115,7 +151,9 @@ public class ServerScipt : MonoBehaviour
                     if (remoteClientList[i].ToString() == theEndPoint.ToString())
                     {
                         values[1] = i;
+                        Debug.Log("OldClientFound");
                         return values;
+
                     }
                 }
             }
@@ -124,6 +162,11 @@ public class ServerScipt : MonoBehaviour
             remoteClientList.Add(theEndPoint);
             values[0] = 1;
             values[1] = remoteClientList.Count - 1;
+
+            GameObject newPlayer = Instantiate(ServerScipt.singleton.playerDefault, ServerScipt.singleton.playersHolder.transform);
+            newPlayer.name = theEndPoint.ToString();
+            ServerScipt.singleton.listOfPlayerNames.Add(theEndPoint.ToString());
+            Debug.Log("NewClientFound");
             return values;
         }
         catch (Exception e)
@@ -147,7 +190,7 @@ public class ServerScipt : MonoBehaviour
 
     }
 
-    public static void sendData(ref float[] pos)
+    public static void sendData(ref float[] pos, int intToNotInclude)
     {
 
         byte[] bytes = new byte[pos.Length * 4];
@@ -155,20 +198,17 @@ public class ServerScipt : MonoBehaviour
         Buffer.BlockCopy(pos, 0, bytes, 0, bytes.Length);
         for (int i = 0; i < remoteIPEPs.Count; i++)
         {
-            if (pos[pos.Length - 1] != i)
+            if (intToNotInclude != i)
             {
                 newClientSocket.SendTo(bytes, remoteIPEPs[i]);
             }
         }
     }
 
-    IEnumerator sendToClients(float timeInterval)
+    IEnumerator sendToClients(float timeInterval) //I think the data should be sent to a different port?
     {
         
-
-
-        
-
+    
         while (true)
         {
             yield return new WaitForSeconds(timeInterval);
@@ -176,52 +216,52 @@ public class ServerScipt : MonoBehaviour
             {
                 for (int i = 0; i < remoteIPEPs.Count; i++)
                 {
-
+    
                     Debug.Log(poolManager.transform.childCount);
                     float[] enemyPosAndActive = {
-                    poolManager.transform.GetChild(0).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(0).transform.position.x, poolManager.transform.GetChild(0).transform.position.y, poolManager.transform.GetChild(0).transform.position.z,
-                    poolManager.transform.GetChild(1).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(1).transform.position.x, poolManager.transform.GetChild(1).transform.position.y, poolManager.transform.GetChild(1).transform.position.z,
-                    poolManager.transform.GetChild(2).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(2).transform.position.x, poolManager.transform.GetChild(2).transform.position.y, poolManager.transform.GetChild(2).transform.position.z,
-                    poolManager.transform.GetChild(3).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(3).transform.position.x, poolManager.transform.GetChild(3).transform.position.y, poolManager.transform.GetChild(3).transform.position.z,
-                    poolManager.transform.GetChild(4).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(4).transform.position.x, poolManager.transform.GetChild(4).transform.position.y, poolManager.transform.GetChild(4).transform.position.z,
-                    poolManager.transform.GetChild(5).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(5).transform.position.x, poolManager.transform.GetChild(5).transform.position.y, poolManager.transform.GetChild(5).transform.position.z,
-                    poolManager.transform.GetChild(6).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(6).transform.position.x, poolManager.transform.GetChild(6).transform.position.y, poolManager.transform.GetChild(6).transform.position.z,
-                    poolManager.transform.GetChild(7).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(7).transform.position.x, poolManager.transform.GetChild(7).transform.position.y, poolManager.transform.GetChild(7).transform.position.z,
-                    poolManager.transform.GetChild(8).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(8).transform.position.x, poolManager.transform.GetChild(8).transform.position.y, poolManager.transform.GetChild(8).transform.position.z,
-                    poolManager.transform.GetChild(9).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(9).transform.position.x, poolManager.transform.GetChild(9).transform.position.y, poolManager.transform.GetChild(9).transform.position.z,
-                    poolManager.transform.GetChild(10).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(10).transform.position.x, poolManager.transform.GetChild(10).transform.position.y, poolManager.transform.GetChild(10).transform.position.z,
-                    poolManager.transform.GetChild(11).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(11).transform.position.x, poolManager.transform.GetChild(11).transform.position.y, poolManager.transform.GetChild(11).transform.position.z,
-                    poolManager.transform.GetChild(12).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(12).transform.position.x, poolManager.transform.GetChild(12).transform.position.y, poolManager.transform.GetChild(12).transform.position.z,
-                    poolManager.transform.GetChild(13).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(13).transform.position.x, poolManager.transform.GetChild(13).transform.position.y, poolManager.transform.GetChild(13).transform.position.z,
-                    poolManager.transform.GetChild(14).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(14).transform.position.x, poolManager.transform.GetChild(14).transform.position.y, poolManager.transform.GetChild(14).transform.position.z,
-                    poolManager.transform.GetChild(15).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(15).transform.position.x, poolManager.transform.GetChild(15).transform.position.y, poolManager.transform.GetChild(15).transform.position.z,
-                    poolManager.transform.GetChild(16).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(16).transform.position.x, poolManager.transform.GetChild(16).transform.position.y, poolManager.transform.GetChild(16).transform.position.z,
-                    poolManager.transform.GetChild(17).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(17).transform.position.x, poolManager.transform.GetChild(17).transform.position.y, poolManager.transform.GetChild(17).transform.position.z,
-                    poolManager.transform.GetChild(18).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(18).transform.position.x, poolManager.transform.GetChild(18).transform.position.y, poolManager.transform.GetChild(18).transform.position.z,
-                    poolManager.transform.GetChild(19).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(19).transform.position.x, poolManager.transform.GetChild(19).transform.position.y, poolManager.transform.GetChild(19).transform.position.z,
-                    poolManager.transform.GetChild(20).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(20).transform.position.x, poolManager.transform.GetChild(20).transform.position.y, poolManager.transform.GetChild(20).transform.position.z,
-                    poolManager.transform.GetChild(21).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(21).transform.position.x, poolManager.transform.GetChild(21).transform.position.y, poolManager.transform.GetChild(21).transform.position.z,
-                    poolManager.transform.GetChild(22).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(22).transform.position.x, poolManager.transform.GetChild(22).transform.position.y, poolManager.transform.GetChild(22).transform.position.z,
-                    poolManager.transform.GetChild(23).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(23).transform.position.x, poolManager.transform.GetChild(23).transform.position.y, poolManager.transform.GetChild(23).transform.position.z,
-                    poolManager.transform.GetChild(24).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(24).transform.position.x, poolManager.transform.GetChild(24).transform.position.y, poolManager.transform.GetChild(24).transform.position.z,
-                    poolManager.transform.GetChild(25).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(25).transform.position.x, poolManager.transform.GetChild(25).transform.position.y, poolManager.transform.GetChild(25).transform.position.z,
-                    poolManager.transform.GetChild(26).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(26).transform.position.x, poolManager.transform.GetChild(26).transform.position.y, poolManager.transform.GetChild(26).transform.position.z,
-                    poolManager.transform.GetChild(27).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(27).transform.position.x, poolManager.transform.GetChild(27).transform.position.y, poolManager.transform.GetChild(27).transform.position.z,
-                    poolManager.transform.GetChild(28).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(28).transform.position.x, poolManager.transform.GetChild(28).transform.position.y, poolManager.transform.GetChild(28).transform.position.z,
-                    poolManager.transform.GetChild(29).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(29).transform.position.x, poolManager.transform.GetChild(29).transform.position.y, poolManager.transform.GetChild(29).transform.position.z,
-                    poolManager.transform.GetChild(30).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(30).transform.position.x, poolManager.transform.GetChild(30).transform.position.y, poolManager.transform.GetChild(30).transform.position.z,
-                    poolManager.transform.GetChild(31).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(31).transform.position.x, poolManager.transform.GetChild(31).transform.position.y, poolManager.transform.GetChild(31).transform.position.z,
-
-
+                    poolManager.transform.GetChild(0).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(0).transform.position.x, poolManager.transform.GetChild(0).transform.position.y,      poolManager.transform.GetChild(0).transform.position.z, Single.Parse(poolManager.transform.GetChild(0).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(1).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(1).transform.position.x, poolManager.transform.GetChild(1).transform.position.y,      poolManager.transform.GetChild(1).transform.position.z, Single.Parse(poolManager.transform.GetChild(1).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(2).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(2).transform.position.x, poolManager.transform.GetChild(2).transform.position.y,      poolManager.transform.GetChild(2).transform.position.z, Single.Parse(poolManager.transform.GetChild(2).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(3).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(3).transform.position.x, poolManager.transform.GetChild(3).transform.position.y,      poolManager.transform.GetChild(3).transform.position.z, Single.Parse(poolManager.transform.GetChild(3).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(4).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(4).transform.position.x, poolManager.transform.GetChild(4).transform.position.y,      poolManager.transform.GetChild(4).transform.position.z, Single.Parse(poolManager.transform.GetChild(4).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(5).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(5).transform.position.x, poolManager.transform.GetChild(5).transform.position.y,      poolManager.transform.GetChild(5).transform.position.z, Single.Parse(poolManager.transform.GetChild(5).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(6).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(6).transform.position.x, poolManager.transform.GetChild(6).transform.position.y,      poolManager.transform.GetChild(6).transform.position.z, Single.Parse(poolManager.transform.GetChild(6).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(7).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(7).transform.position.x, poolManager.transform.GetChild(7).transform.position.y,      poolManager.transform.GetChild(7).transform.position.z, Single.Parse(poolManager.transform.GetChild(7).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(8).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(8).transform.position.x, poolManager.transform.GetChild(8).transform.position.y,      poolManager.transform.GetChild(8).transform.position.z, Single.Parse(poolManager.transform.GetChild(8).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(9).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(9).transform.position.x, poolManager.transform.GetChild(9).transform.position.y,      poolManager.transform.GetChild(9).transform.position.z, Single.Parse(poolManager.transform.GetChild(9).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(10).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(10).transform.position.x, poolManager.transform.GetChild(10).transform.position.y, poolManager.transform.GetChild(10).transform.position.z,  Single.Parse(poolManager.transform.GetChild(10).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(11).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(11).transform.position.x, poolManager.transform.GetChild(11).transform.position.y, poolManager.transform.GetChild(11).transform.position.z,  Single.Parse(poolManager.transform.GetChild(11).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(12).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(12).transform.position.x, poolManager.transform.GetChild(12).transform.position.y, poolManager.transform.GetChild(12).transform.position.z,  Single.Parse(poolManager.transform.GetChild(12).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(13).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(13).transform.position.x, poolManager.transform.GetChild(13).transform.position.y, poolManager.transform.GetChild(13).transform.position.z,  Single.Parse(poolManager.transform.GetChild(13).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(14).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(14).transform.position.x, poolManager.transform.GetChild(14).transform.position.y, poolManager.transform.GetChild(14).transform.position.z,  Single.Parse(poolManager.transform.GetChild(14).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(15).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(15).transform.position.x, poolManager.transform.GetChild(15).transform.position.y, poolManager.transform.GetChild(15).transform.position.z,  Single.Parse(poolManager.transform.GetChild(15).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(16).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(16).transform.position.x, poolManager.transform.GetChild(16).transform.position.y, poolManager.transform.GetChild(16).transform.position.z,  Single.Parse(poolManager.transform.GetChild(16).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(17).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(17).transform.position.x, poolManager.transform.GetChild(17).transform.position.y, poolManager.transform.GetChild(17).transform.position.z,  Single.Parse(poolManager.transform.GetChild(17).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(18).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(18).transform.position.x, poolManager.transform.GetChild(18).transform.position.y, poolManager.transform.GetChild(18).transform.position.z,  Single.Parse(poolManager.transform.GetChild(18).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(19).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(19).transform.position.x, poolManager.transform.GetChild(19).transform.position.y, poolManager.transform.GetChild(19).transform.position.z,  Single.Parse(poolManager.transform.GetChild(19).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(20).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(20).transform.position.x, poolManager.transform.GetChild(20).transform.position.y, poolManager.transform.GetChild(20).transform.position.z,  Single.Parse(poolManager.transform.GetChild(20).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(21).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(21).transform.position.x, poolManager.transform.GetChild(21).transform.position.y, poolManager.transform.GetChild(21).transform.position.z,  Single.Parse(poolManager.transform.GetChild(21).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(22).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(22).transform.position.x, poolManager.transform.GetChild(22).transform.position.y, poolManager.transform.GetChild(22).transform.position.z,  Single.Parse(poolManager.transform.GetChild(22).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(23).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(23).transform.position.x, poolManager.transform.GetChild(23).transform.position.y, poolManager.transform.GetChild(23).transform.position.z,  Single.Parse(poolManager.transform.GetChild(23).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(24).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(24).transform.position.x, poolManager.transform.GetChild(24).transform.position.y, poolManager.transform.GetChild(24).transform.position.z,  Single.Parse(poolManager.transform.GetChild(24).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(25).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(25).transform.position.x, poolManager.transform.GetChild(25).transform.position.y, poolManager.transform.GetChild(25).transform.position.z,  Single.Parse(poolManager.transform.GetChild(25).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(26).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(26).transform.position.x, poolManager.transform.GetChild(26).transform.position.y, poolManager.transform.GetChild(26).transform.position.z,  Single.Parse(poolManager.transform.GetChild(26).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(27).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(27).transform.position.x, poolManager.transform.GetChild(27).transform.position.y, poolManager.transform.GetChild(27).transform.position.z,  Single.Parse(poolManager.transform.GetChild(27).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(28).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(28).transform.position.x, poolManager.transform.GetChild(28).transform.position.y, poolManager.transform.GetChild(28).transform.position.z,  Single.Parse(poolManager.transform.GetChild(28).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(29).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(29).transform.position.x, poolManager.transform.GetChild(29).transform.position.y, poolManager.transform.GetChild(29).transform.position.z,  Single.Parse(poolManager.transform.GetChild(29).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(30).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(30).transform.position.x, poolManager.transform.GetChild(30).transform.position.y, poolManager.transform.GetChild(30).transform.position.z,  Single.Parse(poolManager.transform.GetChild(30).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+                    poolManager.transform.GetChild(31).transform.gameObject.GetComponent<enemyBehavior>().isActive(), poolManager.transform.GetChild(31).transform.position.x, poolManager.transform.GetChild(31).transform.position.y, poolManager.transform.GetChild(31).transform.position.z,  Single.Parse(poolManager.transform.GetChild(31).transform.gameObject.GetComponent<enemyBehavior>().getTargetPlayer())/ 100000,
+    
+    
                 };
-
+    
                     Debug.Log(poolManager.transform.GetChild(0).transform.gameObject.GetComponent<enemyBehavior>().isActive());
-
+    
                     byte[] bytes = new byte[enemyPosAndActive.Length * 4];
                     Buffer.BlockCopy(enemyPosAndActive, 0, bytes, 0, bytes.Length);
-
+    
                     newClientSocket.SendTo(bytes, remoteIPEPs[i]);
-
+    
                 }
             }
             catch (Exception e)
@@ -231,5 +271,13 @@ public class ServerScipt : MonoBehaviour
         }
     }
 
-
+    public string getPlayerNames()
+    {
+        string returnS = "";
+        if (listOfPlayerNames.Count != 0)
+        {
+            returnS = listOfPlayerNames[UnityEngine.Random.Range(0, listOfPlayerNames.Count - 1)];
+        }
+        return returnS;
+    }
 }

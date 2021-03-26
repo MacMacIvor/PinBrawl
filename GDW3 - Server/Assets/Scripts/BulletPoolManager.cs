@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BulletPoolManager : MonoBehaviour
 {
-    public GameObject player;
-
     public GameObject bulletSmall;
     public GameObject bulletLarge;
 
@@ -68,7 +66,7 @@ public class BulletPoolManager : MonoBehaviour
         }
     }
 
-    public GameObject GetBulletSmall(Vector3 pos)
+    public GameObject GetBulletSmall(Vector3 pos, Vector3 target)
     {
         bool spawned = false;
         int indexStartedAt = indexSmall;
@@ -82,7 +80,7 @@ public class BulletPoolManager : MonoBehaviour
                     break;
                 case false:
                     smallBullets[indexSmall].transform.position = pos;
-                    smallBullets[indexSmall].GetComponent<bullet>().changeActive();
+                    smallBullets[indexSmall].GetComponent<bullet>().changeActive(target);
                     spawned = true;
                     break;
             }
@@ -105,12 +103,12 @@ public class BulletPoolManager : MonoBehaviour
         {
             if (bullet == smallBullets[i])
             {
-                smallBullets[i].GetComponent<bullet>().changeActive();
+                smallBullets[i].GetComponent<bullet>().changeActive(Vector3.zero);
             }
         }
 
     }
-    public GameObject GetBulletLarge(Vector3 pos)
+    public GameObject GetBulletLarge(Vector3 pos, Vector3 target)
     {
         bool spawned = false;
         int indexStartedAt = indexLarge;
@@ -124,7 +122,7 @@ public class BulletPoolManager : MonoBehaviour
                     break;
                 case false:
                     largeBullets[indexLarge].transform.position = pos;
-                    largeBullets[indexLarge].GetComponent<LargeBullets>().changeActive();
+                    largeBullets[indexLarge].GetComponent<LargeBullets>().changeActive(target);
                     spawned = true;
                     break;
             }
@@ -146,7 +144,7 @@ public class BulletPoolManager : MonoBehaviour
         {
             if (bullet == largeBullets[i])
             {
-                largeBullets[i].GetComponent<LargeBullets>().changeActive();
+                largeBullets[i].GetComponent<LargeBullets>().changeActive(Vector3.zero);
             }
         }
     }
