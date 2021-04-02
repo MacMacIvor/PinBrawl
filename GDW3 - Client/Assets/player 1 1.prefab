@@ -105,7 +105,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 6416302070336371891, guid: 111723dd8a06e404584121b81fe2cdf0, type: 3}
+  m_Mesh: {fileID: 6416302070336371891, guid: b5cd86d9dbc9d284cade32b13aa8f455, type: 3}
   m_Bones:
   - {fileID: 2126042300635020069}
   - {fileID: 723123442268056987}
@@ -872,7 +872,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 4579454407841743219, guid: 111723dd8a06e404584121b81fe2cdf0, type: 3}
+  m_Mesh: {fileID: 4579454407841743219, guid: b5cd86d9dbc9d284cade32b13aa8f455, type: 3}
   m_Bones:
   - {fileID: 2126042300635020069}
   - {fileID: 723123442268056987}
@@ -2703,6 +2703,8 @@ MonoBehaviour:
   rect: {fileID: 0}
   rect2: {fileID: 0}
   playerDirection: {x: 1, y: 0, z: 0}
+  playerHealth: 100
+  playerType: 0
   jumpModifyer: 25
   cooldownDuration: 1.25
   cooldownBDuration: 1
@@ -2722,6 +2724,7 @@ MonoBehaviour:
   please: {fileID: 1186262603555109091}
   please2: {fileID: 1186262603555109091}
   please3: {fileID: 8653147586349732209}
+  chargeLimit: 1000
 --- !u!114 &8031859528818752593
 MonoBehaviour:
   m_ObjectHideFlags: 0
