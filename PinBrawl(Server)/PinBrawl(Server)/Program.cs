@@ -51,14 +51,7 @@ namespace PinBrawl_Server_
             remoteClient = (EndPoint)client;
             server.Bind(localEP);
             server.Blocking = false;
-
-            List<int> empty = new List<int>{ 9342380, 0, 0 };
-            List<int> empty2 = new List<int>{ 9342383, 0, 0 };
-
-            Lobbies.Add(empty);
-            Lobbies.Add(empty2);
-
-
+                       
             Console.WriteLine("UDP server Setup Complete");
         }
 
@@ -407,15 +400,21 @@ namespace PinBrawl_Server_
 
         public static void loadScores(ref float[] scoreList)
         {
-            string filePath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "PinBrawl(Server)\\Highscores.txt");
+            //string filePath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "PinBrawl(Server)\\Highscores.txt");
+            string filePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            int indexing = filePath.IndexOf("PinBrawl(Server).dll");
+            filePath = filePath.Remove(indexing) + "Highscores.txt";
             string theLine;
             int i = 0;
             using (var line = new StreamReader(filePath))
             {
                 while ((theLine = line.ReadLine()) != null) //Set up this way in case in the future we want to add times for each individual level
                 {
-                    scoreList[i] = float.Parse(theLine);
-                    i++;
+                    if (theLine != "")
+                    {
+                        scoreList[i] = float.Parse(theLine);
+                        i++;
+                    }
                 }
 
             }
