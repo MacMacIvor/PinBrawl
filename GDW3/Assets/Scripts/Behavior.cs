@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using System.Globalization;
+using System;
 public class Behavior : MonoBehaviour
 {
     public GameObject rect;
@@ -107,11 +109,21 @@ public class Behavior : MonoBehaviour
             ///    break;
         }
             
-
+        if (this.gameObject.name != "player 1 (1)")
+        {
+            locked = true;
+        }
     }
 
     int mouse1Buffer = 0;
+    private Vector3 lastUpPos = new Vector3(0, 0, 0);
+    private Vector3 lastTwoUpPos = new Vector3(0, 0, 0);
 
+    public void lastUpdatePos(Vector3 newPos)
+    {
+        lastTwoUpPos = lastUpPos;
+        lastUpPos = newPos;
+    }
 
     // Update is called once per frame
     
@@ -122,6 +134,13 @@ public class Behavior : MonoBehaviour
             case pauseGame.generalState.PAUSED:
                 break;
             case pauseGame.generalState.PLAYING:
+                if (locked)
+                {
+                    //Prediction
+                    Vector3 howShouldMove = Vector3.Normalize(new Vector3(lastUpPos.x - lastTwoUpPos.x, 0, lastUpPos.z - lastTwoUpPos.z));
+                    transform.position = transform.position + howShouldMove * Time.deltaTime * 5;
+                }
+
                 if (!locked)
                     transform.Translate(playerDirection * 5 * Time.deltaTime);
                 if (!locked)
@@ -282,9 +301,8 @@ public class Behavior : MonoBehaviour
                     }
                     else if (mouse1Buffer == 1)
                     {
-                        soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
+                        soundsManager.soundsSingleton.playSoundEffect(UnityEngine.Random.Range(11, 15));
                         mouse1Buffer = 0;
-                        Debug.Log(heldPower);
                         clientScript.singleton.doAttack(1, heldPower, direction);
                         releaseChargeAttack();
                     }
@@ -292,7 +310,7 @@ public class Behavior : MonoBehaviour
 
                     if (Input.GetKey(KeyCode.Mouse0) && cooldownB == 0)
                     {
-                        soundsManager.soundsSingleton.playSoundEffect(Random.Range(11, 15));
+                        soundsManager.soundsSingleton.playSoundEffect(UnityEngine.Random.Range(11, 15));
                         basicAttack();
                         cooldownB = cooldownBDuration;
                         clientScript.singleton.doAttack(0, 30, direction);
@@ -398,7 +416,7 @@ public class Behavior : MonoBehaviour
 
     public void takeDmg(int dmg)
     {
-        soundsManager.soundsSingleton.playSoundEffect(Random.Range(16, 18));
+        soundsManager.soundsSingleton.playSoundEffect(UnityEngine.Random.Range(16, 18));
         playerAnimationScript.singleton.playHurt();
         //Nothing for now
         playerHealth -= dmg;
@@ -407,7 +425,8 @@ public class Behavior : MonoBehaviour
         {
             //SceneManager.LoadScene("playerDeath");
             playerHealth = 100;
-            SceneManager.LoadScene("playerStats");
+            clientScript.singleton.playersDied();
+            //SceneManager.LoadScene("playerStats");
         }
         //Debug.Log("Took " + dmg + " damage");
 

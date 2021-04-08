@@ -127,7 +127,6 @@ public class QuestManagementSystem : MonoBehaviour
                 questComplete();
                 break;
             case stateOfQuestManager.WIN:
-                Debug.Log("YOU WON!!!!!!!!!!");
                 toEndScene.singleton.callNext();
                 break;
         }

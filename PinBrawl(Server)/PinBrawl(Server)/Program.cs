@@ -38,7 +38,7 @@ namespace PinBrawl_Server_
         public static void startUDPServer()
         {
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ip = IPAddress.Parse("127.0.0.1");//host.AddressList[1];
+            IPAddress ip = host.AddressList[1]; //IPAddress.Parse("127.0.0.1");//host.AddressList[1];
 
             Console.WriteLine("UDP serverName: " + host.HostName + "IP: " + ip);
             IPEndPoint localEP = new IPEndPoint(ip, 11111);
@@ -424,8 +424,9 @@ namespace PinBrawl_Server_
 
         public static void saveScores(float[] newValues)
         {
-            string filePath = Path.Combine(Directory.GetParent(System.IO.Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName, "PinBrawl(Server)\\Highscores.txt");
-
+            string filePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            int indexing = filePath.IndexOf("PinBrawl(Server).dll");
+            filePath = filePath.Remove(indexing) + "Highscores.txt";
             for (int i = 1; i < 10; i += 2)
             {
                 if (newValues[1] > scoreList[i])

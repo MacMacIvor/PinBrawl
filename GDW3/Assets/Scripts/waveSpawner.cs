@@ -50,7 +50,6 @@ public class waveSpawner : MonoBehaviour
             bool success = false;
             do
             {
-                Debug.Log(randomNumber);
                 if (randomNumber <= smallShooterChance)
                 {
                     spawnEnemy(0);

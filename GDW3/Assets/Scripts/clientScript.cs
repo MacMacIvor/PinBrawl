@@ -21,9 +21,7 @@ public class clientScript : MonoBehaviour
     private static byte[] outBuffer;
     private static IPEndPoint remoteEP;
     private static Socket clientSocket;
-    private float interval;
-    [Range(0, 0.004f)]
-    public float intervals = 0.05f;
+    private float intervals = 0.05f;
     private Vector3 lastPosition;
     private Vector3 lastRotation;
     private float attackStrength = 0;
@@ -70,7 +68,9 @@ public class clientScript : MonoBehaviour
         
         try
         {
-            IPAddress ip = IPAddress.Parse("127.0.0.1");
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ip = host.AddressList[1];
+            //IPAddress ip = IPAddress.Parse("127.0.0.1");
             remoteEP = new IPEndPoint(ip, 11111);
             clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
@@ -86,12 +86,11 @@ public class clientScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        interval = intervals;
         outBuffer = new byte[1024];
         inBuffer = new byte[1024];
         RunClient();
-        StartCoroutine(sendServer(interval));
-        StartCoroutine(sendEnemies(interval));
+        StartCoroutine(sendServer(intervals));
+        StartCoroutine(sendEnemies(intervals));
     }
 
     // Update is called once per frame
@@ -130,8 +129,8 @@ public class clientScript : MonoBehaviour
 
                     if (pos.Length == 5)
                     {
-                        SceneManager.LoadScene("playerStats");
                         pointsManager.pointsSingleton.resetPoints();
+                        SceneManager.LoadScene("playerStats");
                         float CauseACrash = pos[9];
                     }
 
@@ -146,6 +145,7 @@ public class clientScript : MonoBehaviour
                                 {
                                     playerHolder.transform.GetChild(i).transform.position = new Vector3(pos[0], pos[1], pos[2]);
                                     playerHolder.transform.GetChild(i).transform.eulerAngles = new Vector3(playerHolder.transform.GetChild(i).transform.eulerAngles.x, pos[3], playerHolder.transform.GetChild(i).transform.eulerAngles.z);
+                                    playerHolder.transform.GetChild(i).gameObject.GetComponent<Behavior>().lastUpdatePos(new Vector3(pos[0], pos[1], pos[2]));
                                     exists = true;
                                     i = playerHolder.transform.childCount;
                                 }
@@ -242,7 +242,7 @@ public class clientScript : MonoBehaviour
                         }
                         else if (results[i].gameObject.name == "New")
                         {
-                            int random = UnityEngine.Random.Range(1000000, 80000000);
+                            int random = UnityEngine.Random.Range(1000, 9999);
                             float[] intentionToJoin = { random, 1 };
                             bpos = new byte[intentionToJoin.Length * 4];
                             Buffer.BlockCopy(intentionToJoin, 0, bpos, 0, bpos.Length);
@@ -269,7 +269,6 @@ public class clientScript : MonoBehaviour
 
                     if (pos.Length == 1)
                     {
-
                         connectedLobby = (int)pos[0];
                         SceneManager.LoadScene("CharacterSelect");
                     }
@@ -284,11 +283,10 @@ public class clientScript : MonoBehaviour
                         for (int i = 0; i < pos.Length; i += 2) // 
                         {
                             availableLobbies.Add((int)pos[i]);
-                            Debug.Log(availableLobbies[i / 2]);
                             if (pos[i] != 0)
                             {
                                 GameObject newLobby = Instantiate(lobbyListParent.gameObject.transform.GetChild(0).gameObject, lobbyListParent.gameObject.transform);
-                                newLobby.GetComponent<Text>().text = "Lobby: " + availableLobbies[i / 2].ToString() + "                  Players: " + pos[i + 1].ToString();
+                                newLobby.GetComponent<Text>().text = "Lobby: " + availableLobbies[i / 2].ToString() + "                    Players: " + pos[i + 1].ToString();
                             }
                         }
                     }
@@ -402,7 +400,6 @@ public class clientScript : MonoBehaviour
     IEnumerator sendServer(float timer)
     {
 
-        Debug.Log("DataSent");
         while (true)
         {
             yield return new WaitForSeconds(timer);
@@ -418,7 +415,6 @@ public class clientScript : MonoBehaviour
                         Buffer.BlockCopy(pos, 0, bpos, 0, bpos.Length);
                         outBuffer = Encoding.ASCII.GetBytes(myCube.transform.position.x.ToString());
                         clientSocket.SendTo(bpos, remoteEP);
-                        Debug.Log("DataSent");
                         attackStrength = 0;
                     }
                     lastPosition = myCube.transform.position;
@@ -430,7 +426,6 @@ public class clientScript : MonoBehaviour
                     bpos = new byte[data.Length * 4];
                     Buffer.BlockCopy(data, 0, bpos, 0, bpos.Length);
                     clientSocket.SendTo(bpos, remoteEP);
-                    Debug.Log("DataSent");
 
                     break;
 
@@ -442,7 +437,6 @@ public class clientScript : MonoBehaviour
                     bpos = new byte[data2.Length * 4];
                     Buffer.BlockCopy(data2, 0, bpos, 0, bpos.Length);
                     clientSocket.SendTo(bpos, remoteEP);
-                    Debug.Log("DataSent");
                     break;
             }
 
@@ -506,14 +500,13 @@ public class clientScript : MonoBehaviour
             }
             catch (Exception e)
             {
-                Debug.Log(e);
             }
         }
     }
 
-    static public void playersDied()
+    public void playersDied()
     {
-        float[] points = { Single.Parse(Application.dataPath.Split('/')[4]), pointsManager.pointsSingleton.getPoints(), 0, 0, 0 };
+        float[] points = { connectedLobby, pointsManager.pointsSingleton.getPoints(), 0, 0, 0 };
         byte[] bpos = new byte[points.Length * 4];
         Buffer.BlockCopy(points, 0, bpos, 0, bpos.Length);
         clientSocket.SendTo(bpos, remoteEP);

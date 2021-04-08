@@ -22,7 +22,6 @@ public class saveUIGame : MonoBehaviour
                 {
                     //saveLoadingManager.singleton.saveFile(Application.dataPath + "/SaveData/gameSaveData.txt");
                     //saveLoadingManager.singleton.savePlayer(Application.dataPath + "/SaveData/gameSaveDataPlayer.txt");
-                    Debug.Log("SAVED");
                 }
                     break;
             case pauseGame.generalState.PLAYING:
