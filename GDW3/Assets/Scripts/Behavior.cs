@@ -17,11 +17,15 @@ public class Behavior : MonoBehaviour
 
     private float cooldownB = 0;
 
+    private static bool isDashing = false;
+
+    private static float dashTimer = 0.0f;
+
     [Range(0, 3)]
     public int playerType = 0;
 
     [Range(0, 1000)]
-    public int jumpModifyer = 250;
+    public int jumpModifyer = 175;
 
     [Range(0, 5)]
     public float cooldownDuration = 1;
@@ -77,20 +81,20 @@ public class Behavior : MonoBehaviour
         {
             case 0: //Ninja character
                 playerHealth = 100;
-                jumpModifyer = 12;
+                jumpModifyer = 850;
                 cooldownDuration = 1.25f;
                 cooldownBDuration = 0.25f;
                 chargePowerModifyer = 10;
                 chargeLimit = 900;
                 break;
-            case 1: //HammerMan
-                playerHealth = 200;
-                jumpModifyer = 0;
-                cooldownDuration = 0.0f;
-                cooldownBDuration = 0.45f;
-                chargePowerModifyer = 30;
-                chargeLimit = 1500;
-                break;
+            ///case 1: //HammerMan
+            ///    playerHealth = 200;
+            ///    jumpModifyer = 0;
+            ///    cooldownDuration = 0.0f;
+            ///    cooldownBDuration = 0.45f;
+            ///    chargePowerModifyer = 30;
+            ///    chargeLimit = 1500;
+            ///    break;
             ///case 0: //Ninja character
             ///    playerHealth = 100;
             ///    jumpModifyer = 12;
@@ -288,10 +292,22 @@ public class Behavior : MonoBehaviour
                     }
 
 
-                    if (Input.GetKey(KeyCode.LeftShift) && cooldown == 0)
+                    if (Input.GetKey(KeyCode.LeftShift) && cooldown == 0 && isDashing == false)
                     {
-                        playerDirection *= jumpModifyer;
+                        isDashing = true;
+                    }
+
+                    if (isDashing == true)
+                    {
+                        playerDirection *= jumpModifyer * Time.deltaTime;
+                        dashTimer += Time.deltaTime;
                         cooldown = cooldownDuration;
+
+                        if (dashTimer >= 0.1f)
+                        {
+                            isDashing = false;
+                            dashTimer = 0.0f;
+                        }
                     }
 
                     if (Input.GetKey(KeyCode.Mouse1))
@@ -423,8 +439,7 @@ public class Behavior : MonoBehaviour
         rect.GetComponent<UpdateLength>().updateLength(playerHealth / 100.0f);
         if (playerHealth <= 0)
         {
-            //SceneManager.LoadScene("playerDeath");
-            playerHealth = 100;
+            SceneManager.LoadScene("playerDeath");
             clientScript.singleton.playersDied();
             //SceneManager.LoadScene("playerStats");
         }
