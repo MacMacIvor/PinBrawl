@@ -1463,6 +1463,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: player 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8653147587321778460, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b960c59720b45c446a84b4d39b1a894a, type: 2}
+    - target: {fileID: 8653147587321778460, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: b960c59720b45c446a84b4d39b1a894a, type: 2}
     - target: {fileID: 8653147587321778462, guid: b8c44aa8392500947a901ce5935cbae0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -721.33
@@ -3696,7 +3704,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484f878493f174542842d9c1ca211e41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initSpawnTimer: 20
+  initSpawnTimer: 10
   amountToSpawn: 2
   difficultyWithTimeMultiplier: 3
   difficultyWithTimeMax: 2

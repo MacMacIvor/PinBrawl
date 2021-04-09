@@ -81,7 +81,7 @@ public class Behavior : MonoBehaviour
         {
             case 0: //Ninja character
                 playerHealth = 100;
-                jumpModifyer = 850;
+                jumpModifyer = 250;
                 cooldownDuration = 1.25f;
                 cooldownBDuration = 0.25f;
                 chargePowerModifyer = 10;
